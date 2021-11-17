@@ -5,6 +5,7 @@ import { Center } from "@chakra-ui/layout";
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "components/Navbar";
 import theme from "theme";
+import CustomModal from 'components/Modal/CustomModal';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [modal, setModal] = useState<ModalState | undefined>(undefined);
@@ -15,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme}>
         <Center fontFamily="Nunito">
           <Navbar />
-          {/* <CustomModal /> */}
+          <CustomModal />
           <Component {...pageProps} />
         </Center>
       </ChakraProvider>
