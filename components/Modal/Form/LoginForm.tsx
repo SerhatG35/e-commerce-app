@@ -28,7 +28,6 @@ const LoginForm = () => {
         formState: { errors },
     } = useForm<IFormInputs>({
         resolver: yupResolver(loginSchema),
-        // defaultValues: { email: "example@gmail.com", password: 123123 },
     });
 
     const onSubmit: SubmitHandler<IFormInputs> = (data) => {

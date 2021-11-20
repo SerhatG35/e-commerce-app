@@ -21,9 +21,9 @@ const CustomModal = () => {
             isCentered
         >
             <ModalOverlay />
-            <ModalContent h="35%" rounded="xl">
+            <ModalContent h={isLogin ? "30%" : "55%"} rounded="xl">
                 <ModalHeader textAlign="center">
-                    {isLogin ? "Login" : "Create your account"}
+                    {isLogin ? "Login" : "Create new account"}
                 </ModalHeader>
                 <ModalCloseButton rounded="xl" _focus={{ outline: "none" }} />
                 <ModalBody>
