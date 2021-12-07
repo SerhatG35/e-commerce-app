@@ -26,7 +26,7 @@ const Navbar = () => {
         <Center
             as="nav"
             width="100%"
-            height="5rem"
+            height="10vh"
             backdropFilter="blur(8px)"
             background={navbarBg}
             position="fixed"
