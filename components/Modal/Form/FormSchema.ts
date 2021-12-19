@@ -18,12 +18,13 @@ export const signUpSchema = yup.object().shape({
         .string()
         .email("Please enter a valid email")
         .required("Email is a required field"),
+    city: yup.string().ensure().required("Please select a city"),
     password: yup
         .string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
-    confirmPassword: yup
+    passwordConfirmation: yup
         .string()
         .oneOf([yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"),
+        .required("Password Confirmation is required"),
 });

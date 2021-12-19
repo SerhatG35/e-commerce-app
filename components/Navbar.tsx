@@ -10,6 +10,7 @@ import Link from "next/link";
 
 import { BsMoon, BsSun } from "react-icons/bs";
 import { SiTrustedshops } from "react-icons/si";
+import { openModal } from "./Modal/CustomModal";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -59,7 +60,7 @@ const Navbar = () => {
                         boxShadow="2xl"
                         colorScheme="lime"
                         color="#1f1f1f"
-                        onClick={() => modal?.setModal(ModalState.LOGIN)}
+                        onClick={() => openModal(modal, ModalState.LOGIN)}
                         _focus={{ boxShadow: "none" }}
                         border="1px solid transparent"
                     >
@@ -69,7 +70,7 @@ const Navbar = () => {
                         margin="0 0.75rem"
                         color="#1f1f1f"
                         colorScheme="lime"
-                        onClick={() => modal?.setModal(ModalState.SIGNUP)}
+                        onClick={() => openModal(modal, ModalState.SIGNUP)}
                         _focus={{ boxShadow: "none" }}
                         border="1px solid transparent"
                     >

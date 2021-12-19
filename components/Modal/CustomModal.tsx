@@ -6,9 +6,20 @@ import {
     ModalHeader,
     ModalOverlay,
 } from "@chakra-ui/react";
-import { ModalState, useModal } from "context/modalContext";
+import { ModalContextTypes, ModalState, useModal } from "context/modalContext";
 import LoginForm from "./Form/LoginForm";
 import SignUpForm from "./Form/SignUpForm";
+
+export const closeModal = (modal: ModalContextTypes | undefined) => {
+    return modal?.setModal(undefined);
+};
+
+export const openModal = (
+    modal: ModalContextTypes | undefined,
+    modalState: ModalState
+) => {
+    return modal?.setModal(modalState);
+};
 
 const CustomModal = () => {
     const modal = useModal();
@@ -17,11 +28,11 @@ const CustomModal = () => {
     return (
         <Modal
             isOpen={modal?.modal !== undefined}
-            onClose={() => modal?.setModal(undefined)}
+            onClose={() => closeModal(modal)}
             isCentered
         >
             <ModalOverlay />
-            <ModalContent h={isLogin ? "30%" : "55%"} rounded="xl">
+            <ModalContent rounded="xl">
                 <ModalHeader textAlign="center">
                     {isLogin ? "Login" : "Create new account"}
                 </ModalHeader>

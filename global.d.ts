@@ -10,3 +10,26 @@ export interface IProducts {
         count: number;
     };
 }
+
+export type SignUpCityTypes = {
+    data: {
+        states: { name: string; state_code: string }[];
+    };
+};
+
+export interface ISubmitSignUpData {
+    city: string;
+    confirmPassword: string;
+    email: string;
+    name: string;
+    passsword: string;
+    surname: string;
+}
+
+export interface ISignUpInputs {
+    [key: string]: string;
+}
+export interface ILoginInputs {
+    email: string;
+    password: string;
+}

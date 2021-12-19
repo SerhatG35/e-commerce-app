@@ -10,28 +10,35 @@ import {
 } from "@chakra-ui/react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { loginSchema } from "./schema";
+import { loginSchema } from "./FormSchema";
 import { useState } from "react";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-
-interface IFormInputs {
-    email: string;
-    password: number;
-}
+import { ILoginInputs } from "global";
+import { Auth } from "service/axios";
+import { closeModal } from "../CustomModal";
+import { useModal } from "context/modalContext";
+import { Toaster } from "components/Toster";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const modal = useModal();
 
     const {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<IFormInputs>({
+    } = useForm<ILoginInputs>({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<ILoginInputs> = async (data) => {
+        try {
+            await Auth.LOGIN(data);
+            closeModal(modal);
+            Toaster("Login successful", "", "success");
+        } catch (error: any) {
+            Toaster("", `${error.response.message}`, "error");
+        }
     };
     return (
         <Center
@@ -45,8 +52,9 @@ const LoginForm = () => {
                 <Controller
                     name="email"
                     control={control}
+                    defaultValue=""
                     render={({ field }) => (
-                        <Input {...field} placeholder="Email" />
+                        <Input {...field} placeholder="Email" my="2" />
                     )}
                 />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -55,12 +63,14 @@ const LoginForm = () => {
                 <Controller
                     name="password"
                     control={control}
+                    defaultValue=""
                     render={({ field }) => (
                         <InputGroup>
                             <Input
                                 {...field}
                                 placeholder="Password"
                                 type={showPassword ? "text" : "password"}
+                                my="2"
                             />
                             <InputRightElement h="100%" width="3rem">
                                 <IconButton
@@ -90,7 +100,7 @@ const LoginForm = () => {
                 />
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
-            <Button type="submit" w="100%" colorScheme="lime">
+            <Button my="2" type="submit" w="100%" colorScheme="lime">
                 Login
             </Button>
         </Center>
