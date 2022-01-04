@@ -20,7 +20,7 @@ import { Auth } from "service/axios";
 import { closeModal } from "../CustomModal";
 import { loginSchema } from "./FormSchema";
 
-const LoginForm = () => {
+const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const modal = useModal();
     const userToken = useUserToken();
@@ -110,4 +110,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default Login;

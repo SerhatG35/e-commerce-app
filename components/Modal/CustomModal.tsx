@@ -7,8 +7,8 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react";
 import { ModalContextTypes, ModalState, useModal } from "context/modalContext";
-import LoginForm from "./Form/LoginForm";
-import SignUpForm from "./Form/SignUpForm";
+import Login from "./Form/Login";
+import SignUp from "./Form/SignUp";
 
 export const closeModal = (modal: ModalContextTypes | undefined) => {
     return modal?.setModal(undefined);
@@ -38,7 +38,7 @@ const CustomModal = () => {
                 </ModalHeader>
                 <ModalCloseButton rounded="xl" _focus={{ outline: "none" }} />
                 <ModalBody>
-                    {isLogin ? <LoginForm /> : <SignUpForm />}
+                    {isLogin ? <Login /> : <SignUp />}
                 </ModalBody>
             </ModalContent>
         </Modal>

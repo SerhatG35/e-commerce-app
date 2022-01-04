@@ -26,7 +26,7 @@ const signUpContent = [
     "passwordConfirmation",
 ];
 
-const SignUpForm = () => {
+const SignUp = () => {
     const {
         handleSubmit,
         control,
@@ -125,4 +125,4 @@ const SignUpForm = () => {
     );
 };
 
-export default SignUpForm;
+export default SignUp;
