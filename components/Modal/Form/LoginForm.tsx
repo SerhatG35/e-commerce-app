@@ -8,36 +8,39 @@ import {
     InputGroup,
     InputRightElement,
 } from "@chakra-ui/react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { loginSchema } from "./FormSchema";
+import { Toaster } from "components/Toster";
+import { useModal } from "context/modalContext";
+import { useUserToken } from "context/userContext";
+import { Api } from "global";
 import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { ILoginInputs } from "global";
 import { Auth } from "service/axios";
 import { closeModal } from "../CustomModal";
-import { useModal } from "context/modalContext";
-import { Toaster } from "components/Toster";
+import { loginSchema } from "./FormSchema";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const modal = useModal();
+    const userToken = useUserToken();
 
     const {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<ILoginInputs>({
+    } = useForm<Api.Login.LoginInputs>({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit: SubmitHandler<ILoginInputs> = async (data) => {
+    const onSubmit: SubmitHandler<Api.Login.LoginInputs> = async (data) => {
         try {
-            await Auth.LOGIN(data);
+            const retrievedToken = await Auth.LOGIN(data);
+            userToken?.setUserToken(retrievedToken);
             closeModal(modal);
             Toaster("Login successful", "", "success");
         } catch (error: any) {
-            Toaster("", `${error.response.message}`, "error");
+            Toaster("", `${error.response?.message}`, "error");
         }
     };
     return (

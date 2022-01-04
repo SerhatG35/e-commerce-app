@@ -1,20 +1,22 @@
-import { ModalState, useModal } from "context/modalContext";
 import {
-    Link as ChakraLink,
     Button,
     Center,
+    Link as ChakraLink,
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { ModalState, useModal } from "context/modalContext";
+import { useUserToken } from "context/userContext";
 import Link from "next/link";
-
 import { BsMoon, BsSun } from "react-icons/bs";
 import { SiTrustedshops } from "react-icons/si";
 import { openModal } from "./Modal/CustomModal";
+import ProfileMenuDropdown from "./ProfileMenuDropdown";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     const modal = useModal();
+    const userToken = useUserToken();
 
     const navbarBg = useColorModeValue(
         "hsl(0, 0%, 12%,0.8)",
@@ -55,27 +57,37 @@ const Navbar = () => {
                 </Link>
 
                 <Center>
-                    <Button
-                        margin="0 0.75rem"
-                        boxShadow="2xl"
-                        colorScheme="lime"
-                        color="#1f1f1f"
-                        onClick={() => openModal(modal, ModalState.LOGIN)}
-                        _focus={{ boxShadow: "none" }}
-                        border="1px solid transparent"
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        margin="0 0.75rem"
-                        color="#1f1f1f"
-                        colorScheme="lime"
-                        onClick={() => openModal(modal, ModalState.SIGNUP)}
-                        _focus={{ boxShadow: "none" }}
-                        border="1px solid transparent"
-                    >
-                        Sign Up
-                    </Button>
+                    {!userToken?.userToken ? (
+                        <>
+                            <Button
+                                margin="0 0.75rem"
+                                boxShadow="2xl"
+                                colorScheme="lime"
+                                color="#1f1f1f"
+                                onClick={() =>
+                                    openModal(modal, ModalState.LOGIN)
+                                }
+                                _focus={{ boxShadow: "none" }}
+                                border="1px solid transparent"
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                margin="0 0.75rem"
+                                color="#1f1f1f"
+                                colorScheme="lime"
+                                onClick={() =>
+                                    openModal(modal, ModalState.SIGNUP)
+                                }
+                                _focus={{ boxShadow: "none" }}
+                                border="1px solid transparent"
+                            >
+                                Sign Up
+                            </Button>
+                        </>
+                    ) : (
+                        <ProfileMenuDropdown data={userToken.userToken} />
+                    )}
                     <Button
                         rounded="50%"
                         p="0"

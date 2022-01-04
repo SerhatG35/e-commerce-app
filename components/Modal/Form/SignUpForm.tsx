@@ -9,7 +9,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
 import { useModal } from "context/modalContext";
-import { ISignUpInputs, ISubmitSignUpData, SignUpCityTypes } from "global";
+import { Api } from "global";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Auth, External } from "service/axios";
@@ -31,15 +31,17 @@ const SignUpForm = () => {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<ISignUpInputs>({
+    } = useForm<Api.SignUp.SignUpInputs>({
         resolver: yupResolver(signUpSchema),
     });
-    const [cities, setCities] = useState<SignUpCityTypes | undefined>(
-        undefined
-    );
+    const [cities, setCities] = useState<
+        Api.SignUp.SignUpCityTypes | undefined
+    >(undefined);
     const modal = useModal();
 
-    const onSubmit: SubmitHandler<ISubmitSignUpData> = async (data) => {
+    const onSubmit: SubmitHandler<Api.SignUp.SubmitSignUpData> = async (
+        data
+    ) => {
         try {
             await Auth.REGISTER(data);
             Toaster("Account created", "", "success");

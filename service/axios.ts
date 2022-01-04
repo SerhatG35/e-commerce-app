@@ -1,7 +1,7 @@
-import process from "process";
 import axios from "axios";
-import { ILoginInputs, ISubmitSignUpData, SignUpCityTypes } from "global";
+import { Api } from "global";
 import { GetServerSidePropsContext, PreviewData } from "next";
+import process from "process";
 import { ParsedUrlQuery } from "querystring";
 
 const PROD_API = "https://e-commerce-app-be.herokuapp.com";
@@ -12,8 +12,8 @@ const API = axios.create({
 });
 
 export const Auth = {
-    LOGIN: async (params: ILoginInputs) => {
-        const { data } = await API.post(
+    LOGIN: async (params: Api.Login.LoginInputs) => {
+        const { data } = await API.post<Api.Login.LoginResponseData>(
             "/api/sessions",
             { ...params },
             { withCredentials: true }
@@ -21,7 +21,7 @@ export const Auth = {
 
         return data;
     },
-    REGISTER: async (params: ISubmitSignUpData) => {
+    REGISTER: async (params: Api.SignUp.SubmitSignUpData) => {
         const { data } = await API.post("/api/users", {
             ...params,
         });
@@ -37,7 +37,7 @@ export const Auth = {
 
 export const External = {
     FetchCities: async () => {
-        const { data } = await axios.post<SignUpCityTypes>(
+        const { data } = await axios.post<Api.SignUp.SignUpCityTypes>(
             "https://countriesnow.space/api/v0.1/countries/states",
             { country: "turkey" }
         );
