@@ -9,14 +9,14 @@ const LOCAL_API = "http://localhost:3001";
 
 const API = axios.create({
     baseURL: process.env.NODE_ENV === "development" ? LOCAL_API : PROD_API,
+    withCredentials: true,
 });
 
 export const Auth = {
     LOGIN: async (params: Api.Login.LoginInputs) => {
         const { data } = await API.post<Api.Login.LoginResponseData>(
             "/api/sessions",
-            { ...params },
-            { withCredentials: true }
+            { ...params }
         );
 
         return data;
@@ -32,6 +32,9 @@ export const Auth = {
     ) => {
         const { data } = await API.get("/api/me", { ...params });
         return data;
+    },
+    LOGOUT: async () => {
+        await API.delete("/api/sessions", {});
     },
 };
 

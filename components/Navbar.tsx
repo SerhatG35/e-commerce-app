@@ -55,7 +55,6 @@ const Navbar = () => {
                         <SiTrustedshops size={40} /> shop
                     </ChakraLink>
                 </Link>
-
                 <Center>
                     {!userToken?.userToken ? (
                         <>
