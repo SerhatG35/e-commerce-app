@@ -3,7 +3,6 @@ import {
     Center,
     Link as ChakraLink,
     useColorMode,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import { ModalState, useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
@@ -18,24 +17,16 @@ const Navbar = () => {
     const modal = useModal();
     const userToken = useUserToken();
 
-    const navbarBg = useColorModeValue(
-        "hsl(0, 0%, 12%,0.8)",
-        "hsl(0, 0%, 96%,0.8)"
-    );
-    const navbarColor = useColorModeValue("#f5f5f5", "#1f1f1f");
-    const colorModeColor = useColorModeValue("#1f1f1f", "#f5f5f5");
-    const colorModeHoverBg = useColorModeValue("#E3E3E3", "#2f2f2f");
     return (
         <Center
             as="nav"
             width="100%"
             height="10vh"
             backdropFilter="blur(8px)"
-            background={navbarBg}
+            bg="hsla(0,0%,100%,.1)"
             position="fixed"
             top="0"
             zIndex="1000"
-            color={navbarColor}
         >
             <Center
                 w="100%"
@@ -49,8 +40,10 @@ const Navbar = () => {
                         _focus={{ boxShadow: "none" }}
                         margin="0 0.75rem"
                         _hover={{ textDecoration: "none" }}
+                        userSelect="none"
                         textAlign="center"
                         fontWeight={600}
+                        color={colorMode === "light" ? "#262355" : "#fff"}
                     >
                         <SiTrustedshops size={40} /> shop
                     </ChakraLink>
@@ -61,25 +54,31 @@ const Navbar = () => {
                             <Button
                                 margin="0 0.75rem"
                                 boxShadow="2xl"
-                                colorScheme="lime"
-                                color="#1f1f1f"
                                 onClick={() =>
                                     openModal(modal, ModalState.LOGIN)
                                 }
                                 _focus={{ boxShadow: "none" }}
-                                border="1px solid transparent"
+                                border="1px solid"
+                                variant="outline"
+                                borderColor={
+                                    colorMode === "light" ? "#1f1f1f" : "#fff"
+                                }
+                                outline={""}
+                                color={
+                                    colorMode === "light" ? "#1f1f1f" : "#fff"
+                                }
                             >
                                 Login
                             </Button>
                             <Button
+                                colorScheme="customPurple"
                                 margin="0 0.75rem"
-                                color="#1f1f1f"
-                                colorScheme="lime"
                                 onClick={() =>
                                     openModal(modal, ModalState.SIGNUP)
                                 }
                                 _focus={{ boxShadow: "none" }}
                                 border="1px solid transparent"
+                                color="#fff"
                             >
                                 Sign Up
                             </Button>
@@ -90,14 +89,10 @@ const Navbar = () => {
                     <Button
                         rounded="50%"
                         p="0"
-                        bg={navbarColor}
-                        color={colorModeColor}
                         onClick={toggleColorMode}
                         _focus={{ boxShadow: "none" }}
-                        backdropFilter="blur(8px)"
-                        _hover={{
-                            background: colorModeHoverBg,
-                        }}
+                        color="#fff"
+                        colorScheme="customPurple"
                     >
                         {colorMode === "light" ? <BsSun /> : <BsMoon />}
                     </Button>

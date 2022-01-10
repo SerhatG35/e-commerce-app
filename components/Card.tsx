@@ -1,11 +1,9 @@
-import { Box, Center, Text, Image } from "@chakra-ui/react";
+import { Box, Center, Image, Text } from "@chakra-ui/react";
 import { IProducts } from "global";
 
 const Card = ({ product }: { product: IProducts }) => {
     return (
         <Center
-            bg="#fff"
-            color="#1f1f1f"
             flexDir="column"
             justifyContent="space-between"
             rounded="12px"
