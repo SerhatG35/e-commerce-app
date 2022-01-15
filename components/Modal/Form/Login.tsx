@@ -13,10 +13,12 @@ import { Toaster } from "components/Toster";
 import { useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
 import { Api } from "global";
+import jwtDecode from "jwt-decode";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Auth } from "service/axios";
+import { setAuthToken } from "utils/setTokens";
 import { closeModal } from "../CustomModal";
 import { loginSchema } from "./FormSchema";
 
@@ -36,11 +38,20 @@ const Login = () => {
     const onSubmit: SubmitHandler<Api.Login.LoginInputs> = async (data) => {
         try {
             const retrievedToken = await Auth.LOGIN(data);
-            userToken?.setUserToken(retrievedToken);
+            setAuthToken(retrievedToken);
+            userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
             closeModal(modal);
             Toaster("Login successful", "", "success");
         } catch (error: any) {
-            Toaster("", `${error.response?.message}`, "error");
+            Toaster(
+                "",
+                `${
+                    error.response?.message
+                        ? error.response?.message
+                        : "An error occurred"
+                }`,
+                "error"
+            );
         }
     };
     return (

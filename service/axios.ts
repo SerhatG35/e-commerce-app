@@ -14,7 +14,7 @@ const API = axios.create({
 
 export const Auth = {
     LOGIN: async (params: Api.Login.LoginInputs) => {
-        const { data } = await API.post<Api.Login.LoginResponseData>(
+        const { data } = await API.post<Api.Login.LoginResponse>(
             "/api/sessions",
             { ...params }
         );

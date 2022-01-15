@@ -14,7 +14,9 @@
         "@emotion/styled": "^11.3.0",
         "@hookform/resolvers": "^2.8.3",
         "axios": "^0.24.0",
+        "dotenv": "^12.0.3",
         "framer-motion": "^4.1.17",
+        "js-cookie": "^3.0.1",
         "jwt-decode": "^3.1.2",
         "next": "12.0.7",
         "next-cookies": "^2.0.3",
@@ -25,6 +27,7 @@
         "yup": "^0.32.11"
     },
     "devDependencies": {
+        "@types/js-cookie": "^3.0.1",
         "@types/node": "16.11.6",
         "@types/prettier": "^2.4.1",
         "@types/react": "17.0.34",

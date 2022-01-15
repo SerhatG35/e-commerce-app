@@ -1,6 +1,10 @@
 declare module Api {
     declare module Login {
-        export interface LoginResponseData {
+        export interface LoginResponse {
+            accessToken: string;
+            refreshToken: string;
+        }
+        export interface AccessToken {
             _id: string;
             name: string;
             surname: string;

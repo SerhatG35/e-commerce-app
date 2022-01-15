@@ -12,7 +12,7 @@ import theme from "theme";
 function MyApp({ Component, pageProps }: AppProps) {
     const [modal, setModal] = useState<ModalState | undefined>(undefined);
     const [userToken, setUserToken] = useState<
-        Api.Login.LoginResponseData | undefined
+        Api.Login.AccessToken | undefined
     >(undefined);
 
     const memorizedModalValue = useMemo(() => ({ modal, setModal }), [modal]);

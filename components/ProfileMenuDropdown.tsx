@@ -11,11 +11,7 @@ import { useUserToken } from "context/userContext";
 import { Api } from "global";
 import { Auth } from "service/axios";
 
-const ProfileMenuDropdown = ({
-    data,
-}: {
-    data: Api.Login.LoginResponseData;
-}) => {
+const ProfileMenuDropdown = ({ data }: { data: Api.Login.AccessToken }) => {
     const userToken = useUserToken();
     const logout = () => {
         Auth.LOGOUT();
