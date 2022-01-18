@@ -7,6 +7,7 @@ import {
     Input,
     InputGroup,
     InputRightElement,
+    useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
@@ -24,8 +25,10 @@ import { loginSchema } from "./FormSchema";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const modal = useModal();
     const userToken = useUserToken();
+    const { colorMode } = useColorMode();
 
     const {
         handleSubmit,
@@ -35,8 +38,14 @@ const Login = () => {
         resolver: yupResolver(loginSchema),
     });
 
+    const inputModeColors = {
+        color: colorMode === "dark" ? "#1f1f1f" : "#fff",
+        borderHoverColor: colorMode === "dark" ? "#8F8F8F" : undefined,
+    };
+
     const onSubmit: SubmitHandler<Api.Login.LoginInputs> = async (data) => {
         try {
+            setIsLoading(true);
             const retrievedToken = await Auth.LOGIN(data);
             setAuthToken(retrievedToken);
             userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
@@ -46,14 +55,16 @@ const Login = () => {
             Toaster(
                 "",
                 `${
-                    error.response?.message
-                        ? error.response?.message
+                    error.response?.data
+                        ? error.response?.data
                         : "An error occurred"
                 }`,
                 "error"
             );
         }
+        setIsLoading(false);
     };
+
     return (
         <Center
             flexDir="column"
@@ -68,7 +79,16 @@ const Login = () => {
                     control={control}
                     defaultValue=""
                     render={({ field }) => (
-                        <Input {...field} placeholder="Email" my="2" />
+                        <Input
+                            {...field}
+                            placeholder="Email"
+                            my="2"
+                            _placeholder={{ color: inputModeColors.color }}
+                            borderColor={inputModeColors.color}
+                            _hover={{
+                                borderColor: inputModeColors.borderHoverColor,
+                            }}
+                        />
                     )}
                 />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -85,6 +105,12 @@ const Login = () => {
                                 placeholder="Password"
                                 type={showPassword ? "text" : "password"}
                                 my="2"
+                                _placeholder={{ color: inputModeColors.color }}
+                                borderColor={inputModeColors.color}
+                                _hover={{
+                                    borderColor:
+                                        inputModeColors.borderHoverColor,
+                                }}
                             />
                             <InputRightElement h="100%" width="3rem">
                                 <IconButton
@@ -114,7 +140,18 @@ const Login = () => {
                 />
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
-            <Button my="2" type="submit" w="100%" colorScheme="lime">
+            <Button
+                isLoading={isLoading}
+                loadingText="Signing"
+                my="2"
+                type="submit"
+                w="100%"
+                bg={colorMode === "light" ? "#fff" : "#1f1f1f"}
+                color={colorMode === "light" ? "#1f1f1f" : "#fff"}
+                _hover={{
+                    background: colorMode === "light" ? "#DBDBDB" : "#3F3F3F",
+                }}
+            >
                 Login
             </Button>
         </Center>

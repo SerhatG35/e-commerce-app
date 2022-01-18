@@ -14,7 +14,6 @@ export const Toaster = (
         status,
         duration: 3000,
         isClosable: true,
-        variant: "subtle",
         position: "top",
     });
 };

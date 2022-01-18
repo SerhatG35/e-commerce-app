@@ -63,7 +63,6 @@ const Navbar = () => {
                                 borderColor={
                                     colorMode === "light" ? "#1f1f1f" : "#fff"
                                 }
-                                outline={""}
                                 color={
                                     colorMode === "light" ? "#1f1f1f" : "#fff"
                                 }
@@ -84,7 +83,7 @@ const Navbar = () => {
                             </Button>
                         </>
                     ) : (
-                        <ProfileMenuDropdown data={userToken.userToken} />
+                        <ProfileMenuDropdown />
                     )}
                     <Button
                         rounded="50%"
@@ -94,7 +93,11 @@ const Navbar = () => {
                         color="#fff"
                         colorScheme="customPurple"
                     >
-                        {colorMode === "light" ? <BsSun /> : <BsMoon />}
+                        {colorMode === "light" ? (
+                            <BsSun size={20} />
+                        ) : (
+                            <BsMoon size={20} />
+                        )}
                     </Button>
                 </Center>
             </Center>

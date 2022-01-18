@@ -5,6 +5,7 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    useColorMode,
 } from "@chakra-ui/react";
 import { ModalContextTypes, ModalState, useModal } from "context/modalContext";
 import Login from "./Form/Login";
@@ -23,6 +24,7 @@ export const openModal = (
 
 const CustomModal = () => {
     const modal = useModal();
+    const { colorMode } = useColorMode();
     const isLogin = modal?.modal === ModalState.LOGIN ? true : false;
 
     return (
@@ -32,14 +34,16 @@ const CustomModal = () => {
             isCentered
         >
             <ModalOverlay />
-            <ModalContent rounded="xl">
+            <ModalContent
+                bg={colorMode === "light" ? "#262355" : "#fff"}
+                color={colorMode === "light" ? "#fff" : "black"}
+                rounded="xl"
+            >
                 <ModalHeader textAlign="center">
                     {isLogin ? "Login" : "Create new account"}
                 </ModalHeader>
                 <ModalCloseButton rounded="xl" _focus={{ outline: "none" }} />
-                <ModalBody>
-                    {isLogin ? <Login /> : <SignUp />}
-                </ModalBody>
+                <ModalBody>{isLogin ? <Login /> : <SignUp />}</ModalBody>
             </ModalContent>
         </Modal>
     );

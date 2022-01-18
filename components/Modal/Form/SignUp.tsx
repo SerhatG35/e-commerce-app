@@ -5,6 +5,7 @@ import {
     FormErrorMessage,
     Input,
     Select,
+    useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
@@ -27,6 +28,9 @@ const signUpContent = [
 ];
 
 const SignUp = () => {
+    const [cities, setCities] = useState<
+        Api.SignUp.SignUpCityTypes | undefined
+    >(undefined);
     const {
         handleSubmit,
         control,
@@ -34,10 +38,13 @@ const SignUp = () => {
     } = useForm<Api.SignUp.SignUpInputs>({
         resolver: yupResolver(signUpSchema),
     });
-    const [cities, setCities] = useState<
-        Api.SignUp.SignUpCityTypes | undefined
-    >(undefined);
     const modal = useModal();
+    const { colorMode } = useColorMode();
+
+    const inputModeColors = {
+        color: colorMode === "dark" ? "#1f1f1f" : "#fff",
+        borderHoverColor: colorMode === "dark" ? "#8F8F8F" : undefined,
+    };
 
     const onSubmit: SubmitHandler<Api.SignUp.SubmitSignUpData> = async (
         data
@@ -92,6 +99,14 @@ const SignUp = () => {
                                             ? "password"
                                             : "text"
                                     }
+                                    _placeholder={{
+                                        color: inputModeColors.color,
+                                    }}
+                                    borderColor={inputModeColors.color}
+                                    _hover={{
+                                        borderColor:
+                                            inputModeColors.borderHoverColor,
+                                    }}
                                 />
                             ) : (
                                 <Select
@@ -99,6 +114,7 @@ const SignUp = () => {
                                     placeholder={
                                         cities ? "Select city" : "Loading..."
                                     }
+                                    borderColor={inputModeColors.color}
                                 >
                                     {cities &&
                                         cities.data.states.map((city) => (
@@ -118,7 +134,16 @@ const SignUp = () => {
                     </FormErrorMessage>
                 </FormControl>
             ))}
-            <Button my="2" type="submit" w="100%" colorScheme="lime">
+            <Button
+                bg={colorMode === "light" ? "#fff" : "#1f1f1f"}
+                color={colorMode === "light" ? "#1f1f1f" : "#fff"}
+                _hover={{
+                    background: colorMode === "light" ? "#DBDBDB" : "#3F3F3F",
+                }}
+                my="2"
+                type="submit"
+                w="100%"
+            >
                 Sign Up
             </Button>
         </Center>

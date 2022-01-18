@@ -34,7 +34,8 @@ export const Auth = {
         return data;
     },
     LOGOUT: async () => {
-        await API.delete("/api/sessions", {});
+        const { data } = await API.delete("/api/sessions");
+        return data;
     },
 };
 

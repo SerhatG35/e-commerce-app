@@ -24,3 +24,8 @@ export const setAuthToken = (token: {
         secure: process.env.NODE_ENV === "development" ? false : true,
     });
 };
+
+export const removeAuthToken = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+};
