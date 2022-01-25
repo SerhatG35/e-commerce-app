@@ -37,13 +37,6 @@ const customConfig = {
         initialColorMode: "light",
         useSystemColorMode: true,
     } as ThemeConfig,
-    components: {
-        Button: {
-            baseStyle: {
-                color: "#fff",
-            },
-        },
-    },
 };
 
 const theme = extendTheme({ ...customConfig });

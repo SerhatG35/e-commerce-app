@@ -1,6 +1,6 @@
 import { Box, Center } from "@chakra-ui/layout";
-import Cards from "components/Cards";
 import Filter from "components/Filter";
+import Products from "components/Products";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
 import type { GetServerSideProps, NextPage } from "next";
@@ -22,15 +22,16 @@ const Home: NextPage<HomeProps> = ({ token }) => {
     return (
         <Box w="100%" pt="10vh">
             <Center
-                pt="1rem"
+                h="100%"
+                pt="1vh"
                 maxW="1200px"
-                h="90vh"
                 margin="auto"
                 alignItems="flex-start"
                 justifyContent="space-between"
+                position="relative"
             >
                 <Filter />
-                <Cards />
+                <Products />
             </Center>
         </Box>
     );

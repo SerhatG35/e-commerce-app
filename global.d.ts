@@ -1,4 +1,4 @@
-declare module Api {
+declare module Global {
     declare module Login {
         export interface LoginResponse {
             accessToken: string;
@@ -23,11 +23,11 @@ declare module Api {
         }
     }
     declare module SignUp {
-        export type SignUpCityTypes = {
+        export interface SignUpCityTypes {
             data: {
                 states: { name: string; state_code: string }[];
             };
-        };
+        }
 
         export interface SubmitSignUpData {
             city: string;
@@ -42,17 +42,19 @@ declare module Api {
             [key: string]: string;
         }
     }
-}
+    declare module Products {
+        export interface AddProduct {
+            title: string;
+            description: string;
+            price: number;
+            image: string;
+        }
 
-export interface IProducts {
-    id: number;
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    rating: {
-        rate: number;
-        count: number;
-    };
+        export interface Product extends AddProduct {
+            _id: string;
+            user: string;
+            productId: string;
+            createdAt: Date;
+        }
+    }
 }

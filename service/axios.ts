@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Api } from "global";
 import { GetServerSidePropsContext, PreviewData } from "next";
 import process from "process";
 import { ParsedUrlQuery } from "querystring";
@@ -13,15 +12,15 @@ const API = axios.create({
 });
 
 export const Auth = {
-    LOGIN: async (params: Api.Login.LoginInputs) => {
-        const { data } = await API.post<Api.Login.LoginResponse>(
+    LOGIN: async (params: Global.Login.LoginInputs) => {
+        const { data } = await API.post<Global.Login.LoginResponse>(
             "/api/sessions",
             { ...params }
         );
 
         return data;
     },
-    REGISTER: async (params: Api.SignUp.SubmitSignUpData) => {
+    REGISTER: async (params: Global.SignUp.SubmitSignUpData) => {
         const { data } = await API.post("/api/users", {
             ...params,
         });
@@ -39,9 +38,22 @@ export const Auth = {
     },
 };
 
+export const Product = {
+    ADD: async (params: Global.Products.AddProduct) => {
+        const { data } = await API.post("/api/products", { ...params });
+        return data;
+    },
+    GET_ALL: async () => {
+        const { data } = await API.get<Global.Products.Product[]>(
+            "/api/all-products"
+        );
+        return data;
+    },
+};
+
 export const External = {
     FetchCities: async () => {
-        const { data } = await axios.post<Api.SignUp.SignUpCityTypes>(
+        const { data } = await axios.post<Global.SignUp.SignUpCityTypes>(
             "https://countriesnow.space/api/v0.1/countries/states",
             { country: "turkey" }
         );

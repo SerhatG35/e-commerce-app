@@ -27,6 +27,7 @@ const Navbar = () => {
             position="fixed"
             top="0"
             zIndex="1000"
+            borderBottom={colorMode === "light" ? "1px solid #eeeeee" : undefined}
         >
             <Center
                 w="100%"

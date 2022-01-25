@@ -13,7 +13,6 @@ import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
 import { useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
-import { Api } from "global";
 import jwtDecode from "jwt-decode";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -34,7 +33,7 @@ const Login = () => {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<Api.Login.LoginInputs>({
+    } = useForm<Global.Login.LoginInputs>({
         resolver: yupResolver(loginSchema),
     });
 
@@ -43,7 +42,7 @@ const Login = () => {
         borderHoverColor: colorMode === "dark" ? "#8F8F8F" : undefined,
     };
 
-    const onSubmit: SubmitHandler<Api.Login.LoginInputs> = async (data) => {
+    const onSubmit: SubmitHandler<Global.Login.LoginInputs> = async (data) => {
         try {
             setIsLoading(true);
             const retrievedToken = await Auth.LOGIN(data);

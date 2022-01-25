@@ -10,7 +10,6 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
 import { useModal } from "context/modalContext";
-import { Api } from "global";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Auth, External } from "service/axios";
@@ -29,13 +28,13 @@ const signUpContent = [
 
 const SignUp = () => {
     const [cities, setCities] = useState<
-        Api.SignUp.SignUpCityTypes | undefined
+        Global.SignUp.SignUpCityTypes | undefined
     >(undefined);
     const {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<Api.SignUp.SignUpInputs>({
+    } = useForm<Global.SignUp.SignUpInputs>({
         resolver: yupResolver(signUpSchema),
     });
     const modal = useModal();
@@ -46,7 +45,7 @@ const SignUp = () => {
         borderHoverColor: colorMode === "dark" ? "#8F8F8F" : undefined,
     };
 
-    const onSubmit: SubmitHandler<Api.SignUp.SubmitSignUpData> = async (
+    const onSubmit: SubmitHandler<Global.SignUp.SubmitSignUpData> = async (
         data
     ) => {
         try {

@@ -1,9 +1,10 @@
-import { Api } from "global";
 import { createContext, Dispatch, SetStateAction, useContext } from "react";
 
 export type UserContextTypes = {
-    userToken: Api.Login.AccessToken | undefined;
-    setUserToken: Dispatch<SetStateAction<Api.Login.AccessToken | undefined>>;
+    userToken: Global.Login.AccessToken | undefined;
+    setUserToken: Dispatch<
+        SetStateAction<Global.Login.AccessToken | undefined>
+    >;
 };
 
 const UserContext = createContext<UserContextTypes | undefined>(undefined);
