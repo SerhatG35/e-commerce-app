@@ -18,7 +18,7 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Auth } from "service/axios";
-import { setAuthToken } from "utils/setTokens";
+import { setCookieAuthToken } from "utils/setCookies";
 import { closeModal } from "../CustomModal";
 import { loginSchema } from "./FormSchema";
 
@@ -46,7 +46,7 @@ const Login = () => {
         try {
             setIsLoading(true);
             const retrievedToken = await Auth.LOGIN(data);
-            setAuthToken(retrievedToken);
+            setCookieAuthToken(retrievedToken);
             userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
             closeModal(modal);
             Toaster("Login successful", "", "success");

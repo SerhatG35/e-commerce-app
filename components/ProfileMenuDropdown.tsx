@@ -19,7 +19,7 @@ import Router from "next/router";
 import { CgLogOut } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
 import { Auth } from "service/axios";
-import { removeAuthToken } from "utils/setTokens";
+import { removeCookieAuthToken } from "utils/setCookies";
 import { Toaster } from "./Toster";
 
 const ProfileMenuDropdown = () => {
@@ -31,10 +31,12 @@ const ProfileMenuDropdown = () => {
             if (userToken?.userToken) {
                 const result = await Auth.LOGOUT();
                 result && Router.push("/");
-                removeAuthToken();
                 userToken?.setUserToken(undefined);
+                removeCookieAuthToken();
             }
         } catch (error: any) {
+            Router.push("/");
+            userToken?.setUserToken(undefined);
             Toaster("Unauthorized", "", "error");
         }
     };

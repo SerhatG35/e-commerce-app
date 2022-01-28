@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import process from "process";
 
-export const setAuthToken = (token: {
+export const setCookieAuthToken = (token: {
     accessToken: string;
     refreshToken: string;
 }) => {
@@ -25,7 +25,7 @@ export const setAuthToken = (token: {
     });
 };
 
-export const removeAuthToken = () => {
+export const removeCookieAuthToken = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
 };

@@ -1,6 +1,6 @@
 import { Center, Divider, Grid, Text } from "@chakra-ui/react";
 import Product from "components/Product/Product";
-import Profile from "components/Profile";
+import Profile from "components/ProfileBar";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
@@ -41,7 +41,9 @@ const UserProducts = () => {
                 flexDir="column"
                 justifyContent="flex-start"
             >
-                <AddProduct />
+                <Center w="100%" mb="1rem" justifyContent="flex-end">
+                    <AddProduct />
+                </Center>
                 <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                     {products?.length !== 0 ? (
                         products?.map((userProduct) => {

@@ -17,7 +17,9 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
+import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
+import Router from "next/router";
 import { useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -37,6 +39,7 @@ const AddProduct = () => {
     const [, setProducts] = useAtom(ProductJotai);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef(null);
+    const userToken = useUserToken();
 
     const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
         data
@@ -48,6 +51,8 @@ const AddProduct = () => {
             setProducts(result);
             Toaster("Success", "", "success");
         } catch (error: any) {
+            Router.push("/");
+            userToken?.setUserToken(undefined);
             Toaster("", `${error.response.data}`, "error");
         }
         setIsLoading(false);
@@ -60,7 +65,6 @@ const AddProduct = () => {
                 colorScheme="customPurple"
                 color="#fff"
                 leftIcon={<AiOutlinePlus />}
-                alignSelf="end"
                 ref={btnRef}
                 onClick={onOpen}
             >

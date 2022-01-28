@@ -6,10 +6,11 @@ import {
 } from "@chakra-ui/react";
 import { ModalState, useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { SiTrustedshops } from "react-icons/si";
-import Basket from './Basket';
+import Basket from "./Basket";
 import { openModal } from "./Modal/CustomModal";
 import ProfileMenuDropdown from "./ProfileMenuDropdown";
 
@@ -86,8 +87,8 @@ const Navbar = () => {
                         </>
                     ) : (
                         <>
-                        <ProfileMenuDropdown />
-                        <Basket />
+                            <ProfileMenuDropdown />
+                            <Basket />
                         </>
                     )}
                     <Button
@@ -97,11 +98,31 @@ const Navbar = () => {
                         _focus={{ boxShadow: "none" }}
                         color="#fff"
                         colorScheme="customPurple"
+                        overflow="hidden"
                     >
-                        {colorMode === "light" ? (
-                            <BsSun size={20} />
-                        ) : (
-                            <BsMoon size={20} />
+                        {colorMode === "light" && (
+                            <AnimatePresence>
+                                <motion.div
+                                    initial={{ y: "25px", opacity: 0 }}
+                                    animate={{ y: "0px", opacity: 1 }}
+                                    transition={{ duration: 0.4 }}
+                                    exit={{ y: "25px", opacity: 0 }}
+                                >
+                                    <BsSun size={20} />
+                                </motion.div>
+                            </AnimatePresence>
+                        )}
+                        {colorMode === "dark" && (
+                            <AnimatePresence>
+                                <motion.div
+                                    initial={{ y: "-25px", opacity: 0 }}
+                                    animate={{ y: "0px", opacity: 1 }}
+                                    transition={{ duration: 0.4 }}
+                                    exit={{ y: "-25px", opacity: 0 }}
+                                >
+                                    <BsMoon size={20} />
+                                </motion.div>
+                            </AnimatePresence>
                         )}
                     </Button>
                 </Center>

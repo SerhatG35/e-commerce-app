@@ -1,11 +1,12 @@
-import { Avatar, Center, Text } from "@chakra-ui/react";
+import { Avatar, Center, IconButton, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import { MdOutlineChangeCircle } from "react-icons/md";
 
 type ProfileProps = {
     user: Global.Login.AccessToken | undefined;
 };
-// DAYJS KUR
-const Profile = ({ user }: ProfileProps) => {
+
+const ProfileBar = ({ user }: ProfileProps) => {
     return (
         <Center
             w="20%"
@@ -17,6 +18,14 @@ const Profile = ({ user }: ProfileProps) => {
             textAlign="start"
             userSelect="none"
         >
+            <IconButton
+                aria-label="Change profile"
+                icon={<MdOutlineChangeCircle size={30} />}
+                alignSelf="start"
+                rounded="50%"
+                colorScheme="customPurple"
+                color="#fff"
+            />
             <Avatar size="2xl" name={`${user?.name} ${user?.surname}`} />
             <Center my="1.5rem" flexDir="column">
                 <Text fontWeight="thin" borderBottom="1px solid">
@@ -42,4 +51,4 @@ const Profile = ({ user }: ProfileProps) => {
     );
 };
 
-export default Profile;
+export default ProfileBar;
