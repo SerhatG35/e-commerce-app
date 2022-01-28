@@ -1,17 +1,19 @@
 import { Box, Center } from "@chakra-ui/layout";
 import Filter from "components/Filter";
-import Products from "components/Products";
+import Products from "components/Product/Products";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
-import type { GetServerSideProps, NextPage } from "next";
+import type {
+    GetServerSidePropsContext,
+    InferGetServerSidePropsType,
+} from "next";
 import cookies from "next-cookies";
+import Head from "next/head";
 import { useEffect } from "react";
 
-interface HomeProps {
-    token: Record<string, string | undefined>;
-}
+type InferedHome = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home: NextPage<HomeProps> = ({ token }) => {
+const Home = ({ token }: InferedHome) => {
     const userToken = useUserToken();
 
     useEffect(() => {
@@ -20,10 +22,13 @@ const Home: NextPage<HomeProps> = ({ token }) => {
     }, []);
 
     return (
-        <Box w="100%" pt="10vh">
+        <Box w="100%" pt="11vh">
+            <Head>
+                <title>E-Shop</title>
+                <meta property="og:title" content="E-Shop" key="title" />
+            </Head>
             <Center
                 h="100%"
-                pt="1vh"
                 maxW="1200px"
                 margin="auto"
                 alignItems="flex-start"
@@ -31,13 +36,17 @@ const Home: NextPage<HomeProps> = ({ token }) => {
                 position="relative"
             >
                 <Filter />
-                <Products />
+                <Center w="80%" h="100%">
+                    <Products />
+                </Center>
             </Center>
         </Box>
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps = async (
+    context: GetServerSidePropsContext
+) => {
     return { props: { token: cookies(context) } };
 };
 

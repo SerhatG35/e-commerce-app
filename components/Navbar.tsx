@@ -9,6 +9,7 @@ import { useUserToken } from "context/userContext";
 import Link from "next/link";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { SiTrustedshops } from "react-icons/si";
+import Basket from './Basket';
 import { openModal } from "./Modal/CustomModal";
 import ProfileMenuDropdown from "./ProfileMenuDropdown";
 
@@ -27,7 +28,7 @@ const Navbar = () => {
             position="fixed"
             top="0"
             zIndex="1000"
-            borderBottom={colorMode === "light" ? "1px solid #eeeeee" : undefined}
+            boxShadow="sm"
         >
             <Center
                 w="100%"
@@ -84,7 +85,10 @@ const Navbar = () => {
                             </Button>
                         </>
                     ) : (
+                        <>
                         <ProfileMenuDropdown />
+                        <Basket />
+                        </>
                     )}
                     <Button
                         rounded="50%"

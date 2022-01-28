@@ -1,4 +1,5 @@
 import {
+    Avatar,
     IconButton,
     Menu,
     MenuButton,
@@ -6,11 +7,16 @@ import {
     MenuGroup,
     MenuItem,
     MenuList,
+    Tag,
+    TagLabel,
+    Tooltip,
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
 import { useUserToken } from "context/userContext";
-import { CgLogOut, CgProfile } from "react-icons/cg";
+import Link from "next/link";
+import Router from "next/router";
+import { CgLogOut } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
 import { Auth } from "service/axios";
 import { removeAuthToken } from "utils/setTokens";
@@ -24,7 +30,8 @@ const ProfileMenuDropdown = () => {
         try {
             if (userToken?.userToken) {
                 const result = await Auth.LOGOUT();
-                result && removeAuthToken();
+                result && Router.push("/");
+                removeAuthToken();
                 userToken?.setUserToken(undefined);
             }
         } catch (error: any) {
@@ -36,30 +43,47 @@ const ProfileMenuDropdown = () => {
 
     return (
         <Menu isLazy={true} autoSelect={false}>
-            <MenuButton
-                mr="1rem"
-                aria-label="settings"
-                as={IconButton}
-                rounded="50%"
-                colorScheme="customPurple"
-                color="#fff"
-                icon={<FiSettings size={20} strokeWidth={1.5} />}
-                autoFocus={false}
-            />
+            <Tooltip label="Settings" closeOnMouseDown={true}>
+                <MenuButton
+                    mr="1rem"
+                    aria-label="settings"
+                    as={IconButton}
+                    rounded="50%"
+                    colorScheme="customPurple"
+                    color="#fff"
+                    icon={<FiSettings size={20} strokeWidth={1.5} />}
+                    autoFocus={false}
+                    _focus={{ outline: "none" }}
+                />
+            </Tooltip>
             <MenuList
                 bg={colorMode === "light" ? "#262355" : "#fff"}
                 color={colorMode === "light" ? "#fff" : "black"}
             >
                 <MenuGroup>
-                    <MenuItem
-                        icon={<CgProfile size={24} />}
-                        _hover={{
-                            background: menuItemHoverColor,
-                            color: "#fff",
-                        }}
-                    >
-                        Profile
-                    </MenuItem>
+                    <Link href={`/profile/${userToken?.userToken?._id}`}>
+                        <MenuItem
+                            _hover={{
+                                background: menuItemHoverColor,
+                                color: "#fff",
+                            }}
+                        >
+                            <Tag
+                                size="lg"
+                                colorScheme="customPurple"
+                                borderRadius="full"
+                            >
+                                <Avatar
+                                    size="xs"
+                                    mr="8px"
+                                    name={userToken?.userToken?.name}
+                                />
+                                <TagLabel>
+                                    {userToken?.userToken?.email}
+                                </TagLabel>
+                            </Tag>
+                        </MenuItem>
+                    </Link>
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup>

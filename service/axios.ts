@@ -1,7 +1,5 @@
 import axios from "axios";
-import { GetServerSidePropsContext, PreviewData } from "next";
 import process from "process";
-import { ParsedUrlQuery } from "querystring";
 
 const PROD_API = "https://e-commerce-app-be.herokuapp.com";
 const LOCAL_API = "http://localhost:3001";
@@ -26,12 +24,6 @@ export const Auth = {
         });
         return data;
     },
-    DASHBOARD: async (
-        params: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
-    ) => {
-        const { data } = await API.get("/api/me", { ...params });
-        return data;
-    },
     LOGOUT: async () => {
         const { data } = await API.delete("/api/sessions");
         return data;
@@ -41,6 +33,10 @@ export const Auth = {
 export const Product = {
     ADD: async (params: Global.Products.AddProduct) => {
         const { data } = await API.post("/api/products", { ...params });
+        return data;
+    },
+    GET: async (param: string) => {
+        const { data } = await API.get(`/api/${param}/products`);
         return data;
     },
     GET_ALL: async () => {

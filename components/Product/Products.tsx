@@ -1,5 +1,5 @@
 import { Grid } from "@chakra-ui/layout";
-import Product from "components/Product";
+import Product from "components/Product/Product";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { Product as ProductService } from "service/axios";
@@ -18,13 +18,7 @@ const Products = () => {
     }, []);
 
     return (
-        <Grid
-            w="80%"
-            h="100%"
-            px="3rem"
-            templateColumns="repeat(3, 1fr)"
-            gap={6}
-        >
+        <Grid w="100%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
             {products?.map((product) => (
                 <Product key={product._id} product={product} />
             ))}
