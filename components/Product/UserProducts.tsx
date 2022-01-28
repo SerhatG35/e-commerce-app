@@ -3,11 +3,14 @@ import Product from "components/Product/Product";
 import Profile from "components/Profile";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Product as ProductService } from "service/axios";
+import { products as ProductJotai } from "store/jotaiStore";
 import AddProduct from "./AddProduct";
 
 const UserProducts = () => {
+    const [allProducts] = useAtom(ProductJotai);
     const [products, setProducts] = useState<
         Global.Products.Product[] | undefined
     >(undefined);
@@ -25,7 +28,7 @@ const UserProducts = () => {
     useEffect(() => {
         if (userToken?.userToken?._id)
             getUserProducts(userToken?.userToken?._id);
-    }, [userToken?.userToken?._id]);
+    }, [userToken?.userToken?._id, allProducts]);
 
     return (
         <Center w="100%" h="100%">

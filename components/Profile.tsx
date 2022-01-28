@@ -1,4 +1,5 @@
 import { Avatar, Center, Text } from "@chakra-ui/react";
+import dayjs from "dayjs";
 
 type ProfileProps = {
     user: Global.Login.AccessToken | undefined;
@@ -33,7 +34,9 @@ const Profile = ({ user }: ProfileProps) => {
                 <Text fontWeight="thin" borderBottom="1px solid">
                     Account Created
                 </Text>
-                <Text fontWeight="semibold">{user?.createdAt}</Text>
+                <Text fontWeight="semibold">
+                    {dayjs(user?.createdAt).format("MMM DD, YYYY")}
+                </Text>
             </Center>
         </Center>
     );

@@ -1,4 +1,13 @@
-import { Box, Center, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+    Box,
+    Center,
+    Stat,
+    StatHelpText,
+    StatLabel,
+    StatNumber,
+    useColorModeValue,
+} from "@chakra-ui/react";
+import dayjs from "dayjs";
 import Image from "next/image";
 
 const Product = ({ product }: { product: Global.Products.Product }) => {
@@ -11,8 +20,6 @@ const Product = ({ product }: { product: Global.Products.Product }) => {
             rounded="12px"
             textAlign="center"
             m="auto"
-            w="250px"
-            h="250px"
             userSelect="none"
             bg={productBg}
             color={productColor}
@@ -25,8 +32,17 @@ const Product = ({ product }: { product: Global.Products.Product }) => {
                     height="150px"
                 />
             </Box>
-            <Text>{product.title}</Text>
-            <Text fontStyle="italic">{product.price} $</Text>
+            <Stat>
+                <StatLabel>{product.title}</StatLabel>
+                <StatNumber>{`${new Intl.NumberFormat("tr-TR", {
+                    style: "currency",
+                    currency: "TRY",
+                    notation: "compact",
+                }).format(product.price)}`}</StatNumber>
+                <StatHelpText>
+                    {dayjs(product.createdAt).format("DD/MM/YYYY")}
+                </StatHelpText>
+            </Stat>
         </Center>
     );
 };
