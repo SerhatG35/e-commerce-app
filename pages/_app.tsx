@@ -8,10 +8,10 @@ import type { AppProps } from "next/app";
 import { useMemo, useState } from "react";
 import theme from "theme";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function _app({ Component, pageProps }: AppProps) {
     const [modal, setModal] = useState<ModalState | undefined>(undefined);
     const [userToken, setUserToken] = useState<
-        Global.Login.AccessToken | undefined
+        Global.User.UserInfo | undefined
     >(undefined);
 
     const memorizedModalValue = useMemo(() => ({ modal, setModal }), [modal]);
@@ -34,4 +34,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
 }
 
-export default MyApp;
+export default _app;

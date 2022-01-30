@@ -20,7 +20,7 @@ import { CgLogOut } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
 import { Auth } from "service/axios";
 import { removeCookieAuthToken } from "utils/setCookies";
-import { Toaster } from "./Toster";
+import { Toaster } from "../Toster";
 
 const ProfileMenuDropdown = () => {
     const userToken = useUserToken();

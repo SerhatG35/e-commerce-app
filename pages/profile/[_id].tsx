@@ -1,5 +1,5 @@
 import { Box, Center } from "@chakra-ui/react";
-import UserProducts from "components/Product/UserProducts";
+import Profile from "components/Profile/Profile";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 type InferedProfile = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Profile = ({ token }: InferedProfile) => {
+const ProfilePage = ({ token }: InferedProfile) => {
     const userToken = useUserToken();
 
     useEffect(() => {
@@ -20,7 +20,11 @@ const Profile = ({ token }: InferedProfile) => {
     return (
         <Box pt="11vh" w="100%">
             <Head>
-                <title>Profile</title>
+                <title>
+                    {userToken?.userToken
+                        ? `${userToken.userToken.name} ${userToken.userToken.surname}`
+                        : "Unauthorized"}
+                </title>
                 <meta property="og:title" content="Profile" key="title" />
             </Head>
             <Center
@@ -30,13 +34,13 @@ const Profile = ({ token }: InferedProfile) => {
                 flexDir="column"
                 justifyContent="flex-start"
             >
-                <UserProducts />
+                <Profile />
             </Center>
         </Box>
     );
 };
 
-export default Profile;
+export default ProfilePage;
 
 export const getServerSideProps = async (
     context: GetServerSidePropsContext

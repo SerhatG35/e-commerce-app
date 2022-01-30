@@ -1,5 +1,6 @@
 import { Grid } from "@chakra-ui/layout";
 import Product from "components/Product/Product";
+import { Toaster } from "components/Toster";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { Product as ProductService } from "service/axios";
@@ -9,8 +10,18 @@ const Products = () => {
     const [products, setProducts] = useAtom(ProductJotai);
 
     const fetchProductData = async () => {
-        const result = await ProductService.GET_ALL();
-        setProducts(result);
+        try {
+            const result = await ProductService.GET_ALL();
+            setProducts(result);
+        } catch (error: any) {
+            if (error.response.status === 404)
+                return Toaster(
+                    "",
+                    "There is a problem with the server please try again",
+                    "error"
+                );
+            Toaster("", `${error.response.data}`, "error");
+        }
     };
 
     useEffect(() => {

@@ -10,69 +10,91 @@ import {
     DrawerHeader,
     DrawerOverlay,
     Input,
-    InputGroup,
-    InputLeftElement,
+    Select,
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
-import { useAtom } from "jotai";
-import Router from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { AiOutlinePlus } from "react-icons/ai";
-import { Product } from "service/axios";
-import { products as ProductJotai } from "store/jotaiStore";
-import { addProductSchema } from "./ProductSchema";
+import { AiOutlineEdit } from "react-icons/ai";
+import { External, User } from "service/axios";
+import { userSchema } from "./UserSchema";
 
-const AddProduct = () => {
+type EditProfileProps = {
+    user: Global.User.UserInfo | undefined;
+};
+
+const EditProfile = ({ user }: EditProfileProps) => {
+    const [cities, setCities] = useState<
+        Global.SignUp.SignUpCityTypes | undefined
+    >(undefined);
+    const [loading, setLoading] = useState(false);
+    const btnRef = useRef(null);
+    const userToken = useUserToken();
+
     const {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm({
-        resolver: yupResolver(addProductSchema),
+        reset,
+    } = useForm<Global.User.UserInfo>({
+        resolver: yupResolver(userSchema),
+        defaultValues: user,
     });
-    const [loading, setIsLoading] = useState(false);
-    const [, setProducts] = useAtom(ProductJotai);
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const btnRef = useRef(null);
-    const userToken = useUserToken();
 
-    const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
-        data
-    ) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const FetchCities = async () => {
+        setCities(await External.FetchCities());
+    };
+
+    useEffect(() => {
+        FetchCities();
+    }, []);
+
+    useEffect(() => {
+        reset(user);
+    }, [user]);
+
+    const onSubmit: SubmitHandler<Global.User.UserInfo> = async (data) => {
         try {
-            setIsLoading(true);
-            await Product.ADD(data);
-            const result = await Product.GET_ALL();
-            setProducts(result);
-            Toaster("Success", "", "success");
-        } catch (error: any) {
-            Router.push("/");
-            userToken?.setUserToken(undefined);
-            Toaster("", `${error.response.data}`, "error");
+            setLoading(true);
+            const result = await User.UPDATE(data);
+            if (result) {
+                userToken?.setUserToken(result);
+                Toaster(
+                    "Success",
+                    "You have successfuly updated your profile",
+                    "success"
+                );
+            }
+            onClose();
+        } catch (error) {
+            Toaster("", "Can't update your profile", "error");
         }
-        setIsLoading(false);
-        onClose();
+        setLoading(false);
     };
 
     return (
         <>
             <Button
+                leftIcon={<AiOutlineEdit size={18} />}
+                my="1rem"
+                rounded="8px"
                 colorScheme="customPurple"
                 color="#fff"
-                leftIcon={<AiOutlinePlus />}
-                ref={btnRef}
+                size="sm"
                 onClick={onOpen}
+                ref={btnRef}
             >
-                Add New Product
+                Edit
             </Button>
             <Drawer
                 isOpen={isOpen}
-                placement="right"
+                placement="left"
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 autoFocus={false}
@@ -80,98 +102,96 @@ const AddProduct = () => {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton color="red" />
-                    <DrawerHeader>Add New Product</DrawerHeader>
+                    <DrawerHeader>Edit Profile</DrawerHeader>
                     <Divider />
                     <DrawerBody>
                         <Center flexDir="column" as="form">
                             <Controller
                                 control={control}
-                                name="title"
-                                defaultValue=""
+                                name="name"
                                 render={({ field }) => (
                                     <>
-                                        <Input
-                                            placeholder="Title"
-                                            my="0.5rem"
-                                            {...field}
-                                        />
+                                        <Input my="0.5rem" {...field} />
                                         <Text
                                             w="100%"
                                             fontSize="sm"
                                             color="red"
                                         >
-                                            {errors?.title?.message}
+                                            {errors?.name?.message}
                                         </Text>
                                     </>
                                 )}
                             />
                             <Controller
                                 control={control}
-                                name="description"
-                                defaultValue=""
+                                name="surname"
                                 render={({ field }) => (
                                     <>
-                                        <Input
-                                            placeholder="Description"
-                                            my="0.5rem"
-                                            {...field}
-                                        />
+                                        <Input my="0.5rem" {...field} />
                                         <Text
                                             w="100%"
                                             fontSize="sm"
                                             color="red"
                                         >
-                                            {errors?.description?.message}
+                                            {errors?.surname?.message}
                                         </Text>
                                     </>
                                 )}
                             />
                             <Controller
                                 control={control}
-                                name="price"
-                                defaultValue=""
-                                render={({ field }) => (
-                                    <>
-                                        <InputGroup my="0.5rem">
-                                            <InputLeftElement
-                                                pointerEvents="none"
-                                                color="gray.300"
-                                                fontSize="1.2em"
-                                                children="₺"
-                                            />
-                                            <Input
-                                                {...field}
-                                                placeholder="Enter the price"
-                                                type="number"
-                                            />
-                                        </InputGroup>
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
-                                            {errors?.price?.message}
-                                        </Text>
-                                    </>
-                                )}
-                            />
-                            <Controller
-                                control={control}
-                                name="image"
-                                defaultValue=""
+                                name="email"
                                 render={({ field }) => (
                                     <>
                                         <Input
-                                            placeholder="Image(WIP) pass random string"
                                             my="0.5rem"
                                             {...field}
+                                            type="email"
                                         />
                                         <Text
                                             w="100%"
                                             fontSize="sm"
                                             color="red"
                                         >
-                                            {errors?.image?.message}
+                                            {errors?.email?.message}
+                                        </Text>
+                                    </>
+                                )}
+                            />
+                            <Controller
+                                control={control}
+                                name="city"
+                                render={({ field }) => (
+                                    <>
+                                        <Select my="0.5rem" {...field}>
+                                            {cities &&
+                                                cities.data.states.map(
+                                                    (city) => (
+                                                        <option
+                                                            key={
+                                                                city.state_code
+                                                            }
+                                                            value={
+                                                                city.name.split(
+                                                                    " "
+                                                                )[0]
+                                                            }
+                                                        >
+                                                            {
+                                                                city.name.split(
+                                                                    " "
+                                                                )[0]
+                                                            }
+                                                        </option>
+                                                    )
+                                                )}
+                                        </Select>
+                                        <Text
+                                            w="100%"
+                                            fontSize="sm"
+                                            color="red"
+                                        >
+                                            {errors?.city?.message}
                                         </Text>
                                     </>
                                 )}
@@ -190,7 +210,7 @@ const AddProduct = () => {
                         </Button>
                         <Button
                             isLoading={loading}
-                            loadingText="Adding Product"
+                            loadingText="Updating Profile"
                             type="submit"
                             colorScheme="blue"
                             onClick={handleSubmit(onSubmit)}
@@ -204,4 +224,4 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+export default EditProfile;

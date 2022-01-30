@@ -1,9 +1,9 @@
-import { Avatar, Center, IconButton, Text } from "@chakra-ui/react";
+import { Avatar, Center, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { MdOutlineChangeCircle } from "react-icons/md";
+import EditProfile from "./EditProfile";
 
 type ProfileProps = {
-    user: Global.Login.AccessToken | undefined;
+    user: Global.User.UserInfo | undefined;
 };
 
 const ProfileBar = ({ user }: ProfileProps) => {
@@ -15,31 +15,22 @@ const ProfileBar = ({ user }: ProfileProps) => {
             flexDir="column"
             fontSize="xl"
             justifyContent="flex-start"
-            textAlign="start"
             userSelect="none"
         >
-            <IconButton
-                aria-label="Change profile"
-                icon={<MdOutlineChangeCircle size={30} />}
-                alignSelf="start"
-                rounded="50%"
-                colorScheme="customPurple"
-                color="#fff"
-            />
             <Avatar size="2xl" name={`${user?.name} ${user?.surname}`} />
-            <Center my="1.5rem" flexDir="column">
+            <Center my="1rem" flexDir="column">
                 <Text fontWeight="thin" borderBottom="1px solid">
                     Name
                 </Text>
                 <Text fontWeight="semibold">{`${user?.name} ${user?.surname}`}</Text>
             </Center>
-            <Center my="1.5rem" flexDir="column">
+            <Center my="1rem" flexDir="column">
                 <Text fontWeight="thin" borderBottom="1px solid">
                     City
                 </Text>
                 <Text fontWeight="semibold">{user?.city}</Text>
             </Center>
-            <Center my="1.5rem" flexDir="column">
+            <Center my="1rem" flexDir="column">
                 <Text fontWeight="thin" borderBottom="1px solid">
                     Account Created
                 </Text>
@@ -47,6 +38,7 @@ const ProfileBar = ({ user }: ProfileProps) => {
                     {dayjs(user?.createdAt).format("MMM DD, YYYY")}
                 </Text>
             </Center>
+            <EditProfile user={user} />
         </Center>
     );
 };

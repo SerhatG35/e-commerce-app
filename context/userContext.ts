@@ -1,10 +1,8 @@
 import { createContext, Dispatch, SetStateAction, useContext } from "react";
 
 export type UserContextTypes = {
-    userToken: Global.Login.AccessToken | undefined;
-    setUserToken: Dispatch<
-        SetStateAction<Global.Login.AccessToken | undefined>
-    >;
+    userToken: Global.User.UserInfo | undefined;
+    setUserToken: Dispatch<SetStateAction<Global.User.UserInfo | undefined>>;
 };
 
 const UserContext = createContext<UserContextTypes | undefined>(undefined);

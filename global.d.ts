@@ -4,19 +4,6 @@ declare module Global {
             accessToken: string;
             refreshToken: string;
         }
-        export interface AccessToken {
-            _id: string;
-            name: string;
-            surname: string;
-            email: string;
-            city: string;
-            session: string;
-            createdAt: Date | string;
-            updatedAt: Date | string;
-            exp: number;
-            iat: number;
-            __v: number;
-        }
         export interface LoginInputs {
             email: string;
             password: string;
@@ -55,6 +42,21 @@ declare module Global {
             user: string;
             productId: string;
             createdAt: Date;
+        }
+    }
+    declare module User {
+        export interface UserInfo {
+            _id: string;
+            name: string;
+            surname: string;
+            email: string;
+            city: string;
+            session: string;
+            createdAt: Date | string;
+            updatedAt: Date | string;
+            exp: number;
+            iat: number;
+            __v: number;
         }
     }
 }

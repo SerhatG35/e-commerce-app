@@ -30,6 +30,15 @@ export const Auth = {
     },
 };
 
+export const User = {
+    UPDATE: async (params: Global.User.UserInfo) => {
+        const { data } = await API.put(`/api/user/${params._id}`, {
+            ...params,
+        });
+        return data;
+    },
+};
+
 export const Product = {
     ADD: async (params: Global.Products.AddProduct) => {
         const { data } = await API.post("/api/products", { ...params });

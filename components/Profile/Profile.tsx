@@ -1,15 +1,15 @@
 import { Center, Divider, Grid, Text } from "@chakra-ui/react";
 import Product from "components/Product/Product";
-import Profile from "components/ProfileBar";
+import ProfileBar from "components/Profile/ProfileBar";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Product as ProductService } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
-import AddProduct from "./AddProduct";
+import AddProduct from "../Product/AddProduct";
 
-const UserProducts = () => {
+const Profile = () => {
     const [allProducts] = useAtom(ProductJotai);
     const [products, setProducts] = useState<
         Global.Products.Product[] | undefined
@@ -21,6 +21,12 @@ const UserProducts = () => {
             const result = await ProductService.GET(id);
             setProducts(result);
         } catch (error: any) {
+            if (error.response.status === 404)
+                return Toaster(
+                    "",
+                    "There is a problem with the server please try again",
+                    "error"
+                );
             Toaster("", `${error.response.data}`, "error");
         }
     };
@@ -32,7 +38,7 @@ const UserProducts = () => {
 
     return (
         <Center w="100%" h="100%">
-            <Profile user={userToken?.userToken} />
+            <ProfileBar user={userToken?.userToken} />
             <Divider orientation="vertical" boxShadow="xl" />
             <Center
                 w="80%"
@@ -67,4 +73,4 @@ const UserProducts = () => {
     );
 };
 
-export default UserProducts;
+export default Profile;

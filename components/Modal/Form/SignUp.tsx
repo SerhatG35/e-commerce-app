@@ -114,6 +114,10 @@ const SignUp = () => {
                                         cities ? "Select city" : "Loading..."
                                     }
                                     borderColor={inputModeColors.color}
+                                    _hover={{
+                                        borderColor:
+                                            inputModeColors.borderHoverColor,
+                                    }}
                                 >
                                     {cities &&
                                         cities.data.states.map((city) => (
