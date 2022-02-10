@@ -23,7 +23,7 @@ const ProfilePage = ({ token }: InferedProfile) => {
                 <title>
                     {userToken?.userToken
                         ? `${userToken.userToken.name} ${userToken.userToken.surname}`
-                        : "Unauthorized"}
+                        : "Untitled"}
                 </title>
                 <meta property="og:title" content="Profile" key="title" />
             </Head>

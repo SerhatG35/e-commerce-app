@@ -31,14 +31,13 @@ const ProfileMenuDropdown = () => {
             if (userToken?.userToken) {
                 const result = await Auth.LOGOUT();
                 result && Router.push("/");
-                userToken?.setUserToken(undefined);
-                removeCookieAuthToken();
             }
         } catch (error: any) {
             Router.push("/");
-            userToken?.setUserToken(undefined);
             Toaster("Unauthorized", "", "error");
         }
+        userToken?.setUserToken(undefined);
+        removeCookieAuthToken();
     };
 
     const menuItemHoverColor = useColorModeValue("#50356C", "#242424");

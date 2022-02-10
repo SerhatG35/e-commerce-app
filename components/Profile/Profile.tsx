@@ -21,7 +21,7 @@ const Profile = () => {
             const result = await ProductService.GET(id);
             setProducts(result);
         } catch (error: any) {
-            if (error.response.status === 404)
+            if (error.response.status === 404 || error.response === undefined)
                 return Toaster(
                     "",
                     "There is a problem with the server please try again",
