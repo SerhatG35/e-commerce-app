@@ -18,6 +18,7 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Auth } from "service/axios";
+import { setCookieAuthToken } from 'utils/setCookies';
 import { closeModal } from "../CustomModal";
 import { loginSchema } from "./FormSchema";
 
@@ -42,9 +43,10 @@ const Login = () => {
     };
 
     const onSubmit: SubmitHandler<Global.Login.LoginInputs> = async (data) => {
+        setIsLoading(true);
         try {
-            setIsLoading(true);
             const retrievedToken = await Auth.LOGIN(data);
+            setCookieAuthToken(retrievedToken);
             userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
             closeModal(modal);
             Toaster("Login successful", "", "success");
