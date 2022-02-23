@@ -11,7 +11,7 @@ import Link from "next/link";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { SiTrustedshops } from "react-icons/si";
 import Basket from "./Basket";
-import { openModal } from "./Modal/CustomModal";
+import { openModal } from './Modal/CustomModal';
 import ProfileMenuDropdown from "./Profile/ProfileMenuDropdown";
 
 const Navbar = () => {

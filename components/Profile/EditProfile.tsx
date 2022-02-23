@@ -14,7 +14,7 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useEffect, useRef, useState } from "react";

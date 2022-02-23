@@ -19,7 +19,6 @@ import Router from "next/router";
 import { CgLogOut } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
 import { Auth } from "service/axios";
-import { removeCookieAuthToken } from "utils/setCookies";
 import { Toaster } from "../Toster";
 
 const ProfileMenuDropdown = () => {
@@ -37,7 +36,6 @@ const ProfileMenuDropdown = () => {
             Toaster("Unauthorized", "", "error");
         }
         userToken?.setUserToken(undefined);
-        removeCookieAuthToken();
     };
 
     const menuItemHoverColor = useColorModeValue("#50356C", "#242424");

@@ -9,7 +9,7 @@ import {
     InputRightElement,
     useColorMode,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Toaster } from "components/Toster";
 import { useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
@@ -18,7 +18,6 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Auth } from "service/axios";
-import { setCookieAuthToken } from "utils/setCookies";
 import { closeModal } from "../CustomModal";
 import { loginSchema } from "./FormSchema";
 
@@ -46,7 +45,6 @@ const Login = () => {
         try {
             setIsLoading(true);
             const retrievedToken = await Auth.LOGIN(data);
-            setCookieAuthToken(retrievedToken);
             userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
             closeModal(modal);
             Toaster("Login successful", "", "success");

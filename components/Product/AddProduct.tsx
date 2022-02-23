@@ -15,7 +15,7 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
@@ -41,9 +41,7 @@ const AddProduct = () => {
     const btnRef = useRef(null);
     const userToken = useUserToken();
 
-    const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
-        data
-    ) => {
+    const onSubmit: SubmitHandler<any> = async (data) => {
         try {
             setIsLoading(true);
             await Product.ADD(data);

@@ -7,7 +7,7 @@ import {
     Select,
     useColorMode,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Toaster } from "components/Toster";
 import { useModal } from "context/modalContext";
 import { useEffect, useState } from "react";
@@ -45,9 +45,7 @@ const SignUp = () => {
         borderHoverColor: colorMode === "dark" ? "#8F8F8F" : undefined,
     };
 
-    const onSubmit: SubmitHandler<Global.SignUp.SubmitSignUpData> = async (
-        data
-    ) => {
+    const onSubmit: SubmitHandler<any> = async (data) => {
         try {
             await Auth.REGISTER(data);
             Toaster("Account created", "", "success");

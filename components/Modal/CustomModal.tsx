@@ -27,7 +27,7 @@ const CustomModal = () => {
     const { colorMode } = useColorMode();
     const isLogin = modal?.modal === ModalState.LOGIN ? true : false;
 
-    return (
+    return isLogin !== undefined ? (
         <Modal
             isOpen={modal?.modal !== undefined}
             onClose={() => closeModal(modal)}
@@ -46,6 +46,8 @@ const CustomModal = () => {
                 <ModalBody>{isLogin ? <Login /> : <SignUp />}</ModalBody>
             </ModalContent>
         </Modal>
+    ) : (
+        <></>
     );
 };
 
