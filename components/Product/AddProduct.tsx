@@ -13,6 +13,7 @@ import {
     InputGroup,
     InputLeftElement,
     Text,
+    Textarea,
     useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,11 +21,12 @@ import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import Router from "next/router";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Product } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { getBase64 } from "utils/getBase64";
 import { addProductSchema } from "./ProductSchema";
 
 const AddProduct = () => {
@@ -32,8 +34,16 @@ const AddProduct = () => {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm({
+        setValue,
+        reset,
+    } = useForm<Global.Products.AddProduct>({
         resolver: yupResolver(addProductSchema),
+        defaultValues: {
+            description: "",
+            image: "",
+            price: "",
+            title: "",
+        },
     });
     const [loading, setIsLoading] = useState(false);
     const [, setProducts] = useAtom(ProductJotai);
@@ -41,13 +51,14 @@ const AddProduct = () => {
     const btnRef = useRef(null);
     const userToken = useUserToken();
 
-    const onSubmit: SubmitHandler<any> = async (data) => {
+    const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (data) => {
         try {
             setIsLoading(true);
             await Product.ADD(data);
             const result = await Product.GET_ALL();
             setProducts(result);
             Toaster("Success", "", "success");
+            reset();
         } catch (error: any) {
             Router.push("/");
             userToken?.setUserToken(undefined);
@@ -55,6 +66,11 @@ const AddProduct = () => {
         }
         setIsLoading(false);
         onClose();
+    };
+
+    const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files)
+            setValue("image", await getBase64(e.target?.files[0]));
     };
 
     return (
@@ -85,7 +101,6 @@ const AddProduct = () => {
                             <Controller
                                 control={control}
                                 name="title"
-                                defaultValue=""
                                 render={({ field }) => (
                                     <>
                                         <Input
@@ -105,29 +120,7 @@ const AddProduct = () => {
                             />
                             <Controller
                                 control={control}
-                                name="description"
-                                defaultValue=""
-                                render={({ field }) => (
-                                    <>
-                                        <Input
-                                            placeholder="Description"
-                                            my="0.5rem"
-                                            {...field}
-                                        />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
-                                            {errors?.description?.message}
-                                        </Text>
-                                    </>
-                                )}
-                            />
-                            <Controller
-                                control={control}
                                 name="price"
-                                defaultValue=""
                                 render={({ field }) => (
                                     <>
                                         <InputGroup my="0.5rem">
@@ -156,11 +149,33 @@ const AddProduct = () => {
                             <Controller
                                 control={control}
                                 name="image"
-                                defaultValue=""
                                 render={({ field }) => (
                                     <>
-                                        <Input
-                                            placeholder="Image(WIP) pass random string"
+                                        <input
+                                            {...field}
+                                            value={""}
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageUpload}
+                                        />
+                                        <Text
+                                            w="100%"
+                                            fontSize="sm"
+                                            color="red"
+                                        >
+                                            {errors?.image?.message}
+                                        </Text>
+                                    </>
+                                )}
+                            />
+                            <Controller
+                                control={control}
+                                name="description"
+                                render={({ field }) => (
+                                    <>
+                                        <Textarea
+                                            resize="none"
+                                            placeholder="Description"
                                             my="0.5rem"
                                             {...field}
                                         />
@@ -169,7 +184,7 @@ const AddProduct = () => {
                                             fontSize="sm"
                                             color="red"
                                         >
-                                            {errors?.image?.message}
+                                            {errors?.description?.message}
                                         </Text>
                                     </>
                                 )}

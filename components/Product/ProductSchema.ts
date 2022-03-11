@@ -11,8 +11,5 @@ export const addProductSchema = yup.object().shape({
         .number()
         .typeError("Price must be a number.")
         .required("Price is required."),
-    image: yup
-        .string()
-        .min(6, "Image must be at least 6 characters.")
-        .required("Image is required."),
+    image: yup.string().required("Image is required."),
 });

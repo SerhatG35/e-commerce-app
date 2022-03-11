@@ -5,7 +5,7 @@ import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Product as ProductService } from "service/axios";
+import { User } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
 import AddProduct from "../Product/AddProduct";
 
@@ -18,7 +18,7 @@ const Profile = () => {
 
     const getUserProducts = async (id: string) => {
         try {
-            const result = await ProductService.GET(id);
+            const result = await User.PRODUCTS(id);
             setProducts(result);
         } catch (error: any) {
             if (error.response.status === 404 || error.response === undefined)
@@ -43,7 +43,8 @@ const Profile = () => {
             <Center
                 w="80%"
                 h="100%"
-                px="3rem"
+                pl="3rem"
+                pr="1rem"
                 flexDir="column"
                 justifyContent="flex-start"
             >

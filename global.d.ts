@@ -33,7 +33,7 @@ declare module Global {
         export interface AddProduct {
             title: string;
             description: string;
-            price: number;
+            price: number | "";
             image: string;
         }
 

@@ -37,6 +37,10 @@ export const User = {
         });
         return data;
     },
+    PRODUCTS: async (userId: string) => {
+        const { data } = await API.get(`/api/${userId}/products`);
+        return data;
+    },
 };
 
 export const Product = {
@@ -44,8 +48,8 @@ export const Product = {
         const { data } = await API.post("/api/products", { ...params });
         return data;
     },
-    GET: async (param: string) => {
-        const { data } = await API.get(`/api/${param}/products`);
+    GET: async (productId: string) => {
+        const { data } = await API.get(`/api/products/${productId}`);
         return data;
     },
     GET_ALL: async () => {
@@ -58,10 +62,14 @@ export const Product = {
 
 export const External = {
     FetchCities: async () => {
-        const { data } = await axios.post<Global.SignUp.SignUpCityTypes>(
-            "https://countriesnow.space/api/v0.1/countries/states",
-            { country: "turkey" }
-        );
-        return data;
+        try {
+            const { data } = await axios.post<Global.SignUp.SignUpCityTypes>(
+                "https://countriesnow.space/api/v0.1/countries/states",
+                { country: "turkey" }
+            );
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
     },
 };
