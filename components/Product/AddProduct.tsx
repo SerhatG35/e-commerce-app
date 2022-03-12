@@ -17,16 +17,16 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import ImageUpload from "components/ImageUpload";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import Router from "next/router";
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Product } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
-import { getBase64 } from "utils/getBase64";
 import { addProductSchema } from "./ProductSchema";
 
 const AddProduct = () => {
@@ -51,7 +51,9 @@ const AddProduct = () => {
     const btnRef = useRef(null);
     const userToken = useUserToken();
 
-    const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (data) => {
+    const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
+        data
+    ) => {
         try {
             setIsLoading(true);
             await Product.ADD(data);
@@ -66,11 +68,6 @@ const AddProduct = () => {
         }
         setIsLoading(false);
         onClose();
-    };
-
-    const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files)
-            setValue("image", await getBase64(e.target?.files[0]));
     };
 
     return (
@@ -90,6 +87,7 @@ const AddProduct = () => {
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 autoFocus={false}
+                size="sm"
             >
                 <DrawerOverlay />
                 <DrawerContent>
@@ -151,12 +149,9 @@ const AddProduct = () => {
                                 name="image"
                                 render={({ field }) => (
                                     <>
-                                        <input
-                                            {...field}
-                                            value={""}
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleImageUpload}
+                                        <ImageUpload
+                                            field={field}
+                                            setValue={setValue}
                                         />
                                         <Text
                                             w="100%"
