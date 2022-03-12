@@ -47,8 +47,9 @@ export const getServerSideProps = async (
 ) => {
     const token = cookies(context);
 
-    if (!token.accessToken)
+    if (!token.accessToken) {
         return { props: {}, redirect: { permanent: false, destination: "/" } };
+    }
 
     return { props: { token } };
 };

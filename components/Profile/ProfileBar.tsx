@@ -2,11 +2,11 @@ import { Avatar, Center, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import EditProfile from "./EditProfile";
 
-type ProfileProps = {
+interface ProfileBarTypes {
     user: Global.User.UserInfo | undefined;
-};
+}
 
-const ProfileBar = ({ user }: ProfileProps) => {
+const ProfileBar = ({ user }: ProfileBarTypes) => {
     return (
         <Center
             w="20%"

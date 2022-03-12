@@ -38,7 +38,15 @@ export const User = {
         return data;
     },
     PRODUCTS: async (userId: string) => {
-        const { data } = await API.get(`/api/${userId}/products`);
+        const { data } = await API.get<Global.Products.Product[]>(
+            `/api/${userId}/products`
+        );
+        return data;
+    },
+    INFO: async (userId: string) => {
+        const { data } = await API.get<Global.User.UserInfo>(
+            `/api/user/${userId}`
+        );
         return data;
     },
 };
