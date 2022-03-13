@@ -68,6 +68,12 @@ const AddProduct = () => {
         }
         setIsLoading(false);
         onClose();
+        reset();
+    };
+
+    const closeDrawer = () => {
+        onClose();
+        reset();
     };
 
     return (
@@ -84,7 +90,7 @@ const AddProduct = () => {
             <Drawer
                 isOpen={isOpen}
                 placement="right"
-                onClose={onClose}
+                onClose={closeDrawer}
                 finalFocusRef={btnRef}
                 autoFocus={false}
                 size="sm"
@@ -192,7 +198,7 @@ const AddProduct = () => {
                             colorScheme="red"
                             variant="outline"
                             mr={3}
-                            onClick={onClose}
+                            onClick={closeDrawer}
                         >
                             Cancel
                         </Button>

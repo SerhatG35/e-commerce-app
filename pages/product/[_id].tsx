@@ -1,22 +1,17 @@
 import { Center } from "@chakra-ui/react";
 import { useUserToken } from "context/userContext";
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import "filepond/dist/filepond.min.css";
 import jwtDecode from "jwt-decode";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import cookies from "next-cookies";
 import { useRouter } from "next/router";
-import { useEffect} from "react";
-import { registerPlugin } from "react-filepond";
+import { useEffect } from "react";
 import { Product } from "service/axios";
 
 type InferedProductDetail = InferGetServerSidePropsType<
     typeof getServerSideProps
 >;
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-const ProductDetail = ({ token }: InferedProductDetail) => {
+
+const ProductDetailPage = ({ token }: InferedProductDetail) => {
     const userToken = useUserToken();
     const router = useRouter();
     const { _id } = router.query;
@@ -42,7 +37,7 @@ const ProductDetail = ({ token }: InferedProductDetail) => {
     );
 };
 
-export default ProductDetail;
+export default ProductDetailPage;
 
 export const getServerSideProps = async (
     context: GetServerSidePropsContext

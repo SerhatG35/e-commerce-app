@@ -2,9 +2,12 @@ import { Box } from "@chakra-ui/react";
 import { FilePondFile } from "filepond";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImageCrop from "filepond-plugin-image-crop";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import FilePondPluginImageTransform from "filepond-plugin-image-transform";
+import FilePondPluginImageValidateSize from "filepond-plugin-image-validate-size";
 import "filepond/dist/filepond.min.css";
 import { FilePond, registerPlugin } from "react-filepond";
 import { UseFormSetValue } from "react-hook-form";
@@ -14,7 +17,10 @@ registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview,
     FilePondPluginFileValidateType,
-    FilePondPluginFileValidateSize
+    FilePondPluginFileValidateSize,
+    FilePondPluginImageValidateSize,
+    FilePondPluginImageCrop,
+    FilePondPluginImageTransform
 );
 
 interface ImageUploadProps {
@@ -24,7 +30,11 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ field, setValue }: ImageUploadProps) => {
     const handleImageUpload = async (files: FilePondFile[]) => {
-        if (files) setValue("image", await getBase64(files[0]?.file as File));
+        if (files)
+            setValue(
+                "image",
+                await getBase64(await files[0]?.requestPrepare())
+            );
     };
 
     return (
@@ -38,6 +48,11 @@ const ImageUpload = ({ field, setValue }: ImageUploadProps) => {
                 acceptedFileTypes={["image/*"]}
                 labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                 maxFileSize="3MB"
+                imageValidateSizeMaxWidth={1920}
+                imageValidateSizeMaxHeight={1080}
+                onremovefile={() => setValue("image", "")}
+                onerror={() => setValue("image", "")}
+                // imageCropAspectRatio="2:1"
             />
         </Box>
     );

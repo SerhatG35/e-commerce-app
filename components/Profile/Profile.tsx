@@ -1,7 +1,8 @@
 import { Center, Divider, Grid, Text } from "@chakra-ui/react";
-import Product from "components/Product/Product";
+import ProductCard from "components/Product/ProductCard";
 import ProfileBar from "components/Profile/ProfileBar";
 import { Toaster } from "components/Toster";
+import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -9,39 +10,54 @@ import { User } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
 import AddProduct from "../Product/AddProduct";
 
+interface State {
+    user: Global.User.UserInfo | undefined;
+    products: Global.Products.Product[] | undefined;
+    noUser: boolean | undefined;
+}
+
 const Profile = () => {
-    const [products, setProducts] = useState<
-        Global.Products.Product[] | undefined
-    >(undefined);
-    const [user, setUser] = useState<Global.User.UserInfo | undefined>(
-        undefined
-    );
-
-    const [allProducts] = useAtom(ProductJotai);
-
+    const [{ user, products, noUser }, setState] = useState<State>({
+        user: undefined,
+        products: undefined,
+        noUser: undefined,
+    });
+    const userToken = useUserToken();
     const router = useRouter();
     const { _id } = router.query;
+
+    const [allProducts] = useAtom(ProductJotai);
 
     const getUserInfoAndProducts = async (id: string) => {
         await Promise.all([User.INFO(id), User.PRODUCTS(id)])
             .then((result) => {
-                setUser(result[0]);
-                setProducts(result[1]);
+                setState((state) => ({
+                    ...state,
+                    user: result[0],
+                    products: result[1],
+                    noUser: false,
+                }));
             })
-            .catch((error: any) =>
-                Toaster("Oops", `${error.response.data}`, "error")
-            );
+            .catch((error: any) => {
+                setState((state) => ({
+                    ...state,
+                    noUser: true,
+                }));
+                Toaster("Oops", `${error.response.data}`, "error");
+            });
     };
 
     useEffect(() => {
         getUserInfoAndProducts(_id as string);
-    }, [allProducts]);
+    }, [allProducts, _id]);
+
+    const usersOwnProfile = userToken?.userToken?._id === _id;
 
     return (
         <>
-            {products && user ? (
+            {!noUser ? (
                 <Center w="100%" h="100%">
-                    <ProfileBar user={user} />
+                    <ProfileBar user={user} usersOwnProfile={usersOwnProfile} />
                     <Divider orientation="vertical" boxShadow="xl" />
                     <Center
                         w="80%"
@@ -52,13 +68,13 @@ const Profile = () => {
                         justifyContent="flex-start"
                     >
                         <Center w="100%" mb="1rem" justifyContent="flex-end">
-                            <AddProduct />
+                            {usersOwnProfile && <AddProduct />}
                         </Center>
                         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                             {products?.length !== 0 ? (
                                 products?.map((userProduct) => {
                                     return (
-                                        <Product
+                                        <ProductCard
                                             key={userProduct._id}
                                             product={userProduct}
                                         />
