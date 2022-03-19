@@ -12,6 +12,7 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
+    Select,
     Text,
     Textarea,
     useDisclosure,
@@ -27,6 +28,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Product } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { productCategories } from "../../constants";
 import { addProductSchema } from "./ProductSchema";
 
 const AddProduct = () => {
@@ -39,10 +41,11 @@ const AddProduct = () => {
     } = useForm<Global.Products.AddProduct>({
         resolver: yupResolver(addProductSchema),
         defaultValues: {
-            description: "",
-            image: "",
-            price: "",
             title: "",
+            category: "",
+            price: "",
+            image: "",
+            description: "",
         },
     });
     const [loading, setIsLoading] = useState(false);
@@ -124,6 +127,45 @@ const AddProduct = () => {
                             />
                             <Controller
                                 control={control}
+                                name="category"
+                                render={({ field }) => (
+                                    <>
+                                        <Select
+                                            {...field}
+                                            onChange={(e) =>
+                                                field.onChange(e.target.value)
+                                            }
+                                            name="category"
+                                            my="0.5rem"
+                                        >
+                                            {productCategories.map(
+                                                (category, index) => (
+                                                    <option
+                                                        key={category}
+                                                        value={category}
+                                                        hidden={
+                                                            index === 0
+                                                                ? true
+                                                                : false
+                                                        }
+                                                    >
+                                                        {category}
+                                                    </option>
+                                                )
+                                            )}
+                                        </Select>
+                                        <Text
+                                            w="100%"
+                                            fontSize="sm"
+                                            color="red"
+                                        >
+                                            {errors?.category?.message}
+                                        </Text>
+                                    </>
+                                )}
+                            />
+                            <Controller
+                                control={control}
                                 name="price"
                                 render={({ field }) => (
                                     <>
@@ -136,7 +178,7 @@ const AddProduct = () => {
                                             />
                                             <Input
                                                 {...field}
-                                                placeholder="Enter the price"
+                                                placeholder="Price"
                                                 type="number"
                                             />
                                         </InputGroup>

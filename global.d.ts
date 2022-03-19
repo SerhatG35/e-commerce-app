@@ -32,6 +32,7 @@ declare module Global {
     declare module Products {
         export interface AddProduct {
             title: string;
+            category: string;
             description: string;
             price: number | "";
             image: string;

@@ -34,12 +34,7 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                 onMouseEnter={() => setHoveringProduct(true)}
                 onMouseLeave={() => setHoveringProduct(false)}
             >
-                <Box
-                    h="150px"
-                    borderTopRadius="12px"
-                    overflow="hidden"
-                    animation={"ease"}
-                >
+                <Box h="150px" borderTopRadius="12px" overflow="hidden">
                     <Image
                         src={product.image}
                         width="250px"
@@ -47,12 +42,7 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                         objectFit={hoveringProduct ? "contain" : "cover"}
                     />
                 </Box>
-                <Stat
-                    // boxShadow="xl"
-                    // borderBottomRadius="12px"
-                    w="100%"
-                    // bg={productBg}
-                >
+                <Stat w="100%">
                     <StatLabel fontSize="1.5rem">{product.title}</StatLabel>
                     <StatNumber>
                         {product.price !== "" &&

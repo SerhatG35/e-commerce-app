@@ -57,7 +57,9 @@ export const Product = {
         return data;
     },
     GET: async (productId: string) => {
-        const { data } = await API.get(`/api/products/${productId}`);
+        const { data } = await API.get<Global.Products.Product>(
+            `/api/products/${productId}`
+        );
         return data;
     },
     GET_ALL: async () => {

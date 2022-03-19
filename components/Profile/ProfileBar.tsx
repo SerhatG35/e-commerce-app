@@ -11,8 +11,9 @@ const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
     return (
         <Center
             w="20%"
-            h="100%"
-            style={{ boxShadow: "0 2px 0px 0px" }}
+            h="89vh"
+            position="sticky"
+            top="10vh"
             flexDir="column"
             fontSize="xl"
             justifyContent="flex-start"

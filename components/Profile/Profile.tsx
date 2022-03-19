@@ -56,7 +56,7 @@ const Profile = () => {
     return (
         <>
             {!noUser ? (
-                <Center w="100%" h="100%">
+                <Center w="100%" h="100%" alignItems="flex-start">
                     <ProfileBar user={user} usersOwnProfile={usersOwnProfile} />
                     <Divider orientation="vertical" boxShadow="xl" />
                     <Center
@@ -68,7 +68,7 @@ const Profile = () => {
                         justifyContent="flex-start"
                     >
                         <Center w="100%" mb="1rem" justifyContent="flex-end">
-                            {usersOwnProfile && <AddProduct />}
+                            {usersOwnProfile && user && <AddProduct />}
                         </Center>
                         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                             {products?.length !== 0 ? (

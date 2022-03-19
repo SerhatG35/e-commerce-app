@@ -18,7 +18,7 @@ const ProfilePage = ({ token }: InferedProfile) => {
     }, []);
 
     return (
-        <Box pt="11vh" w="100%">
+        <Box pt="11vh" w="100%" position="relative">
             <Head>
                 <title>
                     {userToken?.userToken
@@ -30,9 +30,9 @@ const ProfilePage = ({ token }: InferedProfile) => {
             <Center
                 m="auto"
                 maxW="1200px"
-                h="89vh"
+                h="100%"
                 flexDir="column"
-                justifyContent="flex-start"
+                position="relative"
             >
                 <Profile />
             </Center>

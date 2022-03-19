@@ -46,13 +46,12 @@ const ImageUpload = ({ field, setValue }: ImageUploadProps) => {
                 maxFiles={1}
                 name="files"
                 acceptedFileTypes={["image/*"]}
-                labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                labelIdle='Drag & Drop your image or <span class="filepond--label-action">Browse</span>'
                 maxFileSize="3MB"
                 imageValidateSizeMaxWidth={1920}
                 imageValidateSizeMaxHeight={1080}
                 onremovefile={() => setValue("image", "")}
                 onerror={() => setValue("image", "")}
-                // imageCropAspectRatio="2:1"
             />
         </Box>
     );
