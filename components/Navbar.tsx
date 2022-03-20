@@ -1,7 +1,9 @@
 import {
     Button,
     Center,
+    IconButton,
     Link as ChakraLink,
+    Tooltip,
     useColorMode,
 } from "@chakra-ui/react";
 import { ModalState, useModal } from "context/modalContext";
@@ -9,6 +11,7 @@ import { useUserToken } from "context/userContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { BsMoon, BsSun } from "react-icons/bs";
+import { RiFilePaper2Fill } from "react-icons/ri";
 import { SiTrustedshops } from "react-icons/si";
 import { openModal } from "./Modal/CustomModal";
 import ProfileMenuDropdown from "./Profile/ProfileMenuDropdown";
@@ -85,7 +88,22 @@ const Navbar = () => {
                             </Button>
                         </>
                     ) : (
-                        <ProfileMenuDropdown />
+                        <>
+                            <ProfileMenuDropdown />
+                            <Tooltip label="Purchase Requests">
+                                <Link passHref href="/purchase-requests">
+                                    <IconButton
+                                        color="#fff"
+                                        colorScheme="customPurple"
+                                        _focus={{ boxShadow: "none" }}
+                                        mr="1rem"
+                                        rounded="50%"
+                                        aria-label="Purchase Requests"
+                                        icon={<RiFilePaper2Fill />}
+                                    />
+                                </Link>
+                            </Tooltip>
+                        </>
                     )}
                     <Button
                         rounded="50%"

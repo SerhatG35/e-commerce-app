@@ -43,6 +43,7 @@ declare module Global {
             user: string;
             productId: string;
             createdAt: Date;
+            userNameAndSurname: string;
         }
     }
     declare module User {

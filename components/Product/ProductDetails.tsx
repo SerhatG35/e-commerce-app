@@ -1,17 +1,21 @@
 import {
+    Avatar,
     Box,
     Button,
     Center,
+    Divider,
     Flex,
     Heading,
     Text,
     useColorModeValue,
     useMediaQuery,
 } from "@chakra-ui/react";
+import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Product } from "service/axios";
+import { capitalize } from "utils/capitalize";
 
 const ProductDetails = () => {
     const [productDetails, setProductDetails] = useState<
@@ -44,6 +48,14 @@ const ProductDetails = () => {
                     maxW="1200px"
                     w="100%"
                 >
+                    <Head>
+                        <title>{productDetails.title}</title>
+                        <meta
+                            property="og:title"
+                            content="Product"
+                            key="product"
+                        />
+                    </Head>
                     <Flex
                         justifyContent="space-between"
                         flexDir={breakpoint ? "row" : "column"}
@@ -57,7 +69,27 @@ const ProductDetails = () => {
                                 height="400px"
                             />
                         </Box>
-                        <Center ml="2rem">Go to users profile</Center>
+                        <Center
+                            mt={breakpoint ? "" : "1rem"}
+                            flexDir="column"
+                            ml="2rem"
+                        >
+                            <Avatar
+                                size="xl"
+                                name={productDetails.userNameAndSurname}
+                                cursor="pointer"
+                                onClick={() =>
+                                    router.push(
+                                        `/profile/${productDetails.user}`
+                                    )
+                                }
+                            />
+                            <Text mt="1rem" fontWeight="bold">
+                                Seller:
+                            </Text>
+                            <Divider />
+                            <Text>{productDetails.userNameAndSurname}</Text>
+                        </Center>
                     </Flex>
                     <Flex
                         p="1rem"
@@ -68,9 +100,10 @@ const ProductDetails = () => {
                         textAlign="start"
                         bg={productInfoBg}
                         color={productInfoColor}
+                        fontSize="1.1rem"
                     >
                         <Heading fontFamily="Nunito">
-                            {productDetails.title}
+                            {capitalize(productDetails.title)}
                         </Heading>
                         <Flex>
                             <Text color="plum" mr="0.5rem" fontWeight="bold">
@@ -97,7 +130,7 @@ const ProductDetails = () => {
                             <Text>{productDetails.description}</Text>
                         </Flex>
                         <Button mt="1rem" colorScheme="blue">
-                            Send buy request
+                            Contact Seller
                         </Button>
                     </Flex>
                 </Flex>

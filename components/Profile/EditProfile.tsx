@@ -89,8 +89,9 @@ const EditProfile = ({ user }: EditProfileProps) => {
                 size="sm"
                 onClick={onOpen}
                 ref={btnRef}
+                boxShadow="md"
             >
-                Edit
+                Edit Profile
             </Button>
             <Drawer
                 isOpen={isOpen}

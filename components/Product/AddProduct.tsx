@@ -87,6 +87,7 @@ const AddProduct = () => {
                 leftIcon={<AiOutlinePlus />}
                 ref={btnRef}
                 onClick={onOpen}
+                boxShadow="md"
             >
                 Add New Product
             </Button>
