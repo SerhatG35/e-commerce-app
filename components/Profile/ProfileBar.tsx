@@ -1,4 +1,12 @@
-import { Avatar, Center, Text } from "@chakra-ui/react";
+import {
+    Avatar,
+    Box,
+    Center,
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
+    Text,
+} from "@chakra-ui/react";
 import dayjs from "dayjs";
 import EditProfile from "./EditProfile";
 
@@ -19,7 +27,7 @@ const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
             justifyContent="flex-start"
             userSelect="none"
         >
-            {user && (
+            {user ? (
                 <>
                     <Avatar
                         size="2xl"
@@ -47,6 +55,45 @@ const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
                     </Center>
                     {usersOwnProfile && <EditProfile user={user} />}
                 </>
+            ) : (
+                <Box>
+                    <SkeletonCircle
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                        size="128px"
+                    />
+                    <SkeletonText
+                        rounded="12px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                        h="20px"
+                        mt="3.5rem"
+                        noOfLines={2}
+                    />
+                    <SkeletonText
+                        rounded="12px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                        h="20px"
+                        mt="3.5rem"
+                        noOfLines={2}
+                    />
+                    <SkeletonText
+                        rounded="12px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                        h="20px"
+                        mt="3.5rem"
+                        noOfLines={2}
+                    />
+                    <Skeleton
+                        rounded="12px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                        h="30px"
+                        mt="3.5rem"
+                    />
+                </Box>
             )}
         </Center>
     );

@@ -1,4 +1,4 @@
-import { Center, Divider, Grid, Text } from "@chakra-ui/react";
+import { Center, Divider, Grid, Skeleton, Text } from "@chakra-ui/react";
 import ProductCard from "components/Product/ProductCard";
 import ProfileBar from "components/Profile/ProfileBar";
 import { Toaster } from "components/Toster";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { User } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { skeletons } from "../../constants";
 import AddProduct from "../Product/AddProduct";
 
 interface State {
@@ -68,20 +69,44 @@ const Profile = () => {
                         justifyContent="flex-start"
                     >
                         <Center w="100%" mb="1rem" justifyContent="flex-end">
-                            {usersOwnProfile && user && <AddProduct />}
+                            {usersOwnProfile && user ? (
+                                <AddProduct />
+                            ) : (
+                                <Skeleton
+                                    h="40px"
+                                    w="100%"
+                                    startColor="#262355"
+                                    endColor="#7B75C7"
+                                    rounded="12px"
+                                />
+                            )}
                         </Center>
                         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                             {products?.length !== 0 ? (
-                                products?.map((userProduct) => {
-                                    return (
-                                        <ProductCard
-                                            key={userProduct._id}
-                                            product={userProduct}
+                                products ? (
+                                    products?.map((userProduct) => {
+                                        return (
+                                            <ProductCard
+                                                key={userProduct._id}
+                                                product={userProduct}
+                                            />
+                                        );
+                                    })
+                                ) : (
+                                    skeletons.map((key) => (
+                                        <Skeleton
+                                            key={key}
+                                            rounded="12px"
+                                            width="250px"
+                                            height="250px"
+                                            m="auto"
+                                            startColor="#262355"
+                                            endColor="#7B75C7"
                                         />
-                                    );
-                                })
+                                    ))
+                                )
                             ) : (
-                                <Center alignItems="flex-start">
+                                <Center h="100vh" alignItems="flex-start">
                                     <Text fontSize="xl">
                                         You don't have any products.
                                     </Text>

@@ -90,19 +90,21 @@ const Navbar = () => {
                     ) : (
                         <>
                             <ProfileMenuDropdown />
-                            <Tooltip label="Purchase Requests">
-                                <Link passHref href="/purchase-requests">
-                                    <IconButton
-                                        color="#fff"
-                                        colorScheme="customPurple"
-                                        _focus={{ boxShadow: "none" }}
-                                        mr="1rem"
-                                        rounded="50%"
-                                        aria-label="Purchase Requests"
-                                        icon={<RiFilePaper2Fill />}
-                                    />
-                                </Link>
-                            </Tooltip>
+                            <Link passHref href="/purchase-requests">
+                                <div>
+                                    <Tooltip label="Purchase Requests">
+                                        <IconButton
+                                            color="#fff"
+                                            colorScheme="customPurple"
+                                            _focus={{ boxShadow: "none" }}
+                                            mr="1rem"
+                                            rounded="50%"
+                                            aria-label="Purchase Requests"
+                                            icon={<RiFilePaper2Fill />}
+                                        />
+                                    </Tooltip>
+                                </div>
+                            </Link>
                         </>
                     )}
                     <Button
