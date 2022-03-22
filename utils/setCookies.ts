@@ -11,7 +11,7 @@ export const setCookieAuthToken = (token: {
             process.env.NODE_ENV === "development"
                 ? "localhost"
                 : "e-commerce-app-pink.vercel.app",
-        sameSite: process.env.NODE_ENV === "development" ? "strict" : "none",
+        sameSite: process.env.NODE_ENV === "development" ? "Strict" : "None",
         secure: process.env.NODE_ENV === "development" ? false : true,
     });
     Cookies.set("refreshToken", token.refreshToken, {
@@ -20,7 +20,7 @@ export const setCookieAuthToken = (token: {
             process.env.NODE_ENV === "development"
                 ? "localhost"
                 : "e-commerce-app-pink.vercel.app",
-        sameSite: process.env.NODE_ENV === "development" ? "strict" : "none",
+        sameSite: process.env.NODE_ENV === "development" ? "Strict" : "None",
         secure: process.env.NODE_ENV === "development" ? false : true,
     });
 };
