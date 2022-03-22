@@ -17,6 +17,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Toaster } from "components/Toster";
 import { useUserToken } from "context/userContext";
+import Router from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -72,8 +73,10 @@ const EditProfile = ({ user }: EditProfileProps) => {
                 );
             }
             onClose();
-        } catch (error) {
-            Toaster("", "Can't update your profile", "error");
+        } catch (error: any) {
+            Router.push("/");
+            userToken?.setUserToken(undefined);
+            Toaster("", `${error.response.data}`, "error");
         }
         setLoading(false);
     };

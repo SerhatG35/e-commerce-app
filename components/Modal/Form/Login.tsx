@@ -45,7 +45,6 @@ const Login = () => {
         setIsLoading(true);
         try {
             const retrievedToken = await Auth.LOGIN(data);
-            // setCookieAuthToken(retrievedToken);
             userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
             closeModal(modal);
             Toaster("Login successful", "", "success");
