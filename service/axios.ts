@@ -1,7 +1,7 @@
 import axios from "axios";
 import process from "process";
 
-const PROD_API = "https://e-commerce-app-be.herokuapp.com";
+const PROD_API = "https://backend.e-commerce-app.me";
 const LOCAL_API = "http://localhost:3001";
 
 const API = axios.create({
