@@ -3,13 +3,11 @@ import {
     Box,
     Button,
     Center,
-    Divider,
     Flex,
     Heading,
     Text,
-    useColorModeValue,
-    useMediaQuery,
 } from "@chakra-ui/react";
+import Breadcrumb from "components/Breadcrumb";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -27,11 +25,6 @@ const ProductDetails = () => {
     const getProduct = async () => {
         setProductDetails(await Product.GET(_id as string));
     };
-
-    const [breakpoint] = useMediaQuery("(min-width: 1095px)");
-
-    const productInfoBg = useColorModeValue("#583870", "#C5DCA0");
-    const productInfoColor = useColorModeValue("#fff", "#1f1f1f");
 
     useEffect(() => {
         getProduct();
@@ -56,82 +49,93 @@ const ProductDetails = () => {
                             key="product"
                         />
                     </Head>
-                    <Flex
-                        justifyContent="space-between"
-                        flexDir={breakpoint ? "row" : "column"}
-                        w="75%"
-                        alignItems={breakpoint ? "" : "center"}
-                    >
-                        <Box height="400px" rounded="6px" overflow="hidden">
-                            <Image
-                                src={productDetails?.image}
-                                width="600px"
-                                height="400px"
-                            />
-                        </Box>
-                        <Center
-                            mt={breakpoint ? "" : "1rem"}
-                            flexDir="column"
-                            ml="2rem"
+                    <Breadcrumb
+                        parentPath={`/profile/${productDetails.user}`}
+                        parentText={productDetails.userNameAndSurname}
+                        childText={productDetails.title}
+                    />
+
+                    <Flex mt="1rem" w="100%">
+                        <Box
+                            w="70%"
+                            h="500px"
+                            rounded="6px"
+                            overflow="hidden"
+                            position="relative"
+                            boxShadow="xl"
                         >
-                            <Avatar
-                                size="xl"
-                                name={productDetails.userNameAndSurname}
-                                cursor="pointer"
-                                onClick={() =>
-                                    router.push(
-                                        `/profile/${productDetails.user}`
-                                    )
-                                }
-                            />
-                            <Text mt="1rem" fontWeight="bold">
-                                Seller:
-                            </Text>
-                            <Divider />
-                            <Text>{productDetails.userNameAndSurname}</Text>
-                        </Center>
-                    </Flex>
-                    <Flex
-                        p="1rem"
-                        mt="1rem"
-                        flexDir="column"
-                        w="75%"
-                        rounded="6px"
-                        textAlign="start"
-                        bg={productInfoBg}
-                        color={productInfoColor}
-                        fontSize="1.1rem"
-                    >
-                        <Heading fontFamily="Nunito">
-                            {capitalize(productDetails.title)}
-                        </Heading>
-                        <Flex>
-                            <Text color="plum" mr="0.5rem" fontWeight="bold">
-                                Category:
-                            </Text>
-                            <Text>{productDetails.category}</Text>
+                            <Image src={productDetails?.image} layout="fill" />
+                        </Box>
+                        <Flex
+                            pl="2rem"
+                            flexDir="column"
+                            w="30%"
+                            rounded="6px"
+                            textAlign="start"
+                            fontSize="1.1rem"
+                            justifyContent="space-between"
+                        >
+                            <Heading alignSelf="center" fontFamily="Nunito">
+                                {capitalize(productDetails.title)}
+                            </Heading>
+                            <Center flexDir="column">
+                                <Avatar
+                                    size="xl"
+                                    name={productDetails.userNameAndSurname}
+                                    cursor="pointer"
+                                    onClick={() =>
+                                        router.push(
+                                            `/profile/${productDetails.user}`
+                                        )
+                                    }
+                                />
+                                <Text mt="1rem" fontWeight="bold">
+                                    Seller:
+                                </Text>
+                                <Text>{productDetails.userNameAndSurname}</Text>
+                            </Center>
+                            <Flex flexDir="column">
+                                <Flex>
+                                    <Text
+                                        color="plum"
+                                        mr="0.5rem"
+                                        fontWeight="bold"
+                                    >
+                                        Category:
+                                    </Text>
+                                    <Text>{productDetails.category}</Text>
+                                </Flex>
+                                <Flex>
+                                    <Text
+                                        color="plum"
+                                        mr="0.5rem"
+                                        fontWeight="bold"
+                                    >
+                                        Price:
+                                    </Text>
+                                    <Text color="#85bb65">
+                                        {productDetails.price !== "" &&
+                                            new Intl.NumberFormat("tr-TR", {
+                                                style: "currency",
+                                                currency: "TRY",
+                                            }).format(productDetails.price)}
+                                    </Text>
+                                </Flex>
+                                <Flex>
+                                    <Text
+                                        color="plum"
+                                        mr="0.5rem"
+                                        fontWeight="bold"
+                                    >
+                                        Description:
+                                    </Text>
+                                    <Text>{productDetails.description}</Text>
+                                </Flex>
+                            </Flex>
+                            <Button mt="1rem" colorScheme="blue">
+                                Contact the seller
+                            </Button>
                         </Flex>
-                        <Flex>
-                            <Text color="plum" mr="0.5rem" fontWeight="bold">
-                                Price:
-                            </Text>
-                            <Text color="#85bb65">
-                                {productDetails.price !== "" &&
-                                    new Intl.NumberFormat("tr-TR", {
-                                        style: "currency",
-                                        currency: "TRY",
-                                    }).format(productDetails.price)}
-                            </Text>
-                        </Flex>
-                        <Flex>
-                            <Text color="plum" mr="0.5rem" fontWeight="bold">
-                                Description:
-                            </Text>
-                            <Text>{productDetails.description}</Text>
-                        </Flex>
-                        <Button mt="1rem" colorScheme="blue">
-                            Contact Seller
-                        </Button>
                     </Flex>
                 </Flex>
             )}
