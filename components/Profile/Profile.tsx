@@ -1,7 +1,7 @@
 import { Center, Divider, Grid, Skeleton, Text } from "@chakra-ui/react";
 import ProductCard from "components/Product/ProductCard";
 import ProfileBar from "components/Profile/ProfileBar";
-import { Toaster } from "components/Toster";
+import { Toaster } from "utils/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";

@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ImageUpload from "components/ImageUpload";
-import { Toaster } from "components/Toster";
+import { Toaster } from "utils/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import Router from "next/router";

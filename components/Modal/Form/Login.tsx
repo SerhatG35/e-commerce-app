@@ -10,7 +10,7 @@ import {
     useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Toaster } from "components/Toster";
+import { Toaster } from "utils/Toster";
 import { useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";

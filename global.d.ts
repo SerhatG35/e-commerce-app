@@ -34,7 +34,7 @@ declare module Global {
             title: string;
             category: string;
             description: string;
-            price: number | "";
+            price: number;
             image: string;
         }
 

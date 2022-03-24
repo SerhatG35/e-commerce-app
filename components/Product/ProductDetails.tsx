@@ -114,11 +114,10 @@ const ProductDetails = () => {
                                         Price:
                                     </Text>
                                     <Text color="#85bb65">
-                                        {productDetails.price !== "" &&
-                                            new Intl.NumberFormat("tr-TR", {
-                                                style: "currency",
-                                                currency: "TRY",
-                                            }).format(productDetails.price)}
+                                        {new Intl.NumberFormat("tr-TR", {
+                                            style: "currency",
+                                            currency: "TRY",
+                                        }).format(productDetails.price)}
                                     </Text>
                                 </Flex>
                                 <Flex>

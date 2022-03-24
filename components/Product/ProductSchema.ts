@@ -10,6 +10,7 @@ export const addProductSchema = yup.object().shape({
         .required("Description is required."),
     price: yup
         .number()
+        .min(1)
         .typeError("Price must be a number.")
         .required("Price is required."),
     image: yup.string().required("Image is required."),

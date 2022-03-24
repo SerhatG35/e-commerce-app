@@ -1,5 +1,4 @@
 import { Box, Center } from "@chakra-ui/layout";
-import Filter from "components/Filter";
 import Products from "components/Product/Products";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
@@ -35,8 +34,7 @@ const Home = ({ token }: InferedHome) => {
                 justifyContent="space-between"
                 position="relative"
             >
-                <Filter />
-                <Center w="80%" h="100%">
+                <Center alignItems="flex-start" w="100%" h="100%">
                     <Products />
                 </Center>
             </Center>

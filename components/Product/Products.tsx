@@ -1,15 +1,19 @@
 import { Grid } from "@chakra-ui/layout";
-import { Skeleton } from "@chakra-ui/react";
+import { Divider, Skeleton } from "@chakra-ui/react";
+import Filter from "components/Filter";
 import ProductCard from "components/Product/ProductCard";
-import { Toaster } from "components/Toster";
+import { Toaster } from "utils/Toster";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Product as ProductService } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
 import { skeletons } from "../../constants";
 
 const Products = () => {
     const [products, setProducts] = useAtom(ProductJotai);
+    const [highestPrice, setHighestPrice] = useState<number | undefined>(
+        undefined
+    );
 
     const fetchProductData = async () => {
         try {
@@ -27,27 +31,38 @@ const Products = () => {
     };
 
     useEffect(() => {
+        products &&
+            setHighestPrice(
+                Math.max(...products?.map((product) => product.price))
+            );
+    }, [products]);
+
+    useEffect(() => {
         fetchProductData();
     }, []);
 
     return (
-        <Grid w="100%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
-            {products
-                ? products?.map((product) => (
-                      <ProductCard key={product._id} product={product} />
-                  ))
-                : skeletons.map((key) => (
-                      <Skeleton
-                          key={key}
-                          rounded="12px"
-                          width="250px"
-                          height="250px"
-                          m="auto"
-                          startColor="#262355"
-                          endColor="#7B75C7"
-                      />
-                  ))}
-        </Grid>
+        <>
+            {products && <Filter highestPrice={highestPrice} />}
+            <Divider orientation="vertical" h="89vh" />
+            <Grid w="80%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
+                {products
+                    ? products?.map((product) => (
+                          <ProductCard key={product._id} product={product} />
+                      ))
+                    : skeletons.map((key) => (
+                          <Skeleton
+                              key={key}
+                              rounded="12px"
+                              width="250px"
+                              height="250px"
+                              m="auto"
+                              startColor="#262355"
+                              endColor="#7B75C7"
+                          />
+                      ))}
+            </Grid>
+        </>
     );
 };
 

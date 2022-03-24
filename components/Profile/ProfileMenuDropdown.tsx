@@ -19,7 +19,7 @@ import Router from "next/router";
 import { CgLogOut } from "react-icons/cg";
 import { FiSettings } from "react-icons/fi";
 import { Auth } from "service/axios";
-import { Toaster } from "../Toster";
+import { Toaster } from "../../utils/Toster";
 
 const ProfileMenuDropdown = () => {
     const userToken = useUserToken();

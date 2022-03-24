@@ -45,12 +45,11 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                 <Stat w="100%">
                     <StatLabel fontSize="1.5rem">{product.title}</StatLabel>
                     <StatNumber>
-                        {product.price !== "" &&
-                            `${new Intl.NumberFormat("tr-TR", {
-                                style: "currency",
-                                currency: "TRY",
-                                notation: "compact",
-                            }).format(product.price)}`}
+                        {`${new Intl.NumberFormat("tr-TR", {
+                            style: "currency",
+                            currency: "TRY",
+                            notation: "compact",
+                        }).format(product.price)}`}
                     </StatNumber>
                     <StatHelpText>
                         {dayjs(product.createdAt).format("DD/MM/YYYY")}

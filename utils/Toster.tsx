@@ -6,7 +6,8 @@ const Toast = createStandaloneToast({ theme });
 export const Toaster = (
     title: string,
     description: string,
-    status: "error" | "success" | "warning"
+    status: "error" | "success" | "warning" | "info",
+    position: "top" | "bottom" = "top"
 ) => {
     Toast({
         title,
@@ -14,6 +15,6 @@ export const Toaster = (
         status,
         duration: 3000,
         isClosable: true,
-        position: "top",
+        position: position,
     });
 };
