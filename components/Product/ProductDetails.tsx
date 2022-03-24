@@ -117,6 +117,7 @@ const ProductDetails = () => {
                                         {new Intl.NumberFormat("tr-TR", {
                                             style: "currency",
                                             currency: "TRY",
+                                            
                                         }).format(productDetails.price)}
                                     </Text>
                                 </Flex>

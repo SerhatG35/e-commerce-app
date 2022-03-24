@@ -28,21 +28,23 @@ const Filter = ({ highestPrice }: FilterProps) => {
                     position="sticky"
                     top="10vh"
                     h="89vh"
-                    w="20%"
+                    w="25%"
                     px="1rem"
                 >
                     {range && (
                         <Center w="100%" justifyContent="space-between">
-                            <Text fontSize="0.75rem">
+                            <Text>
                                 {new Intl.NumberFormat("tr-TR", {
                                     style: "currency",
                                     currency: "TRY",
+                                    notation: "compact",
                                 }).format(range[0])}
                             </Text>
-                            <Text fontSize="0.75rem">
+                            <Text>
                                 {new Intl.NumberFormat("tr-TR", {
                                     style: "currency",
                                     currency: "TRY",
+                                    notation: "compact",
                                 }).format(range[1])}
                             </Text>
                         </Center>
@@ -61,6 +63,7 @@ const Filter = ({ highestPrice }: FilterProps) => {
                         <RangeSliderThumb index={1} />
                     </RangeSlider>
                     <Button
+                        mt="2rem"
                         boxShadow="xl"
                         color="#fff"
                         colorScheme="customPurple"

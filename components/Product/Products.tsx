@@ -2,11 +2,11 @@ import { Grid } from "@chakra-ui/layout";
 import { Divider, Skeleton } from "@chakra-ui/react";
 import Filter from "components/Filter";
 import ProductCard from "components/Product/ProductCard";
-import { Toaster } from "utils/Toster";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Product as ProductService } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { Toaster } from "utils/Toster";
 import { skeletons } from "../../constants";
 
 const Products = () => {
@@ -45,7 +45,7 @@ const Products = () => {
         <>
             {products && <Filter highestPrice={highestPrice} />}
             <Divider orientation="vertical" h="89vh" />
-            <Grid w="80%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
+            <Grid w="75%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
                 {products
                     ? products?.map((product) => (
                           <ProductCard key={product._id} product={product} />

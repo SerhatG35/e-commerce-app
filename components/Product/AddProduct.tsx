@@ -19,7 +19,6 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ImageUpload from "components/ImageUpload";
-import { Toaster } from "utils/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import Router from "next/router";
@@ -28,6 +27,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Product } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { Toaster } from "utils/Toster";
 import { productCategories } from "../../constants";
 import { addProductSchema } from "./ProductSchema";
 
@@ -43,7 +43,7 @@ const AddProduct = () => {
         defaultValues: {
             title: "",
             category: "",
-            price: "",
+            price: 0,
             image: "",
             description: "",
         },
