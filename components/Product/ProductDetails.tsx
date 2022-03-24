@@ -6,6 +6,7 @@ import {
     Flex,
     Heading,
     Text,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import Breadcrumb from "components/Breadcrumb";
 import Head from "next/head";
@@ -30,16 +31,18 @@ const ProductDetails = () => {
         getProduct();
     }, []);
 
+    const colors = useColorModeValue("#583870", "#ECFEAA");
+
     return (
         <>
             {productDetails && (
                 <Flex
-                    alignItems="center"
                     userSelect="none"
                     h="100%"
                     flexDir="column"
                     maxW="1200px"
                     w="100%"
+                    fontSize="1.1rem"
                 >
                     <Head>
                         <title>{productDetails.title}</title>
@@ -55,6 +58,9 @@ const ProductDetails = () => {
                         childText={productDetails.title}
                     />
 
+                    <Heading alignSelf="center" fontFamily="Nunito">
+                        {capitalize(productDetails.title)}
+                    </Heading>
                     <Flex mt="1rem" w="100%">
                         <Box
                             w="70%"
@@ -62,7 +68,7 @@ const ProductDetails = () => {
                             rounded="6px"
                             overflow="hidden"
                             position="relative"
-                            boxShadow="xl"
+                            boxShadow="md"
                         >
                             <Image src={productDetails?.image} layout="fill" />
                         </Box>
@@ -72,12 +78,8 @@ const ProductDetails = () => {
                             w="30%"
                             rounded="6px"
                             textAlign="start"
-                            fontSize="1.1rem"
                             justifyContent="space-between"
                         >
-                            <Heading alignSelf="center" fontFamily="Nunito">
-                                {capitalize(productDetails.title)}
-                            </Heading>
                             <Center flexDir="column">
                                 <Avatar
                                     size="xl"
@@ -89,15 +91,23 @@ const ProductDetails = () => {
                                         )
                                     }
                                 />
-                                <Text mt="1rem" fontWeight="bold">
-                                    Seller:
-                                </Text>
-                                <Text>{productDetails.userNameAndSurname}</Text>
+                                <Flex mt="1rem">
+                                    <Text
+                                        color={colors}
+                                        mr="1rem"
+                                        fontWeight="bold"
+                                    >
+                                        Seller:
+                                    </Text>
+                                    <Text>
+                                        {productDetails.userNameAndSurname}
+                                    </Text>
+                                </Flex>
                             </Center>
-                            <Flex flexDir="column">
+                            <Center flexDir="column">
                                 <Flex>
                                     <Text
-                                        color="plum"
+                                        color={colors}
                                         mr="0.5rem"
                                         fontWeight="bold"
                                     >
@@ -107,7 +117,7 @@ const ProductDetails = () => {
                                 </Flex>
                                 <Flex>
                                     <Text
-                                        color="plum"
+                                        color={colors}
                                         mr="0.5rem"
                                         fontWeight="bold"
                                     >
@@ -117,25 +127,20 @@ const ProductDetails = () => {
                                         {new Intl.NumberFormat("tr-TR", {
                                             style: "currency",
                                             currency: "TRY",
-                                            
                                         }).format(productDetails.price)}
                                     </Text>
                                 </Flex>
-                                <Flex>
-                                    <Text
-                                        color="plum"
-                                        mr="0.5rem"
-                                        fontWeight="bold"
-                                    >
-                                        Description:
-                                    </Text>
-                                    <Text>{productDetails.description}</Text>
-                                </Flex>
-                            </Flex>
+                            </Center>
                             <Button mt="1rem" colorScheme="blue">
                                 Contact the seller
                             </Button>
                         </Flex>
+                    </Flex>
+                    <Flex mt="2rem">
+                        <Text color={colors} mr="0.5rem" fontWeight="bold">
+                            Description:
+                        </Text>
+                        <Text>{productDetails.description}</Text>
                     </Flex>
                 </Flex>
             )}
