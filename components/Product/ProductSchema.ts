@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const addProductSchema = yup.object().shape({
-    title: yup.string().required("Title is required."),
+    title: yup.string().required("Title is required.").max(50,"Title can't be over 50 characters.").min(3,"Title must be at least 3 characters."),
     category: yup.string().required("Category is required."),
     description: yup
         .string()

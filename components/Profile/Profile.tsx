@@ -1,13 +1,13 @@
 import { Center, Divider, Grid, Skeleton, Text } from "@chakra-ui/react";
 import ProductCard from "components/Product/ProductCard";
 import ProfileBar from "components/Profile/ProfileBar";
-import { Toaster } from "utils/Toster";
 import { useUserToken } from "context/userContext";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { User } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { Toaster } from "utils/Toster";
 import { skeletons } from "../../constants";
 import AddProduct from "../Product/AddProduct";
 
@@ -69,17 +69,7 @@ const Profile = () => {
                         justifyContent="flex-start"
                     >
                         <Center w="100%" mb="1rem" justifyContent="flex-end">
-                            {usersOwnProfile && user ? (
-                                <AddProduct />
-                            ) : (
-                                <Skeleton
-                                    h="40px"
-                                    w="100%"
-                                    startColor="#262355"
-                                    endColor="#7B75C7"
-                                    rounded="12px"
-                                />
-                            )}
+                            {usersOwnProfile && user && <AddProduct />}
                         </Center>
                         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                             {products?.length !== 0 ? (
@@ -116,7 +106,7 @@ const Profile = () => {
                     </Center>
                 </Center>
             ) : (
-                <div>Cannot find user</div>
+                <Text>Cannot find user</Text>
             )}
         </>
     );

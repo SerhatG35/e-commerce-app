@@ -1,4 +1,5 @@
 import {
+    Badge,
     Box,
     Stat,
     StatHelpText,
@@ -11,11 +12,18 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { oneDayInMilliseconds } from "../../constants";
 
 const ProductCard = ({ product }: { product: Global.Products.Product }) => {
     const [hoveringProduct, setHoveringProduct] = useState(false);
     const productBg = useColorModeValue("#262355", "#7B75C7");
     const productColor = useColorModeValue("#fff", "#1f1f1f");
+
+    const isNewProduct =
+        dayjs().diff(dayjs(product.createdAt)) > oneDayInMilliseconds
+            ? false
+            : true;
+
     return (
         <Link href={`/product/${product._id}`}>
             <MotionCenter
@@ -33,7 +41,21 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                 }}
                 onMouseEnter={() => setHoveringProduct(true)}
                 onMouseLeave={() => setHoveringProduct(false)}
+                position="relative"
             >
+                {isNewProduct && (
+                    <Badge
+                        position="absolute"
+                        top="0px"
+                        right="0px"
+                        zIndex={500}
+                        variant="solid"
+                        rounded="12px"
+                        colorScheme="green"
+                    >
+                        New
+                    </Badge>
+                )}
                 <Box h="150px" borderTopRadius="12px" overflow="hidden">
                     <Image
                         src={product.image}
@@ -45,11 +67,11 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                 <Stat w="100%">
                     <StatLabel fontSize="1.5rem">{product.title}</StatLabel>
                     <StatNumber>
-                        {`${new Intl.NumberFormat("tr-TR", {
+                        {new Intl.NumberFormat("tr-TR", {
                             style: "currency",
                             currency: "TRY",
                             notation: "compact",
-                        }).format(product.price)}`}
+                        }).format(product.price)}
                     </StatNumber>
                     <StatHelpText>
                         {dayjs(product.createdAt).format("DD/MM/YYYY")}
