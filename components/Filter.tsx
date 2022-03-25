@@ -5,16 +5,27 @@ import {
     RangeSliderFilledTrack,
     RangeSliderThumb,
     RangeSliderTrack,
+    Select,
     Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { productCategories } from "../constants";
 
 interface FilterProps {
     highestPrice: number | undefined;
+    filterProducts: (
+        category: string,
+        priceRange?: number[] | undefined
+    ) => void;
 }
 
-const Filter = ({ highestPrice }: FilterProps) => {
+const Filter = ({ highestPrice, filterProducts }: FilterProps) => {
     const [range, setRange] = useState<number[] | undefined>(undefined);
+    const [category, setCategory] = useState<string>("");
+
+    const applyFilter = () => {
+        filterProducts(category);
+    };
 
     useEffect(() => {
         highestPrice && setRange([0, highestPrice]);
@@ -31,23 +42,57 @@ const Filter = ({ highestPrice }: FilterProps) => {
                     w="25%"
                     px="1rem"
                 >
-                    {range && (
-                        <Center w="100%" justifyContent="space-between">
-                            <Text>
-                                {new Intl.NumberFormat("tr-TR", {
-                                    style: "currency",
-                                    currency: "TRY",
-                                    notation: "compact",
-                                }).format(range[0])}
-                            </Text>
-                            <Text>
-                                {new Intl.NumberFormat("tr-TR", {
-                                    style: "currency",
-                                    currency: "TRY",
-                                    notation: "compact",
-                                }).format(range[1])}
-                            </Text>
+                    <Center mb="3rem" flexDir="column">
+                        <Text decoration="underline" mb="1rem">
+                            Category
+                        </Text>
+                        <Center>
+                            <Select
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                name="category"
+                            >
+                                {productCategories.map((category, index) => (
+                                    <option
+                                        key={category}
+                                        value={category}
+                                        hidden={index === 0 ? true : false}
+                                    >
+                                        {category}
+                                    </option>
+                                ))}
+                            </Select>
+                            {category !== "" && (
+                                <Button
+                                    onClick={() => setCategory("")}
+                                    colorScheme="red"
+                                    ml="0.5rem"
+                                >
+                                    X
+                                </Button>
+                            )}
                         </Center>
+                    </Center>
+                    {range && (
+                        <>
+                            <Text decoration="underline">Price Range</Text>
+                            <Center w="100%" justifyContent="space-between">
+                                <Text>
+                                    {new Intl.NumberFormat("tr-TR", {
+                                        style: "currency",
+                                        currency: "TRY",
+                                        notation: "compact",
+                                    }).format(range[0])}
+                                </Text>
+                                <Text>
+                                    {new Intl.NumberFormat("tr-TR", {
+                                        style: "currency",
+                                        currency: "TRY",
+                                        notation: "compact",
+                                    }).format(range[1])}
+                                </Text>
+                            </Center>
+                        </>
                     )}
                     <RangeSlider
                         aria-label={["min", "max"]}
@@ -67,6 +112,7 @@ const Filter = ({ highestPrice }: FilterProps) => {
                         boxShadow="xl"
                         color="#fff"
                         colorScheme="customPurple"
+                        onClick={applyFilter}
                     >
                         Apply Filter
                     </Button>

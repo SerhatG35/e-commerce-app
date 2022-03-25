@@ -11,11 +11,9 @@ import { MotionCenter } from "components/MotionComponents";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { oneDayInMilliseconds } from "../../constants";
 
 const ProductCard = ({ product }: { product: Global.Products.Product }) => {
-    const [hoveringProduct, setHoveringProduct] = useState(false);
     const productBg = useColorModeValue("#262355", "#7B75C7");
     const productColor = useColorModeValue("#fff", "#1f1f1f");
 
@@ -39,8 +37,6 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                     y: -5,
                     transition: { type: "tween", duration: 0.15 },
                 }}
-                onMouseEnter={() => setHoveringProduct(true)}
-                onMouseLeave={() => setHoveringProduct(false)}
                 position="relative"
             >
                 {isNewProduct && (
@@ -52,17 +48,13 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                         variant="solid"
                         rounded="12px"
                         colorScheme="green"
+                        fontSize="xx-small"
                     >
                         New
                     </Badge>
                 )}
                 <Box h="150px" borderTopRadius="12px" overflow="hidden">
-                    <Image
-                        src={product.image}
-                        width="250px"
-                        height="150px"
-                        objectFit={hoveringProduct ? "contain" : "cover"}
-                    />
+                    <Image src={product.image} width="250px" height="150px" />
                 </Box>
                 <Stat w="100%">
                     <StatLabel fontSize="1.5rem">{product.title}</StatLabel>

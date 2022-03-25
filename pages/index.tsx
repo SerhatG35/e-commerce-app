@@ -1,6 +1,7 @@
 import { Box, Center } from "@chakra-ui/layout";
 import Products from "components/Product/Products";
 import { useUserToken } from "context/userContext";
+import { useAtom } from 'jotai';
 import jwtDecode from "jwt-decode";
 import type {
     GetServerSidePropsContext,
@@ -9,11 +10,34 @@ import type {
 import cookies from "next-cookies";
 import Head from "next/head";
 import { useEffect } from "react";
+import { products as ProductJotai } from "store/jotaiStore";
+import { Product as ProductService } from "service/axios";
+import { Toaster } from 'utils/Toster';
 
 type InferedHome = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home = ({ token }: InferedHome) => {
     const userToken = useUserToken();
+    const [products, setProducts] = useAtom(ProductJotai);
+
+    const fetchProductData = async () => {
+        try {
+            const result = await ProductService.GET_ALL();
+            setProducts(result);
+        } catch (error: any) {
+            if (error.response?.status === 404 || error.response === undefined)
+                return Toaster(
+                    "",
+                    "There is a problem with the server please try again",
+                    "error"
+                );
+            Toaster("", `${error.response.data}`, "error");
+        }
+    };
+
+    useEffect(() => {
+        fetchProductData();
+    }, []);
 
     useEffect(() => {
         token.accessToken &&
@@ -35,7 +59,7 @@ const Home = ({ token }: InferedHome) => {
                 position="relative"
             >
                 <Center alignItems="flex-start" w="100%" h="100%">
-                    <Products />
+                    <Products productList={products}/>
                 </Center>
             </Center>
         </Box>

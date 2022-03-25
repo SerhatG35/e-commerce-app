@@ -53,8 +53,8 @@ const ProductDetails = () => {
                         />
                     </Head>
                     <Breadcrumb
-                        parentPath={`/profile/${productDetails.user}`}
-                        parentText={productDetails.userNameAndSurname}
+                        // parentPath={}
+                        parentText={productDetails.category}
                         childText={productDetails.title}
                     />
 
