@@ -3,6 +3,7 @@ import { Divider, Skeleton } from "@chakra-ui/react";
 import Filter from "components/Filter";
 import ProductCard from "components/Product/ProductCard";
 import { useEffect, useState } from "react";
+import { Product } from "service/axios";
 import { skeletons } from "../../constants";
 
 interface ProductsTypes {
@@ -22,16 +23,16 @@ const Products = ({ productList }: ProductsTypes) => {
     }, [productList]);
 
     useEffect(() => {
-        products &&
+        productList &&
             setHighestPrice(
-                Math.max(...products?.map((product) => product.price))
+                Math.max(...productList?.map((product) => product.price))
             );
     }, [products]);
 
-    const FilterProducts = (category: string, priceRange?: number[]) => {
-        setProducts(
-            productList?.filter((product) => product.category === category)
-        );
+    const FilterProducts = async (category?: string, priceRange?: number[]) => {
+        const params = { category, priceRange };
+        if (category === "") delete params.category;
+        setProducts(await Product.GET_ALL_FILTERED(params));
     };
 
     return (

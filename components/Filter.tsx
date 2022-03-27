@@ -24,7 +24,7 @@ const Filter = ({ highestPrice, filterProducts }: FilterProps) => {
     const [category, setCategory] = useState<string>("");
 
     const applyFilter = () => {
-        filterProducts(category);
+        filterProducts(category,range);
     };
 
     useEffect(() => {
