@@ -1,5 +1,5 @@
 import { Grid } from "@chakra-ui/layout";
-import { Divider, Skeleton } from "@chakra-ui/react";
+import { Divider, Skeleton, Spinner } from "@chakra-ui/react";
 import Filter from "components/Filter";
 import ProductCard from "components/Product/ProductCard";
 import { useEffect, useState } from "react";
@@ -7,59 +7,94 @@ import { Product } from "service/axios";
 import { skeletons } from "../../constants";
 
 interface ProductsTypes {
-    productList: Global.Products.Product[] | undefined;
+    allProducts: Global.Products.Product[] | undefined;
+    allProductHighestPrice: number | undefined;
+    redirectedCategory: string | undefined;
 }
 
-const Products = ({ productList }: ProductsTypes) => {
-    const [products, setProducts] = useState<
-        Global.Products.Product[] | undefined
-    >(undefined);
-    const [highestPrice, setHighestPrice] = useState<number | undefined>(
-        undefined
-    );
+type StateTypes = {
+    productsList: Global.Products.Product[] | undefined;
+    highestPrice: number | undefined;
+    isLoading: boolean;
+};
+
+const Products = ({
+    allProducts,
+    allProductHighestPrice,
+    redirectedCategory,
+}: ProductsTypes) => {
+    const [{ productsList, highestPrice, isLoading }, setState] =
+        useState<StateTypes>({
+            productsList: undefined,
+            highestPrice: undefined,
+            isLoading: false,
+        });
 
     useEffect(() => {
-        productList && setProducts(productList);
-    }, [productList]);
+        allProducts &&
+            !redirectedCategory &&
+            setState((state) => ({
+                ...state,
+                productsList: allProducts,
+            }));
+    }, [allProducts]);
 
     useEffect(() => {
-        productList &&
-            setHighestPrice(
-                Math.max(...productList?.map((product) => product.price))
-            );
-    }, [products]);
+        setState((state) => ({
+            ...state,
+            highestPrice: allProductHighestPrice,
+        }));
+    }, [allProductHighestPrice]);
 
     const FilterProducts = async (category?: string, priceRange?: number[]) => {
-        const params = { category, priceRange };
-        if (category === "") delete params.category;
-        setProducts(await Product.GET_ALL_FILTERED(params));
+        const params = {
+            category,
+            priceRange,
+        };
+        category === "" && delete params.category;
+        priceRange?.length === 0 && delete params.priceRange;
+        
+        setState((state) => ({ ...state, isLoading: true }));
+        const result = await Product.GET_ALL_FILTERED(params);
+        setState((state) => ({ ...state, ...result, isLoading: false }));
     };
 
     return (
         <>
-            {products && (
-                <Filter
-                    filterProducts={FilterProducts}
-                    highestPrice={highestPrice}
-                />
-            )}
+            <Filter
+                redirectedCategory={redirectedCategory}
+                filterProducts={FilterProducts}
+                highestPrice={highestPrice}
+            />
             <Divider orientation="vertical" h="89vh" />
             <Grid w="75%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
-                {products
-                    ? products?.map((product) => (
-                          <ProductCard key={product._id} product={product} />
-                      ))
-                    : skeletons.map((key) => (
-                          <Skeleton
-                              key={key}
-                              rounded="12px"
-                              width="250px"
-                              height="250px"
-                              m="auto"
-                              startColor="#262355"
-                              endColor="#7B75C7"
-                          />
-                      ))}
+                {productsList ? (
+                    isLoading ? (
+                        <Spinner
+                            size="xl"
+                            colorScheme="customPurple"
+                            top="40%"
+                            left="60%"
+                            position="absolute"
+                        />
+                    ) : (
+                        productsList?.map((product) => (
+                            <ProductCard key={product._id} product={product} />
+                        ))
+                    )
+                ) : (
+                    skeletons.map((key) => (
+                        <Skeleton
+                            key={key}
+                            rounded="12px"
+                            width="250px"
+                            height="250px"
+                            m="auto"
+                            startColor="#262355"
+                            endColor="#7B75C7"
+                        />
+                    ))
+                )}
             </Grid>
         </>
     );

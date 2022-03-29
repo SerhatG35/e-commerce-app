@@ -1,7 +1,7 @@
 import { Box, Center } from "@chakra-ui/layout";
 import Products from "components/Product/Products";
 import { useUserToken } from "context/userContext";
-import { useAtom } from 'jotai';
+import { useAtom } from "jotai";
 import jwtDecode from "jwt-decode";
 import type {
     GetServerSidePropsContext,
@@ -9,28 +9,33 @@ import type {
 } from "next";
 import cookies from "next-cookies";
 import Head from "next/head";
-import { useEffect } from "react";
-import { products as ProductJotai } from "store/jotaiStore";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Product as ProductService } from "service/axios";
-import { Toaster } from 'utils/Toster';
+import { products as ProductJotai } from "store/jotaiStore";
+import { Toaster } from "utils/Toster";
 
 type InferedHome = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home = ({ token }: InferedHome) => {
     const userToken = useUserToken();
     const [products, setProducts] = useAtom(ProductJotai);
+    const [highestPrice, setHighestPrice] = useState<number | undefined>(
+        undefined
+    );
+    const router = useRouter();
+    const data = router.query;
+
+    const redirectedCategory =
+        Object.keys(data).length > 0 ? (data.category as string) : undefined;
 
     const fetchProductData = async () => {
         try {
-            const result = await ProductService.GET_ALL();
-            setProducts(result);
+            const { highestPrice, productsList } =
+                await ProductService.GET_ALL();
+            setProducts(productsList);
+            setHighestPrice(highestPrice);
         } catch (error: any) {
-            if (error.response?.status === 404 || error.response === undefined)
-                return Toaster(
-                    "",
-                    "There is a problem with the server please try again",
-                    "error"
-                );
             Toaster("", `${error.response.data}`, "error");
         }
     };
@@ -58,8 +63,17 @@ const Home = ({ token }: InferedHome) => {
                 justifyContent="space-between"
                 position="relative"
             >
-                <Center alignItems="flex-start" w="100%" h="100%">
-                    <Products productList={products}/>
+                <Center
+                    alignItems="flex-start"
+                    w="100%"
+                    h="100%"
+                    position="relative"
+                >
+                    <Products
+                        allProducts={products}
+                        allProductHighestPrice={highestPrice}
+                        redirectedCategory={redirectedCategory}
+                    />
                 </Center>
             </Center>
         </Box>

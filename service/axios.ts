@@ -63,16 +63,16 @@ export const Product = {
         return data;
     },
     GET_ALL: async () => {
-        const { data } = await API.get<Global.Products.Product[]>(
+        const { data } = await API.get<Global.Products.AllProductResponse>(
             "/api/all-products"
         );
         return data;
     },
-    GET_ALL_FILTERED: async (params?: {
+    GET_ALL_FILTERED: async (params: {
         category?: string;
         priceRange?: number[];
     }) => {
-        const { data } = await API.get<Global.Products.Product[]>(
+        const { data } = await API.get<Global.Products.AllProductResponse>(
             "/api/all-products",
             { params }
         );

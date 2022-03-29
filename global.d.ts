@@ -45,6 +45,11 @@ declare module Global {
             createdAt: Date;
             userNameAndSurname: string;
         }
+
+        export interface AllProductResponse {
+            productsList: Product[] | undefined;
+            highestPrice: number;
+        }
     }
     declare module User {
         export interface UserInfo {

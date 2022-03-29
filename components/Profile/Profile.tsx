@@ -57,7 +57,7 @@ const Profile = () => {
     return (
         <>
             {!noUser ? (
-                <Center w="100%" h="100%" alignItems="flex-start">
+                <Center w="100%" h="89vh" alignItems="flex-start">
                     <ProfileBar user={user} usersOwnProfile={usersOwnProfile} />
                     <Divider orientation="vertical" boxShadow="xl" />
                     <Center

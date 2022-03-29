@@ -8,7 +8,6 @@ import React from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
 interface BreadcrumbTypes {
-    parentPath?: string;
     parentText: string;
     childText: string;
 }
@@ -19,6 +18,7 @@ const Breadcrumb = ({ parentText, childText }: BreadcrumbTypes) => {
             spacing="8px"
             separator={<IoIosArrowForward color="gray.500" />}
             alignSelf="flex-start"
+            fontSize="0.8rem"
         >
             <BreadcrumbItem>
                 <Link passHref href="/">
@@ -27,7 +27,10 @@ const Breadcrumb = ({ parentText, childText }: BreadcrumbTypes) => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-                <Link passHref href="#">
+                <Link
+                    passHref
+                    href={{ pathname: "/", query: { category: parentText } }}
+                >
                     <BreadcrumbLink>{parentText}</BreadcrumbLink>
                 </Link>
             </BreadcrumbItem>

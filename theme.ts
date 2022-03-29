@@ -8,7 +8,7 @@ const customConfig = {
                 color: mode("#1f1f1f", "#fff")(props),
                 bgGradient: mode(
                     undefined,
-                    "linear(to-t, #262355,#30275A,#3A2B60,#443065,#4E346B,#583870)"
+                    "linear(to-t, #262355,#2E275A,#372A5E,#3F2E63,#473167,#50356C,#583870)"
                 )(props),
             },
         }),

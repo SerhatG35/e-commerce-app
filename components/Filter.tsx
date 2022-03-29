@@ -6,9 +6,12 @@ import {
     RangeSliderThumb,
     RangeSliderTrack,
     Select,
+    Skeleton,
+    SkeletonText,
     Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { BiDownArrow } from "react-icons/bi";
 import { productCategories } from "../constants";
 
 interface FilterProps {
@@ -17,15 +20,28 @@ interface FilterProps {
         category: string,
         priceRange?: number[] | undefined
     ) => void;
+    redirectedCategory: string | undefined;
 }
 
-const Filter = ({ highestPrice, filterProducts }: FilterProps) => {
+const Filter = ({
+    highestPrice,
+    filterProducts,
+    redirectedCategory,
+}: FilterProps) => {
     const [range, setRange] = useState<number[] | undefined>(undefined);
     const [category, setCategory] = useState<string>("");
 
-    const applyFilter = () => {
-        filterProducts(category,range);
-    };
+    useEffect(() => {
+        redirectedCategory && setCategory(redirectedCategory);
+    }, []);
+
+    useEffect(() => {
+        filterProducts(category, range);
+    }, [range]);
+
+    const applyFilter = useCallback(() => {
+        filterProducts(category, range);
+    }, [category, range]);
 
     useEffect(() => {
         highestPrice && setRange([0, highestPrice]);
@@ -33,7 +49,7 @@ const Filter = ({ highestPrice, filterProducts }: FilterProps) => {
 
     return (
         <>
-            {highestPrice && (
+            {highestPrice ? (
                 <Center
                     flexDir="column"
                     position="sticky"
@@ -51,6 +67,9 @@ const Filter = ({ highestPrice, filterProducts }: FilterProps) => {
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                                 name="category"
+                                variant="filled"
+                                icon={<BiDownArrow />}
+                                iconSize="1rem"
                             >
                                 {productCategories.map((category, index) => (
                                     <option
@@ -116,6 +135,43 @@ const Filter = ({ highestPrice, filterProducts }: FilterProps) => {
                     >
                         Apply Filter
                     </Button>
+                </Center>
+            ) : (
+                <Center px="1rem" flexDir="column" w="25%" h="89vh">
+                    <SkeletonText
+                        w="50%"
+                        noOfLines={1}
+                        mb="1rem"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                    />
+                    <Skeleton
+                        w="90%"
+                        h="25px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                        mb="3rem"
+                    />
+                    <SkeletonText
+                        w="50%"
+                        noOfLines={1}
+                        mb="1rem"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                    />
+                    <Skeleton
+                        mb="1rem"
+                        w="90%"
+                        h="25px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                    />
+                    <Skeleton
+                        w="30%"
+                        h="25px"
+                        startColor="#262355"
+                        endColor="#7B75C7"
+                    />
                 </Center>
             )}
         </>
