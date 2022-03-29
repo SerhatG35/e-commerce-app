@@ -60,8 +60,8 @@ const AddProduct = () => {
         try {
             setIsLoading(true);
             await Product.ADD(data);
-            const result = await Product.GET_ALL();
-            setProducts(result);
+            const { productsList } = await Product.GET_ALL();
+            setProducts(productsList);
             Toaster("Success", "", "success");
             reset();
         } catch (error: any) {
