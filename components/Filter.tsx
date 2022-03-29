@@ -10,7 +10,7 @@ import {
     SkeletonText,
     Text,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
 import { productCategories } from "../constants";
 
@@ -36,10 +36,6 @@ const Filter = ({
     }, []);
 
     useEffect(() => {
-        filterProducts(category, range);
-    }, [range]);
-
-    const applyFilter = useCallback(() => {
         filterProducts(category, range);
     }, [category, range]);
 
@@ -126,15 +122,6 @@ const Filter = ({
                         <RangeSliderThumb index={0} />
                         <RangeSliderThumb index={1} />
                     </RangeSlider>
-                    <Button
-                        mt="2rem"
-                        boxShadow="xl"
-                        color="#fff"
-                        colorScheme="customPurple"
-                        onClick={applyFilter}
-                    >
-                        Apply Filter
-                    </Button>
                 </Center>
             ) : (
                 <Center px="1rem" flexDir="column" w="25%" h="89vh">
@@ -162,12 +149,6 @@ const Filter = ({
                     <Skeleton
                         mb="1rem"
                         w="90%"
-                        h="25px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
-                    />
-                    <Skeleton
-                        w="30%"
                         h="25px"
                         startColor="#262355"
                         endColor="#7B75C7"
