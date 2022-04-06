@@ -10,38 +10,23 @@ import type {
 import cookies from "next-cookies";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Product as ProductService } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
-import { Toaster } from "utils/Toster";
 
 type InferedHome = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home = ({ token }: InferedHome) => {
+const Home = ({ token, highestPrice, productsList }: InferedHome) => {
     const userToken = useUserToken();
     const [products, setProducts] = useAtom(ProductJotai);
-    const [highestPrice, setHighestPrice] = useState<number | undefined>(
-        undefined
-    );
     const router = useRouter();
     const data = router.query;
 
     const redirectedCategory =
         Object.keys(data).length > 0 ? (data.category as string) : undefined;
 
-    const fetchProductData = async () => {
-        try {
-            const { highestPrice, productsList } =
-                await ProductService.GET_ALL();
-            setProducts(productsList);
-            setHighestPrice(highestPrice);
-        } catch (error: any) {
-            Toaster("", `${error.response.data}`, "error");
-        }
-    };
-
     useEffect(() => {
-        fetchProductData();
+        setProducts(productsList);
     }, []);
 
     useEffect(() => {
@@ -83,7 +68,8 @@ const Home = ({ token }: InferedHome) => {
 export const getServerSideProps = async (
     context: GetServerSidePropsContext
 ) => {
-    return { props: { token: cookies(context) } };
+    const { highestPrice, productsList } = await ProductService.GET_ALL();
+    return { props: { token: cookies(context), highestPrice, productsList } };
 };
 
 export default Home;

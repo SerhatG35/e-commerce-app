@@ -33,15 +33,16 @@ const Filter = ({
 
     useEffect(() => {
         redirectedCategory && setCategory(redirectedCategory);
-    }, []);
-
-    useEffect(() => {
-        filterProducts(category, range);
-    }, [category, range]);
+    }, [redirectedCategory]);
 
     useEffect(() => {
         highestPrice && setRange([0, highestPrice]);
     }, [highestPrice]);
+
+    useEffect(() => {
+        if (category !== "" && range !== undefined)
+            filterProducts(category, range);
+    }, [range, redirectedCategory]);
 
     return (
         <>
@@ -122,6 +123,9 @@ const Filter = ({
                         <RangeSliderThumb index={0} />
                         <RangeSliderThumb index={1} />
                     </RangeSlider>
+                    <Button onClick={() => filterProducts(category, range)}>
+                        filter
+                    </Button>
                 </Center>
             ) : (
                 <Center px="1rem" flexDir="column" w="25%" h="89vh">

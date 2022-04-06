@@ -14,7 +14,6 @@ interface ProductsTypes {
 
 type StateTypes = {
     productsList: Global.Products.Product[] | undefined;
-    highestPrice: number | undefined;
     isLoading: boolean;
 };
 
@@ -23,12 +22,10 @@ const Products = ({
     allProductHighestPrice,
     redirectedCategory,
 }: ProductsTypes) => {
-    const [{ productsList, highestPrice, isLoading }, setState] =
-        useState<StateTypes>({
-            productsList: undefined,
-            highestPrice: undefined,
-            isLoading: false,
-        });
+    const [{ productsList, isLoading }, setState] = useState<StateTypes>({
+        productsList: undefined,
+        isLoading: false,
+    });
 
     useEffect(() => {
         allProducts &&
@@ -39,13 +36,6 @@ const Products = ({
             }));
     }, [allProducts]);
 
-    useEffect(() => {
-        setState((state) => ({
-            ...state,
-            highestPrice: allProductHighestPrice,
-        }));
-    }, [allProductHighestPrice]);
-
     const FilterProducts = async (category?: string, priceRange?: number[]) => {
         const params = {
             category,
@@ -53,7 +43,7 @@ const Products = ({
         };
         category === "" && delete params.category;
         priceRange?.length === 0 && delete params.priceRange;
-        
+
         setState((state) => ({ ...state, isLoading: true }));
         const result = await Product.GET_ALL_FILTERED(params);
         setState((state) => ({ ...state, ...result, isLoading: false }));
@@ -64,7 +54,7 @@ const Products = ({
             <Filter
                 redirectedCategory={redirectedCategory}
                 filterProducts={FilterProducts}
-                highestPrice={highestPrice}
+                highestPrice={allProductHighestPrice}
             />
             <Divider orientation="vertical" h="89vh" />
             <Grid w="75%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
