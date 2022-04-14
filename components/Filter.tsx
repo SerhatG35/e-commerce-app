@@ -48,14 +48,24 @@ const Filter = ({
         <>
             {highestPrice ? (
                 <Center
-                    flexDir="column"
-                    position="sticky"
-                    top="10vh"
-                    h="89vh"
-                    w="25%"
+                    flexDir={["row", "row", "row", "row", "column"]}
+                    position={[
+                        "static",
+                        "static",
+                        "static",
+                        "static",
+                        "sticky",
+                    ]}
+                    top={["unset", "unset", "unset", "unset", "10vh"]}
+                    h={["unset", "unset", "unset", "unset", "89vh"]}
+                    w={["90%", "90%", "90%", "90%", "25%"]}
                     px="1rem"
+                    mb={["3rem", "3rem", "3rem", "3rem", ""]}
                 >
-                    <Center mb="3rem" flexDir="column">
+                    <Center
+                        mb={["1rem", "1rem", "1rem", "1rem", "3rem"]}
+                        flexDir="column"
+                    >
                         <Text decoration="underline" mb="1rem">
                             Category
                         </Text>
@@ -89,42 +99,54 @@ const Filter = ({
                             )}
                         </Center>
                     </Center>
-                    {range && (
-                        <>
-                            <Text decoration="underline">Price Range</Text>
-                            <Center w="100%" justifyContent="space-between">
-                                <Text>
-                                    {new Intl.NumberFormat("tr-TR", {
-                                        style: "currency",
-                                        currency: "TRY",
-                                        notation: "compact",
-                                    }).format(range[0])}
-                                </Text>
-                                <Text>
-                                    {new Intl.NumberFormat("tr-TR", {
-                                        style: "currency",
-                                        currency: "TRY",
-                                        notation: "compact",
-                                    }).format(range[1])}
-                                </Text>
-                            </Center>
-                        </>
-                    )}
-                    <RangeSlider
-                        aria-label={["min", "max"]}
-                        onChangeEnd={(val) => setRange(val)}
-                        colorScheme="purple"
-                        max={highestPrice}
-                        defaultValue={[0, highestPrice]}
+                    <Center w="100%" flexDir="column">
+                        {range && (
+                            <>
+                                <Text decoration="underline">Price Range</Text>
+                                <Center
+                                    w={["50%", "50%", "50%", "50%", "100%"]}
+                                    justifyContent="space-between"
+                                >
+                                    <Text>
+                                        {new Intl.NumberFormat("tr-TR", {
+                                            style: "currency",
+                                            currency: "TRY",
+                                            notation: "compact",
+                                        }).format(range[0])}
+                                    </Text>
+                                    <Text>
+                                        {new Intl.NumberFormat("tr-TR", {
+                                            style: "currency",
+                                            currency: "TRY",
+                                            notation: "compact",
+                                        }).format(range[1])}
+                                    </Text>
+                                </Center>
+                            </>
+                        )}
+                        <RangeSlider
+                            aria-label={["min", "max"]}
+                            onChangeEnd={(val) => setRange(val)}
+                            colorScheme="purple"
+                            max={highestPrice}
+                            defaultValue={[0, highestPrice]}
+                            w={["50%", "50%", "50%", "50%", "100%"]}
+                        >
+                            <RangeSliderTrack>
+                                <RangeSliderFilledTrack />
+                            </RangeSliderTrack>
+                            <RangeSliderThumb index={0} />
+                            <RangeSliderThumb index={1} />
+                        </RangeSlider>
+                    </Center>
+                    <Button
+                        colorScheme="customPurple"
+                        color="#fff"
+                        mt="1rem"
+                        boxShadow="md"
+                        onClick={() => filterProducts(category, range)}
                     >
-                        <RangeSliderTrack>
-                            <RangeSliderFilledTrack />
-                        </RangeSliderTrack>
-                        <RangeSliderThumb index={0} />
-                        <RangeSliderThumb index={1} />
-                    </RangeSlider>
-                    <Button onClick={() => filterProducts(category, range)}>
-                        filter
+                        Filter
                     </Button>
                 </Center>
             ) : (

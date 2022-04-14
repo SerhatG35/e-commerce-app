@@ -56,8 +56,13 @@ const Products = ({
                 filterProducts={FilterProducts}
                 highestPrice={allProductHighestPrice}
             />
-            <Divider orientation="vertical" h="89vh" />
-            <Grid w="75%" px="3rem" templateColumns="repeat(3, 1fr)" gap={6}>
+            <Divider orientation="vertical" h={["", "", "", "", "89vh"]} />
+            <Grid
+                w={["100%", "100%", "100%", "100%", "75%"]}
+                px="3rem"
+                templateColumns="repeat(3, 1fr)"
+                gap={6}
+            >
                 {productsList ? (
                     isLoading ? (
                         <Spinner

@@ -67,7 +67,6 @@ const ProductDetails = () => {
                             rounded="6px"
                             overflow="hidden"
                             position="relative"
-                            style={{ boxShadow: "0px 5px 3px #f4f4f4" }}
                         >
                             <Image src={productDetails?.image} layout="fill" />
                         </Box>
