@@ -16,6 +16,7 @@ export const addProductSchema = yup.object().shape({
         .number()
         .min(1)
         .typeError("Price must be a number.")
-        .required("Price is required."),
+        .required("Price is required.")
+        .max(1000000, "1.000.000₺ is the maximum price that can be entered."),
     image: yup.string().required("Image is required."),
 });

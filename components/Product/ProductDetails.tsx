@@ -46,7 +46,7 @@ const ProductDetails = () => {
                     px={["1rem", "1rem", "3rem", "3rem", "unset"]}
                 >
                     <Head>
-                        <title>{productDetails.title}</title>
+                        <title>{`${productDetails.title} | ${productDetails.category}`}</title>
                         <meta
                             property="og:title"
                             content="Product"
@@ -138,6 +138,7 @@ const ProductDetails = () => {
                                         {new Intl.NumberFormat("tr-TR", {
                                             style: "currency",
                                             currency: "TRY",
+                                            maximumSignificantDigits: 3,
                                         }).format(productDetails.price)}
                                     </Text>
                                 </Flex>
@@ -151,9 +152,9 @@ const ProductDetails = () => {
                             </Button>
                         </Flex>
                     </Flex>
-                    <Flex mt="2rem">
+                    <Flex mt="2rem" flexDir="column">
                         <Text color={colors} mr="0.5rem" fontWeight="bold">
-                            Description:
+                            Description
                         </Text>
                         <Text>{productDetails.description}</Text>
                     </Flex>

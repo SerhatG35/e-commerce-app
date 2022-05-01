@@ -57,9 +57,14 @@ const AddProduct = () => {
     const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
         data
     ) => {
+        const modifiedData: Global.Products.AddProduct = {
+            ...data,
+            description: data.description.trim(),
+        };
+
         try {
             setIsLoading(true);
-            await Product.ADD(data);
+            await Product.ADD(modifiedData);
             const { productsList } = await Product.GET_ALL();
             setProducts(productsList);
             Toaster("Success", "", "success");

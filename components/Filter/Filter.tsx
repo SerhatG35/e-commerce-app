@@ -7,6 +7,7 @@ import {
     RangeSliderTrack,
     Select,
     Text,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
@@ -43,11 +44,18 @@ const Filter = ({
             filterProducts(category, range);
     }, [range, redirectedCategory]);
 
+    const buttonBreakpoint = useBreakpointValue({
+        base: "xs",
+        sm: "sm",
+        md: "md",
+    });
+    const iconBreakpoint = useBreakpointValue({ base: "0.75rem", md: "1rem" });
+
     return (
         <>
             {highestPrice ? (
                 <Center
-                    flexDir={["row", "row", "row", "row", "column"]}
+                    flexDir={["column", "column", "row", "row", "column"]}
                     position={[
                         "static",
                         "static",
@@ -69,11 +77,15 @@ const Filter = ({
                     ]}
                 >
                     <Center
-                        mb={["unset", "unset", "unset", "unset", "3rem"]}
+                        mb={["1.5rem", "1.5rem", "unset", "unset", "3rem"]}
                         flexDir="column"
                         w={["unset", "unset", "unset", "unset", "100%"]}
                     >
-                        <Text decoration="underline" mb="1rem">
+                        <Text
+                            fontSize="inherit"
+                            decoration="underline"
+                            mb="1rem"
+                        >
                             Category
                         </Text>
                         <Center
@@ -85,7 +97,9 @@ const Filter = ({
                                 name="category"
                                 variant="filled"
                                 icon={<BiDownArrow />}
-                                iconSize="1rem"
+                                iconSize={iconBreakpoint}
+                                size={buttonBreakpoint}
+                                _focus={{ outline: "none" }}
                             >
                                 {productCategories.map((category, index) => (
                                     <option
@@ -114,9 +128,11 @@ const Filter = ({
                     >
                         {range && (
                             <>
-                                <Text decoration="underline">Price Range</Text>
+                                <Text fontSize="inherit" decoration="underline">
+                                    Price Range
+                                </Text>
                                 <Center
-                                    w={["50%", "50%", "50%", "50%", "100%"]}
+                                    w={["100%", "75%", "50%", "50%", "100%"]}
                                     justifyContent="space-between"
                                 >
                                     <Text>
@@ -138,25 +154,33 @@ const Filter = ({
                         )}
                         <RangeSlider
                             aria-label={["min", "max"]}
-                            onChangeEnd={(val) => setRange(val)}
+                            onChange={setRange}
                             colorScheme="purple"
                             max={highestPrice}
                             defaultValue={[0, highestPrice]}
-                            w={["50%", "50%", "50%", "50%", "100%"]}
+                            w={["100%", "75%", "50%", "50%", "100%"]}
                         >
                             <RangeSliderTrack>
                                 <RangeSliderFilledTrack />
                             </RangeSliderTrack>
-                            <RangeSliderThumb index={0} />
-                            <RangeSliderThumb index={1} />
+                            <RangeSliderThumb
+                                _focus={{ outline: "none" }}
+                                index={0}
+                            />
+                            <RangeSliderThumb
+                                _focus={{ outline: "none" }}
+                                index={1}
+                            />
                         </RangeSlider>
                     </Center>
                     <Button
                         colorScheme="customPurple"
                         color="#fff"
-                        mt={["unset", "unset", "unset", "unset", "1rem"]}
+                        mt={["1rem", "1rem", "unset", "unset", "1rem"]}
                         boxShadow="md"
                         onClick={() => filterProducts(category, range)}
+                        size={buttonBreakpoint}
+                        _focus={{ outline: "none" }}
                     >
                         Filter
                     </Button>

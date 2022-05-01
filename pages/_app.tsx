@@ -23,7 +23,16 @@ function _app({ Component, pageProps }: AppProps) {
         <UserContext.Provider value={memorizedUserValue}>
             <ModalContext.Provider value={memorizedModalValue}>
                 <ChakraProvider theme={theme} resetCSS>
-                    <Center fontFamily="Nunito">
+                    <Center
+                        fontSize={[
+                            "0.6rem",
+                            "0.6rem",
+                            "0.75rem",
+                            "0.75rem",
+                            "1rem",
+                        ]}
+                        fontFamily="Nunito"
+                    >
                         <Navbar />
                         <CustomModal />
                         <Component {...pageProps} />

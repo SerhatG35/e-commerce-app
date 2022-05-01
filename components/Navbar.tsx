@@ -4,6 +4,7 @@ import {
     IconButton,
     Link as ChakraLink,
     Tooltip,
+    useBreakpointValue,
     useColorMode,
 } from "@chakra-ui/react";
 import { ModalState, useModal } from "context/modalContext";
@@ -20,6 +21,14 @@ const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     const modal = useModal();
     const userToken = useUserToken();
+
+    const buttonBreakpoint = useBreakpointValue({
+        base: "xs",
+        sm: "sm",
+        md: "md",
+    });
+    const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });
+    const mainIconBreakpoint = useBreakpointValue({ base: 30, md: 40 });
 
     return (
         <Center
@@ -50,14 +59,20 @@ const Navbar = () => {
                         fontWeight={600}
                         color={colorMode === "light" ? "#262355" : "#fff"}
                     >
-                        <SiTrustedshops size={40} /> shop
+                        <SiTrustedshops size={mainIconBreakpoint} /> shop
                     </ChakraLink>
                 </Link>
                 <Center>
                     {!userToken?.userToken ? (
                         <>
                             <Button
-                                margin="0 0.75rem"
+                                mr={[
+                                    "0.3rem",
+                                    "0.3rem",
+                                    "0.5rem",
+                                    "0.5rem",
+                                    "0.75",
+                                ]}
                                 boxShadow="2xl"
                                 onClick={() =>
                                     openModal(modal, ModalState.LOGIN)
@@ -71,18 +86,28 @@ const Navbar = () => {
                                 color={
                                     colorMode === "light" ? "#1f1f1f" : "#fff"
                                 }
+                                fontSize="inherit"
+                                size={buttonBreakpoint}
                             >
                                 Login
                             </Button>
                             <Button
                                 colorScheme="customPurple"
-                                margin="0 0.75rem"
+                                mx={[
+                                    "0.3rem",
+                                    "0.3rem",
+                                    "0.5rem",
+                                    "0.5rem",
+                                    "0.75rem",
+                                ]}
                                 onClick={() =>
                                     openModal(modal, ModalState.SIGNUP)
                                 }
                                 _focus={{ boxShadow: "none" }}
                                 border="1px solid transparent"
                                 color="#fff"
+                                fontSize="inherit"
+                                size={buttonBreakpoint}
                             >
                                 Sign Up
                             </Button>
@@ -101,6 +126,7 @@ const Navbar = () => {
                                             rounded="50%"
                                             aria-label="Purchase Requests"
                                             icon={<RiFilePaper2Fill />}
+                                            size={buttonBreakpoint}
                                         />
                                     </Tooltip>
                                 </div>
@@ -115,6 +141,7 @@ const Navbar = () => {
                         color="#fff"
                         colorScheme="customPurple"
                         overflow="hidden"
+                        size={buttonBreakpoint}
                     >
                         {colorMode === "light" && (
                             <AnimatePresence>
@@ -124,7 +151,7 @@ const Navbar = () => {
                                     transition={{ duration: 0.4 }}
                                     exit={{ y: "25px", opacity: 0 }}
                                 >
-                                    <BsSun size={20} />
+                                    <BsSun size={iconBreakpoint} />
                                 </motion.div>
                             </AnimatePresence>
                         )}
@@ -136,7 +163,7 @@ const Navbar = () => {
                                     transition={{ duration: 0.4 }}
                                     exit={{ y: "-25px", opacity: 0 }}
                                 >
-                                    <BsMoon size={20} />
+                                    <BsMoon size={iconBreakpoint} />
                                 </motion.div>
                             </AnimatePresence>
                         )}

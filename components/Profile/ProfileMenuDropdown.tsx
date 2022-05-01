@@ -10,6 +10,7 @@ import {
     Tag,
     TagLabel,
     Tooltip,
+    useBreakpointValue,
     useColorMode,
     useColorModeValue,
 } from "@chakra-ui/react";
@@ -39,6 +40,12 @@ const ProfileMenuDropdown = () => {
     };
 
     const menuItemHoverColor = useColorModeValue("#50356C", "#242424");
+    const buttonBreakpoint = useBreakpointValue({
+        base: "xs",
+        sm: "sm",
+        md: "md",
+    });
+    const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });
 
     return (
         <Menu isLazy={true} autoSelect={false}>
@@ -50,9 +57,12 @@ const ProfileMenuDropdown = () => {
                     rounded="50%"
                     colorScheme="customPurple"
                     color="#fff"
-                    icon={<FiSettings size={20} strokeWidth={1.5} />}
+                    icon={
+                        <FiSettings size={iconBreakpoint} strokeWidth={1.5} />
+                    }
                     autoFocus={false}
                     _focus={{ outline: "none" }}
+                    size={buttonBreakpoint}
                 />
             </Tooltip>
             <MenuList
@@ -71,6 +81,7 @@ const ProfileMenuDropdown = () => {
                                 size="lg"
                                 colorScheme="customPurple"
                                 borderRadius="full"
+                                fontSize="inherit"
                             >
                                 <Avatar
                                     size="xs"
