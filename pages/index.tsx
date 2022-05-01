@@ -58,7 +58,13 @@ const Home = ({ token }: InferedHome) => {
                 position="relative"
             >
                 <Center
-                    alignItems="flex-start"
+                    alignItems={[
+                        "center",
+                        "center",
+                        "center",
+                        "center",
+                        "flex-start",
+                    ]}
                     w="100%"
                     h="100%"
                     position="relative"

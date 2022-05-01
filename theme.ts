@@ -6,7 +6,7 @@ const customConfig = {
         global: (props: any) => ({
             body: {
                 color: mode("#1f1f1f", "#fff")(props),
-                bg: mode("#fff", "#583870")(props),
+                bg: mode("#fff", "#1F1F1F")(props),
             },
         }),
     },

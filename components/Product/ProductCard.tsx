@@ -16,6 +16,10 @@ import { oneDayInMilliseconds } from "../../constants";
 const ProductCard = ({ product }: { product: Global.Products.Product }) => {
     const productBg = useColorModeValue("#262355", "#7B75C7");
     const productColor = useColorModeValue("#fff", "#1f1f1f");
+    const productBoxShadow = useColorModeValue(
+        "rgb(218 218 218 / 50%) 4px 6px 0px 0px",
+        "rgb(255 255 255 / 5%) 4px 6px 0px 0px"
+    );
 
     const isNewProduct =
         dayjs().diff(dayjs(product.createdAt)) > oneDayInMilliseconds
@@ -33,6 +37,7 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                 bg={productBg}
                 color={productColor}
                 cursor="pointer"
+                boxShadow={productBoxShadow}
                 whileHover={{
                     y: -5,
                     transition: { type: "tween", duration: 0.15 },

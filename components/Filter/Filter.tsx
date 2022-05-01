@@ -6,13 +6,12 @@ import {
     RangeSliderThumb,
     RangeSliderTrack,
     Select,
-    Skeleton,
-    SkeletonText,
     Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { BiDownArrow } from "react-icons/bi";
-import { productCategories } from "../constants";
+import { productCategories } from "../../constants";
+import FilterSkeleton from "./FilterSkeleton";
 
 interface FilterProps {
     highestPrice: number | undefined;
@@ -58,18 +57,28 @@ const Filter = ({
                     ]}
                     top={["unset", "unset", "unset", "unset", "10vh"]}
                     h={["unset", "unset", "unset", "unset", "89vh"]}
-                    w={["90%", "90%", "90%", "90%", "25%"]}
-                    px="1rem"
+                    w={["100%", "100%", "100%", "100%", "25%"]}
+                    px={["3rem", "3rem", "3rem", "3rem", "1rem"]}
                     mb={["3rem", "3rem", "3rem", "3rem", ""]}
+                    justifyContent={[
+                        "space-evenly",
+                        "space-evenly",
+                        "space-evenly",
+                        "space-evenly",
+                        "center",
+                    ]}
                 >
                     <Center
-                        mb={["1rem", "1rem", "1rem", "1rem", "3rem"]}
+                        mb={["unset", "unset", "unset", "unset", "3rem"]}
                         flexDir="column"
+                        w={["unset", "unset", "unset", "unset", "100%"]}
                     >
                         <Text decoration="underline" mb="1rem">
                             Category
                         </Text>
-                        <Center>
+                        <Center
+                            w={["unset", "unset", "unset", "unset", "100%"]}
+                        >
                             <Select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
@@ -99,7 +108,10 @@ const Filter = ({
                             )}
                         </Center>
                     </Center>
-                    <Center w="100%" flexDir="column">
+                    <Center
+                        w={["50%", "50%", "50%", "50%", "100%"]}
+                        flexDir="column"
+                    >
                         {range && (
                             <>
                                 <Text decoration="underline">Price Range</Text>
@@ -142,7 +154,7 @@ const Filter = ({
                     <Button
                         colorScheme="customPurple"
                         color="#fff"
-                        mt="1rem"
+                        mt={["unset", "unset", "unset", "unset", "1rem"]}
                         boxShadow="md"
                         onClick={() => filterProducts(category, range)}
                     >
@@ -150,36 +162,7 @@ const Filter = ({
                     </Button>
                 </Center>
             ) : (
-                <Center px="1rem" flexDir="column" w="25%" h="89vh">
-                    <SkeletonText
-                        w="50%"
-                        noOfLines={1}
-                        mb="1rem"
-                        startColor="#262355"
-                        endColor="#7B75C7"
-                    />
-                    <Skeleton
-                        w="90%"
-                        h="25px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
-                        mb="3rem"
-                    />
-                    <SkeletonText
-                        w="50%"
-                        noOfLines={1}
-                        mb="1rem"
-                        startColor="#262355"
-                        endColor="#7B75C7"
-                    />
-                    <Skeleton
-                        mb="1rem"
-                        w="90%"
-                        h="25px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
-                    />
-                </Center>
+                <FilterSkeleton />
             )}
         </>
     );

@@ -43,6 +43,7 @@ const ProductDetails = () => {
                     maxW="1200px"
                     w="100%"
                     fontSize="1.1rem"
+                    px={["1rem", "1rem", "3rem", "3rem", "unset"]}
                 >
                     <Head>
                         <title>{productDetails.title}</title>
@@ -60,9 +61,19 @@ const ProductDetails = () => {
                     <Heading alignSelf="center" fontFamily="Nunito">
                         {capitalize(productDetails.title)}
                     </Heading>
-                    <Flex mt="1rem" w="100%">
+                    <Flex
+                        mt="1rem"
+                        w="100%"
+                        flexDir={[
+                            "column",
+                            "column",
+                            "column",
+                            "column",
+                            "row",
+                        ]}
+                    >
                         <Box
-                            w="70%"
+                            w={["100%", "100%", "100%", "100%", "70%"]}
                             h="500px"
                             rounded="6px"
                             overflow="hidden"
@@ -71,12 +82,14 @@ const ProductDetails = () => {
                             <Image src={productDetails?.image} layout="fill" />
                         </Box>
                         <Flex
-                            pl="2rem"
+                            pl={["unset", "unset", "unset", "unset", "2rem"]}
                             flexDir="column"
-                            w="30%"
+                            w={["100%", "100%", "100%", "100%", "30%"]}
                             rounded="6px"
                             textAlign="start"
+                            my={["2rem", "2rem", "2rem", "2rem", "unset"]}
                             justifyContent="space-between"
+                            alignItems="center"
                         >
                             <Center flexDir="column">
                                 <Avatar
@@ -129,7 +142,11 @@ const ProductDetails = () => {
                                     </Text>
                                 </Flex>
                             </Center>
-                            <Button mt="1rem" colorScheme="blue">
+                            <Button
+                                mt="1rem"
+                                w={["50%", "50%", "50%", "50%", "100%"]}
+                                colorScheme="blue"
+                            >
                                 Contact the seller
                             </Button>
                         </Flex>

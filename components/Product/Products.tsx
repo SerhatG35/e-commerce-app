@@ -1,6 +1,11 @@
 import { Grid } from "@chakra-ui/layout";
-import { Divider, Skeleton, Spinner } from "@chakra-ui/react";
-import Filter from "components/Filter";
+import {
+    Divider,
+    Skeleton,
+    Spinner,
+    useBreakpointValue,
+} from "@chakra-ui/react";
+import Filter from "components/Filter/Filter";
 import ProductCard from "components/Product/ProductCard";
 import { useEffect, useState } from "react";
 import { Product } from "service/axios";
@@ -49,6 +54,12 @@ const Products = ({
         setState((state) => ({ ...state, ...result, isLoading: false }));
     };
 
+    const gridTemplateColumnBreakpoint = useBreakpointValue({
+        base: "repeat(1, 1fr)",
+        md: "repeat(3, 1fr)",
+        sm: "repeat(2,1fr)",
+    });
+
     return (
         <>
             <Filter
@@ -60,7 +71,7 @@ const Products = ({
             <Grid
                 w={["100%", "100%", "100%", "100%", "75%"]}
                 px="3rem"
-                templateColumns="repeat(3, 1fr)"
+                templateColumns={gridTemplateColumnBreakpoint}
                 gap={6}
             >
                 {productsList ? (
@@ -68,8 +79,8 @@ const Products = ({
                         <Spinner
                             size="xl"
                             colorScheme="customPurple"
-                            top="40%"
-                            left="60%"
+                            top={["150%", "150%", "150%", "150%", "40%"]}
+                            left={["50%", "50%", "50%", "50%", "60%"]}
                             position="absolute"
                         />
                     ) : (
