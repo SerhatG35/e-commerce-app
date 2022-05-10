@@ -9,7 +9,6 @@ import {
     MenuList,
     Tag,
     TagLabel,
-    Tooltip,
     useBreakpointValue,
     useColorMode,
     useColorModeValue,
@@ -18,7 +17,7 @@ import { useUserToken } from "context/userContext";
 import Link from "next/link";
 import Router from "next/router";
 import { CgLogOut } from "react-icons/cg";
-import { FiSettings } from "react-icons/fi";
+import { IoIosMenu } from "react-icons/io";
 import { Auth } from "service/axios";
 import { Toaster } from "../../utils/Toster";
 
@@ -49,22 +48,18 @@ const ProfileMenuDropdown = () => {
 
     return (
         <Menu isLazy={true} autoSelect={false}>
-            <Tooltip label="Settings" closeOnMouseDown={true}>
-                <MenuButton
-                    mr="1rem"
-                    aria-label="settings"
-                    as={IconButton}
-                    rounded="50%"
-                    colorScheme="customPurple"
-                    color="#fff"
-                    icon={
-                        <FiSettings size={iconBreakpoint} strokeWidth={1.5} />
-                    }
-                    autoFocus={false}
-                    _focus={{ outline: "none" }}
-                    size={buttonBreakpoint}
-                />
-            </Tooltip>
+            <MenuButton
+                mr="1rem"
+                aria-label="settings"
+                as={IconButton}
+                rounded="50%"
+                colorScheme="customPurple"
+                color="#fff"
+                icon={<IoIosMenu size={iconBreakpoint} />}
+                autoFocus={false}
+                _focus={{ outline: "none" }}
+                size={buttonBreakpoint}
+            />
             <MenuList
                 bg={colorMode === "light" ? "#262355" : "#fff"}
                 color={colorMode === "light" ? "#fff" : "black"}

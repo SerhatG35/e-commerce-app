@@ -67,7 +67,12 @@ const Products = ({
                 filterProducts={FilterProducts}
                 highestPrice={allProductHighestPrice}
             />
-            <Divider orientation="vertical" h={["", "", "", "", "89vh"]} />
+            <Divider
+                position="sticky"
+                top="11vh"
+                orientation="vertical"
+                h={["unset", "unset", "unset", "unset", "89vh"]}
+            />
             <Grid
                 w={["100%", "100%", "100%", "100%", "75%"]}
                 px="3rem"
@@ -80,7 +85,7 @@ const Products = ({
                             size="xl"
                             colorScheme="customPurple"
                             top={["150%", "150%", "150%", "150%", "40%"]}
-                            left={["50%", "50%", "50%", "50%", "60%"]}
+                            left={["45%", "45%", "50%", "50%", "60%"]}
                             position="absolute"
                         />
                     ) : (

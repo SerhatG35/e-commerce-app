@@ -23,8 +23,7 @@ const Navbar = () => {
     const userToken = useUserToken();
 
     const buttonBreakpoint = useBreakpointValue({
-        base: "xs",
-        sm: "sm",
+        base: "sm",
         md: "md",
     });
     const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });

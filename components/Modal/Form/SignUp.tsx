@@ -8,12 +8,12 @@ import {
     useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Toaster } from "utils/Toster";
 import { useModal } from "context/modalContext";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Auth, External } from "service/axios";
 import { capitalize } from "utils/capitalize";
+import { Toaster } from "utils/Toster";
 import { closeModal } from "../CustomModal";
 import { signUpSchema } from "./FormSchema";
 
@@ -30,6 +30,8 @@ const SignUp = () => {
     const [cities, setCities] = useState<
         Global.SignUp.SignUpCityTypes | undefined
     >(undefined);
+    const [isLoading, setIsLoading] = useState(false);
+
     const {
         handleSubmit,
         control,
@@ -56,7 +58,9 @@ const SignUp = () => {
     };
 
     const FetchCities = async () => {
+        setIsLoading(true);
         setCities(await External.FetchCities());
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -109,7 +113,7 @@ const SignUp = () => {
                                 <Select
                                     {...field}
                                     placeholder={
-                                        cities ? "Select city" : "Loading..."
+                                        !isLoading ? "Select city" : "Loading..."
                                     }
                                     borderColor={inputModeColors.color}
                                     _hover={{

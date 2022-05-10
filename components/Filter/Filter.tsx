@@ -63,11 +63,11 @@ const Filter = ({
                         "static",
                         "sticky",
                     ]}
-                    top={["unset", "unset", "unset", "unset", "10vh"]}
+                    top={["unset", "unset", "unset", "unset", "11vh"]}
                     h={["unset", "unset", "unset", "unset", "89vh"]}
                     w={["100%", "100%", "100%", "100%", "25%"]}
                     px={["3rem", "3rem", "3rem", "3rem", "1rem"]}
-                    mb={["3rem", "3rem", "3rem", "3rem", ""]}
+                    mb={["3rem", "3rem", "3rem", "3rem", "unset"]}
                     justifyContent={[
                         "space-evenly",
                         "space-evenly",

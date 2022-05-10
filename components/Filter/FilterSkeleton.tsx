@@ -56,7 +56,7 @@ const FilterSkeleton = () => {
                         w="100%"
                         justifyContent="space-evenly"
                     >
-                        <Flex flexDir="column" alignItems="center" w="25%">
+                        <Flex flexDir="column" alignItems="center" w="30%">
                             <Skeleton
                                 w="50%"
                                 startColor="#262355"
@@ -65,8 +65,8 @@ const FilterSkeleton = () => {
                                 h="15px"
                             />
                             <Skeleton
-                                w="90%"
-                                h="40px"
+                                w="100%"
+                                h={["30px", "40px"]}
                                 rounded="6px"
                                 startColor="#262355"
                                 endColor="#7B75C7"
@@ -81,7 +81,7 @@ const FilterSkeleton = () => {
                                 h="15px"
                             />
                             <Skeleton
-                                w="50%"
+                                w="75%"
                                 h="30px"
                                 rounded="6px"
                                 startColor="#262355"
@@ -90,7 +90,7 @@ const FilterSkeleton = () => {
                         </Flex>
                         <Skeleton
                             w="10%"
-                            h="40px"
+                            h={["20px", "30px", "40px"]}
                             rounded="6px"
                             startColor="#262355"
                             endColor="#7B75C7"
