@@ -78,6 +78,12 @@ export const Product = {
         );
         return data;
     },
+    DELETE: async (productId: string) => {
+        const { data } = await API.delete<Global.Products.AllProductResponse>(
+            `/api/products/${productId}`
+        );
+        return data;
+    },
 };
 
 export const External = {

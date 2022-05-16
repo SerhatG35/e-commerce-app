@@ -20,18 +20,20 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import ImageUpload from "components/ImageUpload";
 import { useUserToken } from "context/userContext";
-import { useAtom } from "jotai";
 import Router from "next/router";
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Product } from "service/axios";
-import { products as ProductJotai } from "store/jotaiStore";
 import { Toaster } from "utils/Toster";
 import { productCategories } from "../../constants";
 import { addProductSchema } from "./ProductSchema";
 
-const AddProduct = () => {
+type AddProductProps = {
+    reFetch: () => Promise<void>;
+};
+
+const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
     const {
         handleSubmit,
         control,
@@ -43,13 +45,12 @@ const AddProduct = () => {
         defaultValues: {
             title: "",
             category: "",
-            price: 0,
+            price: "",
             image: "",
             description: "",
         },
     });
     const [loading, setIsLoading] = useState(false);
-    const [, setProducts] = useAtom(ProductJotai);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef(null);
     const userToken = useUserToken();
@@ -65,9 +66,8 @@ const AddProduct = () => {
         try {
             setIsLoading(true);
             await Product.ADD(modifiedData);
-            const { productsList } = await Product.GET_ALL();
-            setProducts(productsList);
-            Toaster("Success", "", "success");
+            reFetch();
+            Toaster("", "New product added", "success");
             reset();
         } catch (error: any) {
             Router.push("/");
@@ -138,9 +138,6 @@ const AddProduct = () => {
                                     <>
                                         <Select
                                             {...field}
-                                            onChange={(e) =>
-                                                field.onChange(e.target.value)
-                                            }
                                             name="category"
                                             my="0.5rem"
                                         >

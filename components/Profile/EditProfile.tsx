@@ -15,20 +15,21 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Toaster } from "utils/Toster";
 import { useUserToken } from "context/userContext";
 import Router from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineEdit } from "react-icons/ai";
 import { External, User } from "service/axios";
+import { Toaster } from "utils/Toster";
 import { userSchema } from "./UserSchema";
 
 type EditProfileProps = {
     user: Global.User.UserInfo | undefined;
+    reFetch: () => Promise<void>;
 };
 
-const EditProfile = ({ user }: EditProfileProps) => {
+const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
     const [cities, setCities] = useState<
         Global.SignUp.SignUpCityTypes | undefined
     >(undefined);
@@ -64,14 +65,13 @@ const EditProfile = ({ user }: EditProfileProps) => {
         try {
             setLoading(true);
             const result = await User.UPDATE(data);
-            if (result) {
-                userToken?.setUserToken(result);
-                Toaster(
-                    "Success",
-                    "You have successfuly updated your profile",
-                    "success"
-                );
-            }
+            userToken?.setUserToken(result);
+            Toaster(
+                "Success",
+                "You have successfuly updated your profile",
+                "success"
+            );
+            reFetch();
             onClose();
         } catch (error: any) {
             Router.push("/");

@@ -13,9 +13,16 @@ import EditProfile from "./EditProfile";
 interface ProfileBarTypes {
     user: Global.User.UserInfo | undefined;
     usersOwnProfile: boolean;
+    isFetchingData: boolean;
+    reFetch: () => Promise<void>;
 }
 
-const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
+const ProfileBar = ({
+    user,
+    usersOwnProfile,
+    isFetchingData,
+    reFetch,
+}: ProfileBarTypes) => {
     return (
         <Center
             w="20%"
@@ -27,7 +34,7 @@ const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
             justifyContent="flex-start"
             userSelect="none"
         >
-            {user ? (
+            {user && !isFetchingData ? (
                 <>
                     <Avatar
                         size="2xl"
@@ -38,6 +45,12 @@ const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
                             Name
                         </Text>
                         <Text fontWeight="semibold">{`${user?.name} ${user?.surname}`}</Text>
+                    </Center>
+                    <Center my="1rem" flexDir="column">
+                        <Text fontWeight="thin" borderBottom="1px solid">
+                            Email
+                        </Text>
+                        <Text fontWeight="semibold">{user?.email}</Text>
                     </Center>
                     <Center my="1rem" flexDir="column">
                         <Text fontWeight="thin" borderBottom="1px solid">
@@ -53,7 +66,9 @@ const ProfileBar = ({ user, usersOwnProfile }: ProfileBarTypes) => {
                             {dayjs(user?.createdAt).format("MMM DD, YYYY")}
                         </Text>
                     </Center>
-                    {usersOwnProfile && <EditProfile user={user} />}
+                    {usersOwnProfile && (
+                        <EditProfile user={user} reFetch={reFetch} />
+                    )}
                 </>
             ) : (
                 <Box>

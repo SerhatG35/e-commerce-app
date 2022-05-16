@@ -1,6 +1,7 @@
 import {
     Badge,
     Box,
+    IconButton,
     Stat,
     StatHelpText,
     StatLabel,
@@ -11,9 +12,22 @@ import { MotionCenter } from "components/MotionComponents";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
+import { FC } from "react";
+import { BsTrash } from "react-icons/bs";
+import { Product as ProductService } from "service/axios";
 import { oneDayInMilliseconds } from "../../constants";
 
-const ProductCard = ({ product }: { product: Global.Products.Product }) => {
+type ProductCardProps = {
+    product: Global.Products.Product;
+    usersOwnProfile?: boolean;
+    reFetch?: () => Promise<void>;
+};
+
+const ProductCard: FC<ProductCardProps> = ({
+    product,
+    usersOwnProfile,
+    reFetch,
+}) => {
     const productBg = useColorModeValue("#262355", "#7B75C7");
     const productColor = useColorModeValue("#fff", "#1f1f1f");
     const productBoxShadow = useColorModeValue(
@@ -25,6 +39,14 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
         dayjs().diff(dayjs(product.createdAt)) > oneDayInMilliseconds
             ? false
             : true;
+
+    const deleteProduct = async (e: any) => {
+        e.preventDefault();
+        if (reFetch) {
+            await ProductService.DELETE(product._id);
+            reFetch();
+        }
+    };
 
     return (
         <Link href={`/product/${product._id}`}>
@@ -47,8 +69,8 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                 {isNewProduct && (
                     <Badge
                         position="absolute"
-                        top="0px"
-                        right="0px"
+                        top="2px"
+                        right="2px"
                         zIndex={500}
                         variant="solid"
                         rounded="12px"
@@ -57,6 +79,22 @@ const ProductCard = ({ product }: { product: Global.Products.Product }) => {
                     >
                         New
                     </Badge>
+                )}
+                {usersOwnProfile && (
+                    <IconButton
+                        onClick={deleteProduct}
+                        colorScheme="red"
+                        variant="ghost"
+                        color="red"
+                        pos="absolute"
+                        bottom="0px"
+                        right="0px"
+                        rounded="12px"
+                        zIndex={1}
+                        aria-label="delete-product"
+                        icon={<BsTrash />}
+                        _focus={{ outline: "none" }}
+                    />
                 )}
                 <Box h="150px" borderTopRadius="12px" overflow="hidden">
                     <Image src={product.image} width="250px" height="150px" />
