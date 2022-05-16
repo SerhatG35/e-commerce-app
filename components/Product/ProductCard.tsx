@@ -106,7 +106,7 @@ const ProductCard: FC<ProductCardProps> = ({
                             style: "currency",
                             currency: "TRY",
                             notation: "compact",
-                        }).format(product.price)}
+                        }).format(Number(product.price))}
                     </StatNumber>
                     <StatHelpText>
                         {dayjs(product.createdAt).format("DD/MM/YYYY")}

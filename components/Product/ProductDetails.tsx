@@ -139,7 +139,7 @@ const ProductDetails = () => {
                                             style: "currency",
                                             currency: "TRY",
                                             maximumSignificantDigits: 3,
-                                        }).format(productDetails.price)}
+                                        }).format(Number(productDetails.price))}
                                     </Text>
                                 </Flex>
                             </Center>

@@ -93,7 +93,9 @@ const Filter = ({
                         >
                             <Select
                                 value={category}
-                                onChange={(e) => setCategory(e.target.value)}
+                                onChange={(e: any) =>
+                                    setCategory(e.target.value)
+                                }
                                 name="category"
                                 variant="filled"
                                 icon={<BiDownArrow />}
