@@ -10,28 +10,28 @@ import {
     useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Toaster } from "utils/Toster";
-import { useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Auth } from "service/axios";
-import { closeModal } from "../CustomModal";
+import { Toaster } from "utils/Toster";
 import { loginSchema } from "./FormSchema";
 
-const Login = () => {
+type LoginProps = {
+    closeModal: () => void;
+};
+
+const Login: FC<LoginProps> = ({ closeModal }) => {
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const modal = useModal();
     const userToken = useUserToken();
     const { colorMode } = useColorMode();
 
     const {
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<Global.Login.LoginInputs>({
         resolver: yupResolver(loginSchema),
     });
@@ -42,12 +42,11 @@ const Login = () => {
     };
 
     const onSubmit: SubmitHandler<Global.Login.LoginInputs> = async (data) => {
-        setIsLoading(true);
         try {
             const retrievedToken = await Auth.LOGIN(data);
             userToken?.setUserToken(jwtDecode(retrievedToken.accessToken));
-            closeModal(modal);
             Toaster("Login successful", "", "success");
+            closeModal();
         } catch (error: any) {
             Toaster(
                 "",
@@ -59,7 +58,6 @@ const Login = () => {
                 "error"
             );
         }
-        setIsLoading(false);
     };
 
     return (
@@ -138,7 +136,7 @@ const Login = () => {
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
             <Button
-                isLoading={isLoading}
+                isLoading={isSubmitting}
                 loadingText="Signing"
                 my="2"
                 type="submit"

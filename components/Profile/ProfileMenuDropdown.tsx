@@ -40,8 +40,7 @@ const ProfileMenuDropdown = () => {
 
     const menuItemHoverColor = useColorModeValue("#50356C", "#242424");
     const buttonBreakpoint = useBreakpointValue({
-        base: "xs",
-        sm: "sm",
+        base: "sm",
         md: "md",
     });
     const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });

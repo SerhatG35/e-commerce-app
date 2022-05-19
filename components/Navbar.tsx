@@ -7,19 +7,34 @@ import {
     useBreakpointValue,
     useColorMode,
 } from "@chakra-ui/react";
-import { ModalState, useModal } from "context/modalContext";
 import { useUserToken } from "context/userContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { RiFilePaper2Fill } from "react-icons/ri";
 import { SiTrustedshops } from "react-icons/si";
-import { openModal } from "./Modal/CustomModal";
+import Login from "./Login";
+import CustomModal from "./Modal";
 import ProfileMenuDropdown from "./Profile/ProfileMenuDropdown";
+import SignUp from "./SignUp";
+
+enum NAVBAR_MODAL_ACTIONS {
+    NO_ACTION,
+    LOGIN,
+    SIGN_UP,
+}
+
+type StateTypes = {
+    currentAction: NAVBAR_MODAL_ACTIONS;
+};
 
 const Navbar = () => {
+    const [{ currentAction }, setState] = useState<StateTypes>({
+        currentAction: NAVBAR_MODAL_ACTIONS.NO_ACTION,
+    });
+
     const { colorMode, toggleColorMode } = useColorMode();
-    const modal = useModal();
     const userToken = useUserToken();
 
     const buttonBreakpoint = useBreakpointValue({
@@ -28,6 +43,17 @@ const Navbar = () => {
     });
     const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });
     const mainIconBreakpoint = useBreakpointValue({ base: 30, md: 40 });
+
+    const toggleModal = (
+        action: NAVBAR_MODAL_ACTIONS = NAVBAR_MODAL_ACTIONS.NO_ACTION
+    ) => {
+        setState((state) => ({
+            ...state,
+            currentAction: action,
+        }));
+    };
+
+    const isCurrenActionLogin = currentAction === NAVBAR_MODAL_ACTIONS.LOGIN;
 
     return (
         <Center
@@ -41,6 +67,19 @@ const Navbar = () => {
             zIndex="1000"
             boxShadow="sm"
         >
+            {currentAction !== NAVBAR_MODAL_ACTIONS.NO_ACTION && (
+                <CustomModal
+                    onClickClose={toggleModal}
+                    content={
+                        isCurrenActionLogin ? (
+                            <Login closeModal={toggleModal} />
+                        ) : (
+                            <SignUp closeModal={toggleModal} />
+                        )
+                    }
+                    header={isCurrenActionLogin ? "Login" : "Sign Up"}
+                />
+            )}
             <Center
                 w="100%"
                 h="100%"
@@ -74,7 +113,7 @@ const Navbar = () => {
                                 ]}
                                 boxShadow="2xl"
                                 onClick={() =>
-                                    openModal(modal, ModalState.LOGIN)
+                                    toggleModal(NAVBAR_MODAL_ACTIONS.LOGIN)
                                 }
                                 _focus={{ boxShadow: "none" }}
                                 border="1px solid"
@@ -100,7 +139,7 @@ const Navbar = () => {
                                     "0.75rem",
                                 ]}
                                 onClick={() =>
-                                    openModal(modal, ModalState.SIGNUP)
+                                    toggleModal(NAVBAR_MODAL_ACTIONS.SIGN_UP)
                                 }
                                 _focus={{ boxShadow: "none" }}
                                 border="1px solid transparent"

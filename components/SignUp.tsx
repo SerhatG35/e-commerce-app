@@ -8,13 +8,11 @@ import {
     useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useModal } from "context/modalContext";
-import { useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Auth, External } from "service/axios";
 import { capitalize } from "utils/capitalize";
 import { Toaster } from "utils/Toster";
-import { closeModal } from "../CustomModal";
 import { signUpSchema } from "./FormSchema";
 
 const signUpContent = [
@@ -26,7 +24,11 @@ const signUpContent = [
     "passwordConfirmation",
 ];
 
-const SignUp = () => {
+type SignUpProps = {
+    closeModal: () => void;
+};
+
+const SignUp: FC<SignUpProps> = ({ closeModal }) => {
     const [cities, setCities] = useState<
         Global.SignUp.SignUpCityTypes | undefined
     >(undefined);
@@ -35,11 +37,10 @@ const SignUp = () => {
     const {
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<Global.SignUp.SignUpInputs>({
         resolver: yupResolver(signUpSchema),
     });
-    const modal = useModal();
     const { colorMode } = useColorMode();
 
     const inputModeColors = {
@@ -51,7 +52,7 @@ const SignUp = () => {
         try {
             await Auth.REGISTER(data);
             Toaster("Account created", "", "success");
-            closeModal(modal);
+            closeModal();
         } catch (error: any) {
             Toaster("", `${error.response.data}`, "error");
         }
@@ -62,10 +63,6 @@ const SignUp = () => {
         setCities(await External.FetchCities());
         setIsLoading(false);
     };
-
-    useEffect(() => {
-        FetchCities();
-    }, []);
 
     return (
         <Center
@@ -113,13 +110,16 @@ const SignUp = () => {
                                 <Select
                                     {...field}
                                     placeholder={
-                                        !isLoading ? "Select city" : "Loading..."
+                                        !isLoading
+                                            ? "Select city"
+                                            : "Loading..."
                                     }
                                     borderColor={inputModeColors.color}
                                     _hover={{
                                         borderColor:
                                             inputModeColors.borderHoverColor,
                                     }}
+                                    onFocus={FetchCities}
                                 >
                                     {cities &&
                                         cities.data.states.map((city) => (
@@ -148,6 +148,7 @@ const SignUp = () => {
                 my="2"
                 type="submit"
                 w="100%"
+                isLoading={isSubmitting}
             >
                 Sign Up
             </Button>
