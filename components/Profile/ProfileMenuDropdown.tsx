@@ -1,5 +1,6 @@
 import {
     Avatar,
+    Center,
     IconButton,
     Menu,
     MenuButton,
@@ -82,9 +83,21 @@ const ProfileMenuDropdown = () => {
                                     mr="8px"
                                     name={userToken?.userToken?.name}
                                 />
-                                <TagLabel>
-                                    {userToken?.userToken?.email}
-                                </TagLabel>
+                                <Center
+                                    flexDir="column"
+                                    alignItems="flex-start"
+                                >
+                                    <TagLabel>
+                                        {`${userToken?.userToken?.name} ${userToken?.userToken?.surname}`}
+                                    </TagLabel>
+                                    <TagLabel
+                                        fontSize="0.8rem"
+                                        color="gray.400"
+                                        isTruncated
+                                    >
+                                        {userToken?.userToken?.email}
+                                    </TagLabel>
+                                </Center>
                             </Tag>
                         </MenuItem>
                     </Link>

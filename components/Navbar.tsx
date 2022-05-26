@@ -67,19 +67,6 @@ const Navbar = () => {
             zIndex="1000"
             boxShadow="sm"
         >
-            {currentAction !== NAVBAR_MODAL_ACTIONS.NO_ACTION && (
-                <CustomModal
-                    onClickClose={toggleModal}
-                    content={
-                        isCurrenActionLogin ? (
-                            <Login closeModal={toggleModal} />
-                        ) : (
-                            <SignUp closeModal={toggleModal} />
-                        )
-                    }
-                    header={isCurrenActionLogin ? "Login" : "Sign Up"}
-                />
-            )}
             <Center
                 w="100%"
                 h="100%"
@@ -208,6 +195,19 @@ const Navbar = () => {
                     </Button>
                 </Center>
             </Center>
+            {currentAction !== NAVBAR_MODAL_ACTIONS.NO_ACTION && (
+                <CustomModal
+                    onClickClose={toggleModal}
+                    content={
+                        isCurrenActionLogin ? (
+                            <Login closeModal={toggleModal} />
+                        ) : (
+                            <SignUp closeModal={toggleModal} />
+                        )
+                    }
+                    header={isCurrenActionLogin ? "Login" : "Sign Up"}
+                />
+            )}
         </Center>
     );
 };

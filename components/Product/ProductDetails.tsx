@@ -6,20 +6,30 @@ import {
     Flex,
     Heading,
     Text,
+    Tooltip,
     useColorModeValue,
 } from "@chakra-ui/react";
 import Breadcrumb from "components/Breadcrumb";
+import CustomModal from "components/Modal";
+import { useUserToken } from "context/userContext";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Product } from "service/axios";
 import { capitalize } from "utils/capitalize";
+import ContactSellerForm from "./ContactSeller/ContactSellerForm";
 
-const ProductDetails = () => {
+const ProductDetails: FC = () => {
     const [productDetails, setProductDetails] = useState<
         Global.Products.Product | undefined
     >(undefined);
+    const [isContactSellerFormOpen, setIsContactSellerFormOpen] =
+        useState(false);
+
+    const userToken = useUserToken();
+    const userHasToken = !!userToken?.userToken?._id;
+
     const router = useRouter();
     const { _id } = router.query;
 
@@ -32,6 +42,14 @@ const ProductDetails = () => {
     }, []);
 
     const colors = useColorModeValue("#583870", "#ECFEAA");
+
+    const toggleContactSellerFormModal = (requireRefect: boolean = false) => {
+        setIsContactSellerFormOpen(!isContactSellerFormOpen);
+        requireRefect && getProduct();
+    };
+
+    const isUsersOwnProduct =
+        userToken?.userToken?._id === productDetails?.user;
 
     return (
         <>
@@ -138,18 +156,41 @@ const ProductDetails = () => {
                                         {new Intl.NumberFormat("tr-TR", {
                                             style: "currency",
                                             currency: "TRY",
-                                            maximumSignificantDigits: 3,
+                                            maximumSignificantDigits: 4,
                                         }).format(Number(productDetails.price))}
                                     </Text>
                                 </Flex>
                             </Center>
-                            <Button
-                                mt="1rem"
-                                w={["50%", "50%", "50%", "50%", "100%"]}
-                                colorScheme="blue"
-                            >
-                                Contact the seller
-                            </Button>
+                            {!isUsersOwnProduct && (
+                                <Tooltip
+                                    visibility={
+                                        !userHasToken ? "visible" : "hidden"
+                                    }
+                                    label="hello world"
+                                >
+                                    <Center w="100%">
+                                        <Button
+                                            mt="1rem"
+                                            w={[
+                                                "50%",
+                                                "50%",
+                                                "50%",
+                                                "50%",
+                                                "100%",
+                                            ]}
+                                            colorScheme="blue"
+                                            onClick={() =>
+                                                toggleContactSellerFormModal(
+                                                    false
+                                                )
+                                            }
+                                            disabled={!userHasToken}
+                                        >
+                                            Contact the seller
+                                        </Button>
+                                    </Center>
+                                </Tooltip>
+                            )}
                         </Flex>
                     </Flex>
                     <Flex mt="2rem" flexDir="column">
@@ -158,6 +199,23 @@ const ProductDetails = () => {
                         </Text>
                         <Text>{productDetails.description}</Text>
                     </Flex>
+                    {isContactSellerFormOpen && (
+                        <CustomModal
+                            content={
+                                <ContactSellerForm
+                                    closeModal={toggleContactSellerFormModal}
+                                    productId={productDetails._id}
+                                    productPrice={Number(productDetails.price)}
+                                    productName={productDetails.title}
+                                    sellerName={
+                                        productDetails.userNameAndSurname
+                                    }
+                                />
+                            }
+                            header="Contact the Seller"
+                            onClickClose={toggleContactSellerFormModal}
+                        />
+                    )}
                 </Flex>
             )}
         </>

@@ -84,6 +84,17 @@ export const Product = {
         );
         return data;
     },
+    PURCHASE_REQUEST: async (
+        payload: Global.Products.PurchaseRequestPayload
+    ) => {
+        const { data } = await API.post(
+            `/api/purchase-request/${payload.productId}`,
+            {
+                ...payload,
+            }
+        );
+        return data;
+    },
 };
 
 export const External = {

@@ -50,6 +50,14 @@ declare module Global {
             productsList: Product[] | undefined;
             highestPrice: number;
         }
+
+        export interface PurchaseRequestPayload {
+            productId: string;
+            buyerName: string;
+            buyerId: string | undefined;
+            price: number;
+            message: string | undefined;
+        }
     }
     declare module User {
         export interface UserInfo {
