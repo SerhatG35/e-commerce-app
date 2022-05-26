@@ -4,6 +4,7 @@ export const productCategories = [
     "Movie,Book and Music",
     "Vehicle",
     "House and Furniture",
+    "Clothes and Accessories",
     "Other",
 ];
 

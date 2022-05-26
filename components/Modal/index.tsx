@@ -27,7 +27,7 @@ const CustomModal: FC<CustomModalProps> = ({
             <ModalOverlay />
             <ModalContent
                 bg={colorMode === "light" ? "#262355" : "#fff"}
-                color={colorMode === "light" ? "#fff" : "black"}
+                color={colorMode === "light" ? "#fff" : "#1f1f1f"}
                 rounded="xl"
             >
                 <ModalHeader textAlign="center">{header}</ModalHeader>
