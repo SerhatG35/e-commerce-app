@@ -73,38 +73,38 @@ const ProfileBar = ({
             ) : (
                 <Box>
                     <SkeletonCircle
-                        startColor="#262355"
-                        endColor="#7B75C7"
+                        startColor="#ebf4f5"
+                        endColor="#b5c6e0"
                         size="128px"
                     />
                     <SkeletonText
                         rounded="12px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
+                        startColor="#ebf4f5"
+                        endColor="#b5c6e0"
                         h="20px"
                         mt="3.5rem"
                         noOfLines={2}
                     />
                     <SkeletonText
                         rounded="12px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
+                        startColor="#ebf4f5"
+                        endColor="#b5c6e0"
                         h="20px"
                         mt="3.5rem"
                         noOfLines={2}
                     />
                     <SkeletonText
                         rounded="12px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
+                        startColor="#ebf4f5"
+                        endColor="#b5c6e0"
                         h="20px"
                         mt="3.5rem"
                         noOfLines={2}
                     />
                     <Skeleton
                         rounded="12px"
-                        startColor="#262355"
-                        endColor="#7B75C7"
+                        startColor="#ebf4f5"
+                        endColor="#b5c6e0"
                         h="30px"
                         mt="3.5rem"
                     />

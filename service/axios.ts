@@ -10,8 +10,8 @@ const API = axios.create({
 });
 
 export const Auth = {
-    LOGIN: async (params: Global.Login.LoginInputs) => {
-        const { data } = await API.post<Global.Login.LoginResponse>(
+    LOGIN: async (params: Global.SignIn.SignInInputs) => {
+        const { data } = await API.post<Global.SignIn.SignInResponse>(
             "/api/sessions",
             { ...params }
         );

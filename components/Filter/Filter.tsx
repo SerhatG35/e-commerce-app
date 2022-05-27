@@ -158,8 +158,8 @@ const Filter = ({
                                     {category !== "" && (
                                         <Button
                                             onClick={() => setCategory("")}
-                                            colorScheme="red"
                                             ml="0.5rem"
+                                            colorScheme="red"
                                         >
                                             X
                                         </Button>
@@ -214,7 +214,6 @@ const Filter = ({
                                 <RangeSlider
                                     aria-label={["min", "max"]}
                                     onChange={setRange}
-                                    colorScheme="purple"
                                     max={highestPrice}
                                     defaultValue={[0, highestPrice]}
                                     w={["100%", "75%", "50%", "50%", "100%"]}
@@ -234,8 +233,6 @@ const Filter = ({
                                 </RangeSlider>
                             </Center>
                             <Button
-                                colorScheme="customPurple"
-                                color="#fff"
                                 mt={["1rem", "1rem", "unset", "unset", "1rem"]}
                                 boxShadow="md"
                                 onClick={() => filterProducts(category, range)}

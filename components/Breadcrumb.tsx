@@ -16,7 +16,7 @@ const Breadcrumb = ({ parentText, childText }: BreadcrumbTypes) => {
     return (
         <BreadcrumbWrapper
             spacing="8px"
-            separator={<IoIosArrowForward color="gray.500" />}
+            separator={<IoIosArrowForward />}
             alignSelf="flex-start"
             fontSize="0.8rem"
         >

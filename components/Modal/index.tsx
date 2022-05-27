@@ -5,7 +5,6 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
-    useColorMode,
 } from "@chakra-ui/react";
 import { FC } from "react";
 
@@ -20,16 +19,10 @@ const CustomModal: FC<CustomModalProps> = ({
     content,
     onClickClose,
 }) => {
-    const { colorMode } = useColorMode();
-
     return (
         <Modal isOpen={true} onClose={onClickClose} isCentered>
             <ModalOverlay />
-            <ModalContent
-                bg={colorMode === "light" ? "#262355" : "#fff"}
-                color={colorMode === "light" ? "#fff" : "#1f1f1f"}
-                rounded="xl"
-            >
+            <ModalContent rounded="xl">
                 <ModalHeader textAlign="center">{header}</ModalHeader>
                 <ModalCloseButton rounded="xl" _focus={{ outline: "none" }} />
                 <ModalBody>{content}</ModalBody>

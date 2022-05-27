@@ -87,8 +87,6 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                 leftIcon={<AiOutlineEdit size={18} />}
                 my="1rem"
                 rounded="8px"
-                colorScheme="customPurple"
-                color="#fff"
                 size="sm"
                 onClick={onOpen}
                 ref={btnRef}
@@ -105,7 +103,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerCloseButton color="red" />
+                    <DrawerCloseButton />
                     <DrawerHeader>Edit Profile</DrawerHeader>
                     <Divider />
                     <DrawerBody>
@@ -116,11 +114,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                 render={({ field }) => (
                                     <>
                                         <Input my="0.5rem" {...field} />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.name?.message}
                                         </Text>
                                     </>
@@ -132,11 +126,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                 render={({ field }) => (
                                     <>
                                         <Input my="0.5rem" {...field} />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.surname?.message}
                                         </Text>
                                     </>
@@ -152,11 +142,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                             {...field}
                                             type="email"
                                         />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.email?.message}
                                         </Text>
                                     </>
@@ -190,11 +176,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                                     )
                                                 )}
                                         </Select>
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.city?.message}
                                         </Text>
                                     </>
@@ -216,8 +198,8 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                             isLoading={loading}
                             loadingText="Updating Profile"
                             type="submit"
-                            colorScheme="blue"
                             onClick={handleSubmit(onSubmit)}
+                            colorScheme="blue"
                         >
                             Submit
                         </Button>

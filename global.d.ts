@@ -1,10 +1,10 @@
 declare module Global {
-    declare module Login {
-        export interface LoginResponse {
+    declare module SignIn {
+        export interface SignInResponse {
             accessToken: string;
             refreshToken: string;
         }
-        export interface LoginInputs {
+        export interface SignInInputs {
             email: string;
             password: string;
         }

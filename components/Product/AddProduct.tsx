@@ -87,8 +87,6 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
     return (
         <>
             <Button
-                colorScheme="customPurple"
-                color="#fff"
                 leftIcon={<AiOutlinePlus />}
                 ref={btnRef}
                 onClick={onOpen}
@@ -106,7 +104,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerCloseButton color="red" />
+                    <DrawerCloseButton />
                     <DrawerHeader>Add New Product</DrawerHeader>
                     <Divider />
                     <DrawerBody>
@@ -121,11 +119,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             my="0.5rem"
                                             {...field}
                                         />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.title?.message}
                                         </Text>
                                     </>
@@ -157,11 +151,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                                 )
                                             )}
                                         </Select>
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.category?.message}
                                         </Text>
                                     </>
@@ -175,7 +165,6 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                         <InputGroup my="0.5rem">
                                             <InputLeftElement
                                                 pointerEvents="none"
-                                                color="gray.300"
                                                 fontSize="1.2em"
                                                 children="₺"
                                             />
@@ -185,11 +174,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                                 type="number"
                                             />
                                         </InputGroup>
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.price?.message}
                                         </Text>
                                     </>
@@ -204,11 +189,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             field={field}
                                             setValue={setValue}
                                         />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.image?.message}
                                         </Text>
                                     </>
@@ -225,11 +206,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             my="0.5rem"
                                             {...field}
                                         />
-                                        <Text
-                                            w="100%"
-                                            fontSize="sm"
-                                            color="red"
-                                        >
+                                        <Text w="100%" fontSize="sm">
                                             {errors?.description?.message}
                                         </Text>
                                     </>
@@ -251,8 +228,8 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                             isLoading={loading}
                             loadingText="Adding Product"
                             type="submit"
-                            colorScheme="blue"
                             onClick={handleSubmit(onSubmit)}
+                            colorScheme="blue"
                         >
                             Submit
                         </Button>

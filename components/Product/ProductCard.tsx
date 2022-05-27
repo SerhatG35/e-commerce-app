@@ -13,7 +13,6 @@ import {
     StatHelpText,
     StatLabel,
     StatNumber,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import { MotionCenter } from "components/MotionComponents";
 import dayjs from "dayjs";
@@ -36,15 +35,6 @@ const ProductCard: FC<ProductCardProps> = ({
     reFetch,
 }) => {
     const [isDeleting, setIsDeleting] = useState(false);
-    const productBg = useColorModeValue("#262355", "#7B75C7");
-    const productBoxShadow = useColorModeValue(
-        "rgb(218 218 218 / 50%) 4px 6px 0px 0px",
-        "rgb(255 255 255 / 5%) 4px 6px 0px 0px"
-    );
-
-    const deleteModalBg = useColorModeValue("#262355", "#fff");
-
-    const color = useColorModeValue("#fff", "#1f1f1f");
 
     const isNewProduct =
         dayjs().diff(dayjs(product.createdAt)) > oneDayInMilliseconds
@@ -65,9 +55,6 @@ const ProductCard: FC<ProductCardProps> = ({
             rounded="12px"
             m="auto"
             userSelect="none"
-            bg={productBg}
-            color={color}
-            boxShadow={productBoxShadow}
             whileHover={{
                 y: -5,
                 transition: { type: "tween", duration: 0.15 },
@@ -82,7 +69,6 @@ const ProductCard: FC<ProductCardProps> = ({
                     zIndex={500}
                     variant="solid"
                     rounded="12px"
-                    colorScheme="green"
                     fontSize="xx-small"
                 >
                     New
@@ -94,9 +80,7 @@ const ProductCard: FC<ProductCardProps> = ({
                         <>
                             <PopoverTrigger>
                                 <IconButton
-                                    colorScheme="red"
                                     variant="ghost"
-                                    color="red"
                                     pos="absolute"
                                     bottom="0px"
                                     right="0px"
@@ -104,15 +88,11 @@ const ProductCard: FC<ProductCardProps> = ({
                                     zIndex={1}
                                     aria-label="delete-product"
                                     icon={<BsTrash />}
+                                    colorScheme="red"
                                     _focus={{ outline: "none" }}
                                 />
                             </PopoverTrigger>
-                            <PopoverContent
-                                color={color}
-                                bg={deleteModalBg}
-                                borderColor={deleteModalBg}
-                                _focus={{ outline: "none" }}
-                            >
+                            <PopoverContent _focus={{ outline: "none" }}>
                                 <PopoverHeader
                                     pt={4}
                                     fontWeight="semibold"
@@ -131,8 +111,8 @@ const ProductCard: FC<ProductCardProps> = ({
                                     pb={4}
                                 >
                                     <Button
-                                        onClick={onClose}
                                         colorScheme="blue"
+                                        onClick={onClose}
                                     >
                                         Cancel
                                     </Button>

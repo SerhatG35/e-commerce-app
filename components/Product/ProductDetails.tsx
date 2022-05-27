@@ -7,7 +7,6 @@ import {
     Heading,
     Text,
     Tooltip,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import Breadcrumb from "components/Breadcrumb";
 import CustomModal from "components/Modal";
@@ -40,8 +39,6 @@ const ProductDetails: FC = () => {
     useEffect(() => {
         getProduct();
     }, []);
-
-    const colors = useColorModeValue("#583870", "#ECFEAA");
 
     const toggleContactSellerFormModal = (requireRefect: boolean = false) => {
         setIsContactSellerFormOpen(!isContactSellerFormOpen);
@@ -121,11 +118,7 @@ const ProductDetails: FC = () => {
                                     }
                                 />
                                 <Flex mt="1rem">
-                                    <Text
-                                        color={colors}
-                                        mr="1rem"
-                                        fontWeight="bold"
-                                    >
+                                    <Text mr="1rem" fontWeight="bold">
                                         Seller:
                                     </Text>
                                     <Text>
@@ -135,24 +128,16 @@ const ProductDetails: FC = () => {
                             </Center>
                             <Center flexDir="column">
                                 <Flex>
-                                    <Text
-                                        color={colors}
-                                        mr="0.5rem"
-                                        fontWeight="bold"
-                                    >
+                                    <Text mr="0.5rem" fontWeight="bold">
                                         Category:
                                     </Text>
                                     <Text>{productDetails.category}</Text>
                                 </Flex>
                                 <Flex>
-                                    <Text
-                                        color={colors}
-                                        mr="0.5rem"
-                                        fontWeight="bold"
-                                    >
+                                    <Text mr="0.5rem" fontWeight="bold">
                                         Price:
                                     </Text>
-                                    <Text color="#85bb65">
+                                    <Text>
                                         {new Intl.NumberFormat("tr-TR", {
                                             style: "currency",
                                             currency: "TRY",
@@ -178,7 +163,6 @@ const ProductDetails: FC = () => {
                                                 "50%",
                                                 "100%",
                                             ]}
-                                            colorScheme="blue"
                                             onClick={() =>
                                                 toggleContactSellerFormModal(
                                                     false
@@ -194,7 +178,7 @@ const ProductDetails: FC = () => {
                         </Flex>
                     </Flex>
                     <Flex mt="2rem" flexDir="column">
-                        <Text color={colors} mr="0.5rem" fontWeight="bold">
+                        <Text mr="0.5rem" fontWeight="bold">
                             Description
                         </Text>
                         <Text>{productDetails.description}</Text>

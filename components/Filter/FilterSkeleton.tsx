@@ -24,39 +24,39 @@ const FilterSkeleton = () => {
                             w="50%"
                             noOfLines={1}
                             mb="1rem"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                         />
                         <Skeleton
                             w="90%"
                             h="40px"
                             rounded="6px"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                             mb="3rem"
                         />
                         <SkeletonText
                             w="50%"
                             noOfLines={1}
                             mb="1rem"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                         />
                         <Skeleton
                             mb="1rem"
                             w="90%"
                             h="40px"
                             rounded="6px"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                         />
                         <Skeleton
                             w="40%"
                             h="40px"
                             mt="1rem"
                             rounded="6px"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                         />
                     </Center>
                 ) : (
@@ -81,8 +81,8 @@ const FilterSkeleton = () => {
                         >
                             <Skeleton
                                 w="50%"
-                                startColor="#262355"
-                                endColor="#7B75C7"
+                                startColor="#ebf4f5"
+                                endColor="#b5c6e0"
                                 mb="1rem"
                                 h="15px"
                             />
@@ -90,15 +90,15 @@ const FilterSkeleton = () => {
                                 w="100%"
                                 h="32px"
                                 rounded="6px"
-                                startColor="#262355"
-                                endColor="#7B75C7"
+                                startColor="#ebf4f5"
+                                endColor="#b5c6e0"
                             />
                         </Flex>
                         <Flex flexDir="column" alignItems="center" w="50%">
                             <Skeleton
                                 w="25%"
-                                startColor="#262355"
-                                endColor="#7B75C7"
+                                startColor="#ebf4f5"
+                                endColor="#b5c6e0"
                                 mb="1rem"
                                 h="15px"
                             />
@@ -106,8 +106,8 @@ const FilterSkeleton = () => {
                                 w="75%"
                                 h="30px"
                                 rounded="6px"
-                                startColor="#262355"
-                                endColor="#7B75C7"
+                                startColor="#ebf4f5"
+                                endColor="#b5c6e0"
                             />
                         </Flex>
                         <Skeleton
@@ -115,8 +115,8 @@ const FilterSkeleton = () => {
                             h={["24px", "32px", "40px", "40px", "unset"]}
                             mt={["1rem", "1rem", "0px", "0px", "0px"]}
                             rounded="6px"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                         />
                     </Center>
                 ))}

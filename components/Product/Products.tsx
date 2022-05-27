@@ -83,7 +83,6 @@ const Products = ({
                     isLoading ? (
                         <Spinner
                             size="xl"
-                            colorScheme="customPurple"
                             top={["150%", "150%", "150%", "150%", "40%"]}
                             left={["45%", "45%", "50%", "50%", "60%"]}
                             position="absolute"
@@ -101,8 +100,8 @@ const Products = ({
                             width="250px"
                             height="250px"
                             m="auto"
-                            startColor="#262355"
-                            endColor="#7B75C7"
+                            startColor="#ebf4f5"
+                            endColor="#b5c6e0"
                         />
                     ))
                 )}

@@ -9,7 +9,6 @@ import {
     NumberInputStepper,
     Text,
     Textarea,
-    useColorModeValue,
     useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -44,8 +43,6 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
     const [proceed, setProceed] = useState(false);
     const userToken = useUserToken();
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const color = useColorModeValue("#fff", "#000");
 
     const {
         control,
@@ -95,7 +92,6 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                 </Text>
                                 <NumberInput
                                     {...field}
-                                    borderColor={color}
                                     min={productPrice}
                                     max={productPrice + productPrice * 0.1}
                                     onBlur={(e: any) =>
@@ -107,19 +103,11 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                 >
                                     <NumberInputField />
                                     <NumberInputStepper>
-                                        <NumberIncrementStepper
-                                            color={color}
-                                            borderColor={color}
-                                        />
-                                        <NumberDecrementStepper
-                                            color={color}
-                                            borderColor={color}
-                                        />
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
                                     </NumberInputStepper>
                                 </NumberInput>
-                                <Text color="red">
-                                    {errors?.price?.message}
-                                </Text>
+                                <Text>{errors?.price?.message}</Text>
                             </>
                         )}
                     />
@@ -137,14 +125,11 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                 </Text>
                                 <Textarea
                                     {...field}
-                                    borderColor={color}
                                     maxH="200px"
                                     placeholder="Your message.. (optional)"
                                     onBlur={() => trigger()}
                                 />
-                                <Text color="red">
-                                    {errors?.message?.message}
-                                </Text>
+                                <Text>{errors?.message?.message}</Text>
                             </>
                         )}
                     />
@@ -165,7 +150,11 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                             flexDir="column"
                             mt="1rem"
                         >
-                            <Heading textDecor="underline" size="sm" mb="0.5rem">
+                            <Heading
+                                textDecor="underline"
+                                size="sm"
+                                mb="0.5rem"
+                            >
                                 Your message to the seller
                             </Heading>
                             <Text wordBreak="break-word">
@@ -190,12 +179,12 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                     w="100%"
                     justifyContent="space-between"
                 >
-                    <Button onClick={() => setProceed(false)} colorScheme="red">
+                    <Button colorScheme="red" onClick={() => setProceed(false)}>
                         Back
                     </Button>
                     <Button
-                        isLoading={isSubmitting}
                         colorScheme="blue"
+                        isLoading={isSubmitting}
                         type="submit"
                     >
                         Submit

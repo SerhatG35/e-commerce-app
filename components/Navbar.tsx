@@ -14,14 +14,14 @@ import { useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { RiFilePaper2Fill } from "react-icons/ri";
 import { SiTrustedshops } from "react-icons/si";
-import Login from "./Login";
 import CustomModal from "./Modal";
 import ProfileMenuDropdown from "./Profile/ProfileMenuDropdown";
+import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
 enum NAVBAR_MODAL_ACTIONS {
     NO_ACTION,
-    LOGIN,
+    SIGN_IN,
     SIGN_UP,
 }
 
@@ -53,7 +53,7 @@ const Navbar = () => {
         }));
     };
 
-    const isCurrenActionLogin = currentAction === NAVBAR_MODAL_ACTIONS.LOGIN;
+    const isCurrenActionSignIn = currentAction === NAVBAR_MODAL_ACTIONS.SIGN_IN;
 
     return (
         <Center
@@ -82,7 +82,6 @@ const Navbar = () => {
                         userSelect="none"
                         textAlign="center"
                         fontWeight={600}
-                        color={colorMode === "light" ? "#262355" : "#fff"}
                     >
                         <SiTrustedshops size={mainIconBreakpoint} /> shop
                     </ChakraLink>
@@ -100,24 +99,17 @@ const Navbar = () => {
                                 ]}
                                 boxShadow="2xl"
                                 onClick={() =>
-                                    toggleModal(NAVBAR_MODAL_ACTIONS.LOGIN)
+                                    toggleModal(NAVBAR_MODAL_ACTIONS.SIGN_IN)
                                 }
                                 _focus={{ boxShadow: "none" }}
                                 border="1px solid"
                                 variant="outline"
-                                borderColor={
-                                    colorMode === "light" ? "#1f1f1f" : "#fff"
-                                }
-                                color={
-                                    colorMode === "light" ? "#1f1f1f" : "#fff"
-                                }
                                 fontSize="inherit"
                                 size={buttonBreakpoint}
                             >
-                                Login
+                                Sign In
                             </Button>
                             <Button
-                                colorScheme="customPurple"
                                 mx={[
                                     "0.3rem",
                                     "0.3rem",
@@ -130,7 +122,6 @@ const Navbar = () => {
                                 }
                                 _focus={{ boxShadow: "none" }}
                                 border="1px solid transparent"
-                                color="#fff"
                                 fontSize="inherit"
                                 size={buttonBreakpoint}
                             >
@@ -144,8 +135,6 @@ const Navbar = () => {
                                 <div>
                                     <Tooltip label="Purchase Requests">
                                         <IconButton
-                                            color="#fff"
-                                            colorScheme="customPurple"
                                             _focus={{ boxShadow: "none" }}
                                             mr="1rem"
                                             rounded="50%"
@@ -163,8 +152,6 @@ const Navbar = () => {
                         p="0"
                         onClick={toggleColorMode}
                         _focus={{ boxShadow: "none" }}
-                        color="#fff"
-                        colorScheme="customPurple"
                         overflow="hidden"
                         size={buttonBreakpoint}
                     >
@@ -199,13 +186,13 @@ const Navbar = () => {
                 <CustomModal
                     onClickClose={toggleModal}
                     content={
-                        isCurrenActionLogin ? (
-                            <Login closeModal={toggleModal} />
+                        isCurrenActionSignIn ? (
+                            <SignIn closeModal={toggleModal} />
                         ) : (
                             <SignUp closeModal={toggleModal} />
                         )
                     }
-                    header={isCurrenActionLogin ? "Login" : "Sign Up"}
+                    header={isCurrenActionSignIn ? "Sign In" : "Sign Up"}
                 />
             )}
         </Center>

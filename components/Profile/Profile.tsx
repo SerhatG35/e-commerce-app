@@ -96,8 +96,8 @@ const Profile = () => {
                                         width="250px"
                                         height="250px"
                                         m="auto"
-                                        startColor="#262355"
-                                        endColor="#7B75C7"
+                                        startColor="#ebf4f5"
+                                        endColor="#b5c6e0"
                                     />
                                 ))
                             ) : products?.length !== 0 ? (

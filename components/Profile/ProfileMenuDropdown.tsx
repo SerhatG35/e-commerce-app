@@ -1,5 +1,6 @@
 import {
     Avatar,
+    Button,
     Center,
     IconButton,
     Menu,
@@ -8,11 +9,10 @@ import {
     MenuGroup,
     MenuItem,
     MenuList,
+    Switch,
     Tag,
     TagLabel,
     useBreakpointValue,
-    useColorMode,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import { useUserToken } from "context/userContext";
 import Link from "next/link";
@@ -20,11 +20,20 @@ import Router from "next/router";
 import { CgLogOut } from "react-icons/cg";
 import { IoIosMenu } from "react-icons/io";
 import { Auth } from "service/axios";
+import { COLOR_MODE_PREFERENCE } from "theme";
+import { useLocalStorage } from "usehooks-ts";
 import { Toaster } from "../../utils/Toster";
 
 const ProfileMenuDropdown = () => {
     const userToken = useUserToken();
-    const { colorMode } = useColorMode();
+
+    const [colorModePreference, setColorModePreference] = useLocalStorage(
+        "ColorModePreference",
+        {
+            colorPalette: COLOR_MODE_PREFERENCE.CUSTOM_GREEN,
+            useSystemColorMode: false,
+        }
+    );
 
     const logout = async () => {
         try {
@@ -39,7 +48,6 @@ const ProfileMenuDropdown = () => {
         userToken?.setUserToken(undefined);
     };
 
-    const menuItemHoverColor = useColorModeValue("#50356C", "#242424");
     const buttonBreakpoint = useBreakpointValue({
         base: "sm",
         md: "md",
@@ -53,28 +61,17 @@ const ProfileMenuDropdown = () => {
                 aria-label="settings"
                 as={IconButton}
                 rounded="50%"
-                colorScheme="customPurple"
-                color="#fff"
                 icon={<IoIosMenu size={iconBreakpoint} />}
                 autoFocus={false}
                 _focus={{ outline: "none" }}
                 size={buttonBreakpoint}
             />
-            <MenuList
-                bg={colorMode === "light" ? "#262355" : "#fff"}
-                color={colorMode === "light" ? "#fff" : "black"}
-            >
+            <MenuList>
                 <MenuGroup>
                     <Link href={`/profile/${userToken?.userToken?._id}`}>
-                        <MenuItem
-                            _hover={{
-                                background: menuItemHoverColor,
-                                color: "#fff",
-                            }}
-                        >
+                        <MenuItem>
                             <Tag
                                 size="lg"
-                                colorScheme="customPurple"
                                 borderRadius="full"
                                 fontSize="inherit"
                             >
@@ -103,15 +100,68 @@ const ProfileMenuDropdown = () => {
                     </Link>
                 </MenuGroup>
                 <MenuDivider />
+                <MenuGroup title="Color Palette">
+                    <MenuItem closeOnSelect={false}>
+                        <Center w="100%" justifyContent="space-evenly">
+                            <Button
+                                onClick={() =>
+                                    setColorModePreference({
+                                        ...colorModePreference,
+                                        colorPalette:
+                                            COLOR_MODE_PREFERENCE.CUSTOM_GREEN,
+                                    })
+                                }
+                                bg="#32B54E"
+                                rounded="100%"
+                                _hover={{ background: "#32B54E" }}
+                                _active={{ background: "#32B54E" }}
+                            />
+                            <Button
+                                onClick={() =>
+                                    setColorModePreference({
+                                        ...colorModePreference,
+                                        colorPalette:
+                                            COLOR_MODE_PREFERENCE.CUSTOM_ICE_CREAM,
+                                    })
+                                }
+                                bg="#F68D32"
+                                rounded="100%"
+                                _hover={{ background: "#F68D32" }}
+                                _active={{ background: "#F68D32" }}
+                            />
+                            <Button
+                                onClick={() =>
+                                    setColorModePreference({
+                                        ...colorModePreference,
+                                        colorPalette:
+                                            COLOR_MODE_PREFERENCE.CUSTOM_PINK_AND_PURPLE,
+                                    })
+                                }
+                                bg="#A277B3"
+                                rounded="100%"
+                                _hover={{ background: "#A277B3" }}
+                                _active={{ background: "#A277B3" }}
+                            />
+                        </Center>
+                    </MenuItem>
+                </MenuGroup>
+                <MenuDivider />
+                <MenuGroup title="System Color Mode">
+                    <MenuItem closeOnSelect={false}>
+                        <Switch
+                            isChecked={colorModePreference.useSystemColorMode}
+                            onChange={(e: any) =>
+                                setColorModePreference({
+                                    ...colorModePreference,
+                                    useSystemColorMode: e.target.checked,
+                                })
+                            }
+                        />
+                    </MenuItem>
+                </MenuGroup>
+                <MenuDivider />
                 <MenuGroup>
-                    <MenuItem
-                        _hover={{
-                            background: menuItemHoverColor,
-                            color: "#fff",
-                        }}
-                        onClick={logout}
-                        icon={<CgLogOut size={24} />}
-                    >
+                    <MenuItem onClick={logout} icon={<CgLogOut size={24} />}>
                         Logout
                     </MenuItem>
                 </MenuGroup>

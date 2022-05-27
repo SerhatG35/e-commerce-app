@@ -9,7 +9,6 @@ import {
     Th,
     Thead,
     Tr,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
@@ -31,8 +30,6 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
             userToken?.setUserToken(jwtDecode(token.accessToken));
     }, []);
 
-    const borderColor = useColorModeValue("#e2e8f0", "#ffffff29");
-
     return (
         <Center pt="11vh">
             <Head>
@@ -43,11 +40,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                     key="purchase"
                 />
             </Head>
-            <TableContainer
-                border={`1px solid ${borderColor}`}
-                p="3"
-                rounded="14px"
-            >
+            <TableContainer border={`1px solid `} p="3" rounded="14px">
                 <Table size="lg">
                     <TableCaption>Lorem ipsum dolor sit amet.</TableCaption>
                     <Thead>
@@ -67,13 +60,11 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                             <Td isNumeric>25.000$</Td>
                             <Td>
                                 <IconButton
-                                    colorScheme="red"
                                     aria-label="reject"
                                     icon={<AiOutlineCloseCircle size={25} />}
                                 />
                                 <IconButton
                                     ml="0.5rem"
-                                    colorScheme="green"
                                     aria-label="approve"
                                     icon={<AiOutlineCheckCircle size={25} />}
                                 />
@@ -86,13 +77,11 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                             <Td isNumeric>2.000$</Td>
                             <Td>
                                 <IconButton
-                                    colorScheme="red"
                                     aria-label="reject"
                                     icon={<AiOutlineCloseCircle size={25} />}
                                 />
                                 <IconButton
                                     ml="0.5rem"
-                                    colorScheme="green"
                                     aria-label="approve"
                                     icon={<AiOutlineCheckCircle size={25} />}
                                 />

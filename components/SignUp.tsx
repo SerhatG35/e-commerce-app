@@ -5,7 +5,6 @@ import {
     FormErrorMessage,
     Input,
     Select,
-    useColorMode,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FC, useState } from "react";
@@ -41,13 +40,6 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
     } = useForm<Global.SignUp.SignUpInputs>({
         resolver: yupResolver(signUpSchema),
     });
-    const { colorMode } = useColorMode();
-
-    const inputModeColors = {
-        color: colorMode === "dark" ? "#1f1f1f" : "#fff",
-        borderHoverColor: colorMode === "dark" ? "#8F8F8F" : undefined,
-    };
-
     const onSubmit: SubmitHandler<any> = async (data) => {
         try {
             await Auth.REGISTER(data);
@@ -97,14 +89,6 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
                                             ? "password"
                                             : "text"
                                     }
-                                    _placeholder={{
-                                        color: inputModeColors.color,
-                                    }}
-                                    borderColor={inputModeColors.color}
-                                    _hover={{
-                                        borderColor:
-                                            inputModeColors.borderHoverColor,
-                                    }}
                                 />
                             ) : (
                                 <Select
@@ -114,11 +98,6 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
                                             ? "Select city"
                                             : "Loading..."
                                     }
-                                    borderColor={inputModeColors.color}
-                                    _hover={{
-                                        borderColor:
-                                            inputModeColors.borderHoverColor,
-                                    }}
                                     onFocus={FetchCities}
                                 >
                                     {cities &&
@@ -140,11 +119,7 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
                 </FormControl>
             ))}
             <Button
-                bg={colorMode === "light" ? "#fff" : "#1f1f1f"}
-                color={colorMode === "light" ? "#1f1f1f" : "#fff"}
-                _hover={{
-                    background: colorMode === "light" ? "#DBDBDB" : "#3F3F3F",
-                }}
+                colorScheme="green"
                 my="2"
                 type="submit"
                 w="100%"
