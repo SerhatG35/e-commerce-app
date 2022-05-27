@@ -55,6 +55,7 @@ const ProductCard: FC<ProductCardProps> = ({
             rounded="12px"
             m="auto"
             userSelect="none"
+            textTransform="none"
             whileHover={{
                 y: -5,
                 transition: { type: "tween", duration: 0.15 },
@@ -99,6 +100,8 @@ const ProductCard: FC<ProductCardProps> = ({
                                     fontWeight="semibold"
                                     textAlign="start"
                                     border="0"
+                                    fontSize="lg"
+                                    whiteSpace="normal"
                                 >
                                     Are you sure you want to delete this
                                     product?
