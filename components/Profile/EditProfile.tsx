@@ -40,7 +40,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
     const {
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isDirty },
         reset,
     } = useForm<Global.User.UserInfo>({
         resolver: yupResolver(userSchema),
@@ -48,6 +48,11 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
     });
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const closeDrawer = () => {
+        onClose();
+        reset();
+    };
 
     const FetchCities = async () => {
         setCities(await External.FetchCities());
@@ -114,7 +119,11 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                 render={({ field }) => (
                                     <>
                                         <Input my="0.5rem" {...field} />
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.name?.message}
                                         </Text>
                                     </>
@@ -126,7 +135,11 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                 render={({ field }) => (
                                     <>
                                         <Input my="0.5rem" {...field} />
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.surname?.message}
                                         </Text>
                                     </>
@@ -142,7 +155,11 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                             {...field}
                                             type="email"
                                         />
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.email?.message}
                                         </Text>
                                     </>
@@ -176,7 +193,11 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                                     )
                                                 )}
                                         </Select>
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.city?.message}
                                         </Text>
                                     </>
@@ -190,7 +211,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                             colorScheme="red"
                             variant="outline"
                             mr={3}
-                            onClick={onClose}
+                            onClick={closeDrawer}
                         >
                             Cancel
                         </Button>
@@ -200,6 +221,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                             type="submit"
                             onClick={handleSubmit(onSubmit)}
                             colorScheme="blue"
+                            disabled={!isDirty}
                         >
                             Submit
                         </Button>

@@ -119,7 +119,11 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             my="0.5rem"
                                             {...field}
                                         />
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.title?.message}
                                         </Text>
                                     </>
@@ -151,7 +155,11 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                                 )
                                             )}
                                         </Select>
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.category?.message}
                                         </Text>
                                     </>
@@ -174,7 +182,11 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                                 type="number"
                                             />
                                         </InputGroup>
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.price?.message}
                                         </Text>
                                     </>
@@ -189,7 +201,11 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             field={field}
                                             setValue={setValue}
                                         />
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.image?.message}
                                         </Text>
                                     </>
@@ -206,7 +222,11 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             my="0.5rem"
                                             {...field}
                                         />
-                                        <Text w="100%" fontSize="sm">
+                                        <Text
+                                            color="red"
+                                            w="100%"
+                                            fontSize="sm"
+                                        >
                                             {errors?.description?.message}
                                         </Text>
                                     </>

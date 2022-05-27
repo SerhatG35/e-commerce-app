@@ -14,7 +14,7 @@ import {
     StatLabel,
     StatNumber,
 } from "@chakra-ui/react";
-import { MotionCenter } from "components/MotionComponents";
+import { MotionBadge } from "components/MotionComponents";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,7 +49,7 @@ const ProductCard: FC<ProductCardProps> = ({
     };
 
     return (
-        <MotionCenter
+        <MotionBadge
             flexDir="column"
             textAlign="center"
             rounded="12px"
@@ -60,6 +60,7 @@ const ProductCard: FC<ProductCardProps> = ({
                 transition: { type: "tween", duration: 0.15 },
             }}
             position="relative"
+            px="0"
         >
             {isNewProduct && (
                 <Badge
@@ -152,7 +153,7 @@ const ProductCard: FC<ProductCardProps> = ({
                     {dayjs(product.createdAt).format("DD/MM/YYYY")}
                 </StatHelpText>
             </Stat>
-        </MotionCenter>
+        </MotionBadge>
     );
 };
 

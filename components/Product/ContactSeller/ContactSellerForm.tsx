@@ -107,7 +107,9 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                         <NumberDecrementStepper />
                                     </NumberInputStepper>
                                 </NumberInput>
-                                <Text>{errors?.price?.message}</Text>
+                                <Text color="red">
+                                    {errors?.price?.message}
+                                </Text>
                             </>
                         )}
                     />
@@ -129,7 +131,9 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                     placeholder="Your message.. (optional)"
                                     onBlur={() => trigger()}
                                 />
-                                <Text>{errors?.message?.message}</Text>
+                                <Text color="red">
+                                    {errors?.message?.message}
+                                </Text>
                             </>
                         )}
                     />
