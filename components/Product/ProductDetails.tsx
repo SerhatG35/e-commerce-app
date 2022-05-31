@@ -151,7 +151,7 @@ const ProductDetails: FC = () => {
                                     visibility={
                                         !userHasToken ? "visible" : "hidden"
                                     }
-                                    label="hello world"
+                                    label="Please login to make a purchase request."
                                 >
                                     <Center w="100%">
                                         <Button
