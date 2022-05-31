@@ -38,7 +38,7 @@ const ImageUpload = ({ field, setValue }: ImageUploadProps) => {
     };
 
     return (
-        <Box mt="0.5rem" w="100%">
+        <Box my="0.5rem" w="100%">
             <FilePond
                 {...field}
                 onupdatefiles={handleImageUpload}

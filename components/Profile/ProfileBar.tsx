@@ -30,7 +30,7 @@ const ProfileBar = ({
             position="sticky"
             top="10vh"
             flexDir="column"
-            fontSize="xl"
+            fontSize="inherit"
             justifyContent="flex-start"
             userSelect="none"
         >
@@ -50,7 +50,9 @@ const ProfileBar = ({
                         <Text fontWeight="thin" borderBottom="1px solid">
                             Email
                         </Text>
-                        <Text fontWeight="semibold">{user?.email}</Text>
+                        <Text wordBreak="break-word" fontWeight="semibold">
+                            {user?.email}
+                        </Text>
                     </Center>
                     <Center my="1rem" flexDir="column">
                         <Text fontWeight="thin" borderBottom="1px solid">

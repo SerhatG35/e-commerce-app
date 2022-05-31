@@ -94,13 +94,21 @@ const ProductCard: FC<ProductCardProps> = ({
                                     _focus={{ outline: "none" }}
                                 />
                             </PopoverTrigger>
-                            <PopoverContent _focus={{ outline: "none" }}>
+                            <PopoverContent
+                                fontSize={[
+                                    "0.75rem",
+                                    "0.75rem",
+                                    "0.85rem",
+                                    "0.85rem",
+                                    "1rem",
+                                ]}
+                                _focus={{ outline: "none" }}
+                            >
                                 <PopoverHeader
                                     pt={4}
                                     fontWeight="semibold"
                                     textAlign="start"
                                     border="0"
-                                    fontSize="lg"
                                     whiteSpace="normal"
                                 >
                                     Are you sure you want to delete this
@@ -117,6 +125,7 @@ const ProductCard: FC<ProductCardProps> = ({
                                     <Button
                                         colorScheme="blue"
                                         onClick={onClose}
+                                        fontSize="inherit"
                                     >
                                         Cancel
                                     </Button>
@@ -124,6 +133,7 @@ const ProductCard: FC<ProductCardProps> = ({
                                         colorScheme="red"
                                         onClick={deleteProduct}
                                         isLoading={isDeleting}
+                                        fontSize="inherit"
                                     >
                                         Delete
                                     </Button>
@@ -143,16 +153,19 @@ const ProductCard: FC<ProductCardProps> = ({
                     <Image src={product.image} width="250px" height="150px" />
                 </Box>
             </Link>
-            <Stat w="100%">
-                <StatLabel fontSize="1.5rem">{product.title}</StatLabel>
-                <StatNumber>
+            <Stat
+                fontSize={["0.75rem", "0.75rem", "0.85rem", "0.85rem", "1rem"]}
+                w="100%"
+            >
+                <StatLabel fontSize="inherit">{product.title}</StatLabel>
+                <StatNumber fontSize="1.5em">
                     {new Intl.NumberFormat("tr-TR", {
                         style: "currency",
                         currency: "TRY",
                         notation: "compact",
                     }).format(Number(product.price))}
                 </StatNumber>
-                <StatHelpText>
+                <StatHelpText fontSize="inherit">
                     {dayjs(product.createdAt).format("DD/MM/YYYY")}
                 </StatHelpText>
             </Stat>

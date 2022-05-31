@@ -2,6 +2,8 @@ import {
     Button,
     Center,
     Heading,
+    InputGroup,
+    InputLeftAddon,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
@@ -90,23 +92,35 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                 <Text mb="0.5rem" textDecoration="underline">
                                     Price
                                 </Text>
-                                <NumberInput
-                                    {...field}
-                                    min={productPrice}
-                                    max={productPrice + productPrice * 0.1}
-                                    onBlur={(e: any) =>
-                                        e.target.value >
-                                            productPrice + productPrice * 0.1 &&
-                                        onOpen()
-                                    }
-                                    allowMouseWheel
-                                >
-                                    <NumberInputField />
-                                    <NumberInputStepper>
-                                        <NumberIncrementStepper />
-                                        <NumberDecrementStepper />
-                                    </NumberInputStepper>
-                                </NumberInput>
+                                <InputGroup>
+                                    <InputLeftAddon
+                                        children="₺"
+                                        fontSize="1.2rem"
+                                        pointerEvents="none"
+                                    />
+                                    <NumberInput
+                                        {...field}
+                                        min={productPrice}
+                                        max={productPrice + productPrice * 0.1}
+                                        onBlur={(e: any) =>
+                                            e.target.value >
+                                                productPrice +
+                                                    productPrice * 0.1 &&
+                                            onOpen()
+                                        }
+                                        allowMouseWheel
+                                        w="100%"
+                                    >
+                                        <NumberInputField
+                                            _focus={{ outline: "none" }}
+                                            borderLeftRadius="0px"
+                                        />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
+                                </InputGroup>
                                 <Text color="red">
                                     {errors?.price?.message}
                                 </Text>
@@ -127,6 +141,7 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                                 </Text>
                                 <Textarea
                                     {...field}
+                                    _focus={{ outline: "none" }}
                                     maxH="200px"
                                     placeholder="Your message.. (optional)"
                                     onBlur={() => trigger()}
@@ -183,10 +198,15 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                     w="100%"
                     justifyContent="space-between"
                 >
-                    <Button colorScheme="red" onClick={() => setProceed(false)}>
+                    <Button
+                        fontSize="inherit"
+                        colorScheme="red"
+                        onClick={() => setProceed(false)}
+                    >
                         Back
                     </Button>
                     <Button
+                        fontSize="inherit"
                         colorScheme="blue"
                         isLoading={isSubmitting}
                         type="submit"

@@ -13,6 +13,7 @@ import {
     Select,
     Text,
     useDisclosure,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUserToken } from "context/userContext";
@@ -36,6 +37,8 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
     const [loading, setLoading] = useState(false);
     const btnRef = useRef(null);
     const userToken = useUserToken();
+
+    const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
     const {
         handleSubmit,
@@ -96,6 +99,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                 onClick={onOpen}
                 ref={btnRef}
                 boxShadow="md"
+                fontSize="inherit"
             >
                 Edit Profile
             </Button>
@@ -105,6 +109,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 autoFocus={false}
+                size={isLargerThan768 ? "xs" : "full"}
             >
                 <DrawerOverlay />
                 <DrawerContent>

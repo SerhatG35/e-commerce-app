@@ -50,10 +50,10 @@ function _app({ Component, pageProps }: AppProps) {
             <ChakraProvider theme={theme} resetCSS>
                 <Center
                     fontSize={[
-                        "0.6rem",
-                        "0.6rem",
                         "0.75rem",
                         "0.75rem",
+                        "0.85rem",
+                        "0.85rem",
                         "1rem",
                     ]}
                     fontFamily="Nunito"

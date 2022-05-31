@@ -5,6 +5,7 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import { FC } from "react";
 
@@ -19,10 +20,20 @@ const CustomModal: FC<CustomModalProps> = ({
     content,
     onClickClose,
 }) => {
+    const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+
     return (
-        <Modal isOpen={true} onClose={onClickClose} isCentered>
+        <Modal
+            size={isLargerThan768 ? "md" : "xs"}
+            isOpen={true}
+            onClose={onClickClose}
+            isCentered
+        >
             <ModalOverlay />
-            <ModalContent rounded="xl">
+            <ModalContent
+                fontSize={["0.75rem", "0.75rem", "0.85rem", "0.85rem", "1rem"]}
+                rounded="xl"
+            >
                 <ModalHeader textAlign="center">{header}</ModalHeader>
                 <ModalCloseButton rounded="xl" _focus={{ outline: "none" }} />
                 <ModalBody>{content}</ModalBody>

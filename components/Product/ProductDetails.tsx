@@ -58,7 +58,7 @@ const ProductDetails: FC = () => {
                     maxW="1200px"
                     w="100%"
                     fontSize="1.1rem"
-                    px={["1rem", "1rem", "3rem", "3rem", "unset"]}
+                    px={["3rem", "3rem", "3rem", "3rem", "unset"]}
                 >
                     <Head>
                         <title>{`${productDetails.title} | ${productDetails.category}`}</title>

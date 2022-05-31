@@ -41,7 +41,6 @@ const Navbar = () => {
         base: "sm",
         md: "md",
     });
-    const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });
     const mainIconBreakpoint = useBreakpointValue({ base: 30, md: 40 });
 
     const toggleModal = (
@@ -139,6 +138,7 @@ const Navbar = () => {
                                             mr="1rem"
                                             rounded="50%"
                                             aria-label="Purchase Requests"
+                                            fontSize="inherit"
                                             icon={<RiFilePaper2Fill />}
                                             size={buttonBreakpoint}
                                         />
@@ -153,6 +153,7 @@ const Navbar = () => {
                         onClick={toggleColorMode}
                         _focus={{ boxShadow: "none" }}
                         overflow="hidden"
+                        fontSize="inherit"
                         size={buttonBreakpoint}
                     >
                         {colorMode === "light" && (
@@ -163,7 +164,7 @@ const Navbar = () => {
                                     transition={{ duration: 0.4 }}
                                     exit={{ y: "25px", opacity: 0 }}
                                 >
-                                    <BsSun size={iconBreakpoint} />
+                                    <BsSun />
                                 </motion.div>
                             </AnimatePresence>
                         )}
@@ -175,7 +176,7 @@ const Navbar = () => {
                                     transition={{ duration: 0.4 }}
                                     exit={{ y: "-25px", opacity: 0 }}
                                 >
-                                    <BsMoon size={iconBreakpoint} />
+                                    <BsMoon />
                                 </motion.div>
                             </AnimatePresence>
                         )}

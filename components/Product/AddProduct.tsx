@@ -11,11 +11,14 @@ import {
     DrawerOverlay,
     Input,
     InputGroup,
-    InputLeftElement,
+    InputLeftAddon,
+    NumberInput,
+    NumberInputField,
     Select,
     Text,
     Textarea,
     useDisclosure,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ImageUpload from "components/ImageUpload";
@@ -40,6 +43,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
         formState: { errors },
         setValue,
         reset,
+        getValues,
     } = useForm<Global.Products.AddProduct>({
         resolver: yupResolver(addProductSchema),
         defaultValues: {
@@ -54,6 +58,8 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef(null);
     const userToken = useUserToken();
+
+    const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
     const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
         data
@@ -91,6 +97,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                 ref={btnRef}
                 onClick={onOpen}
                 boxShadow="md"
+                fontSize="inherit"
             >
                 Add New Product
             </Button>
@@ -100,7 +107,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                 onClose={closeDrawer}
                 finalFocusRef={btnRef}
                 autoFocus={false}
-                size="sm"
+                size={isLargerThan768 ? "sm" : "full"}
             >
                 <DrawerOverlay />
                 <DrawerContent>
@@ -138,6 +145,11 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             {...field}
                                             name="category"
                                             my="0.5rem"
+                                            color={
+                                                getValues("category")
+                                                    ? "inherit"
+                                                    : "whiteAlpha.400"
+                                            }
                                         >
                                             {productCategories.map(
                                                 (category, index) => (
@@ -171,16 +183,22 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                 render={({ field }) => (
                                     <>
                                         <InputGroup my="0.5rem">
-                                            <InputLeftElement
-                                                pointerEvents="none"
-                                                fontSize="1.2em"
+                                            <InputLeftAddon
                                                 children="₺"
+                                                fontSize="1.2rem"
+                                                pointerEvents="none"
                                             />
-                                            <Input
+                                            <NumberInput
                                                 {...field}
-                                                placeholder="Price"
-                                                type="number"
-                                            />
+                                                max={1000000}
+                                                w="100%"
+                                            >
+                                                <NumberInputField
+                                                    _focus={{ outline: "none" }}
+                                                    borderLeftRadius="0px"
+                                                    placeholder="Price"
+                                                />
+                                            </NumberInput>
                                         </InputGroup>
                                         <Text
                                             color="red"

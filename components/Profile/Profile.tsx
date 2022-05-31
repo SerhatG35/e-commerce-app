@@ -88,35 +88,32 @@ const Profile = () => {
                             )}
                         </Center>
                         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                            {isFetchingData ? (
-                                skeletons.map((key) => (
-                                    <Skeleton
-                                        key={key}
-                                        rounded="12px"
-                                        width="250px"
-                                        height="250px"
-                                        m="auto"
-                                        startColor="#ebf4f5"
-                                        endColor="#b5c6e0"
-                                    />
-                                ))
-                            ) : products?.length !== 0 ? (
-                                products?.map((userProduct) => (
-                                    <ProductCard
-                                        key={userProduct._id}
-                                        product={userProduct}
-                                        usersOwnProfile={usersOwnProfile}
-                                        reFetch={getUserInfoAndProducts}
-                                    />
-                                ))
-                            ) : (
-                                <Center h="100vh" alignItems="flex-start">
-                                    <Text fontSize="xl">
-                                        You don't have any products.
-                                    </Text>
-                                </Center>
-                            )}
+                            {isFetchingData
+                                ? skeletons.map((key) => (
+                                      <Skeleton
+                                          key={key}
+                                          rounded="12px"
+                                          width="250px"
+                                          height="250px"
+                                          m="auto"
+                                          startColor="#ebf4f5"
+                                          endColor="#b5c6e0"
+                                      />
+                                  ))
+                                : products?.map((userProduct) => (
+                                      <ProductCard
+                                          key={userProduct._id}
+                                          product={userProduct}
+                                          usersOwnProfile={usersOwnProfile}
+                                          reFetch={getUserInfoAndProducts}
+                                      />
+                                  ))}
                         </Grid>
+                        {products?.length === 0 && (
+                            <Text fontSize="inherit">
+                                You don't have any products.
+                            </Text>
+                        )}
                     </Center>
                 </Center>
             ) : (

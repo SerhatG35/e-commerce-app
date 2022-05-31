@@ -1,6 +1,5 @@
 import {
     Avatar,
-    Button,
     Center,
     IconButton,
     Menu,
@@ -17,11 +16,13 @@ import {
 import { useUserToken } from "context/userContext";
 import Link from "next/link";
 import Router from "next/router";
+import { BsFillPaletteFill } from "react-icons/bs";
 import { CgLogOut } from "react-icons/cg";
 import { IoIosMenu } from "react-icons/io";
 import { Auth } from "service/axios";
 import { COLOR_MODE_PREFERENCE } from "theme";
 import { useLocalStorage } from "usehooks-ts";
+import { ColorPalettes } from "../../constants";
 import { Toaster } from "../../utils/Toster";
 
 const ProfileMenuDropdown = () => {
@@ -39,20 +40,22 @@ const ProfileMenuDropdown = () => {
         try {
             if (userToken?.userToken) {
                 const result = await Auth.LOGOUT();
-                result && Router.push("/");
+                if (result) {
+                    Router.push("/");
+                    userToken?.setUserToken(undefined);
+                }
             }
         } catch (error: any) {
             Router.push("/");
+            userToken?.setUserToken(undefined);
             Toaster("Unauthorized", "", "error");
         }
-        userToken?.setUserToken(undefined);
     };
 
     const buttonBreakpoint = useBreakpointValue({
         base: "sm",
         md: "md",
     });
-    const iconBreakpoint = useBreakpointValue({ base: 10, md: 20 });
 
     return (
         <Menu isLazy={true} autoSelect={false}>
@@ -60,8 +63,9 @@ const ProfileMenuDropdown = () => {
                 mr="1rem"
                 aria-label="settings"
                 as={IconButton}
+                fontSize="inherit"
                 rounded="50%"
-                icon={<IoIosMenu size={iconBreakpoint} />}
+                icon={<IoIosMenu />}
                 autoFocus={false}
                 _focus={{ outline: "none" }}
                 size={buttonBreakpoint}
@@ -74,6 +78,8 @@ const ProfileMenuDropdown = () => {
                                 size="lg"
                                 borderRadius="full"
                                 fontSize="inherit"
+                                color="inherit"
+                                py="0.25rem"
                             >
                                 <Avatar
                                     size="xs"
@@ -87,11 +93,7 @@ const ProfileMenuDropdown = () => {
                                     <TagLabel>
                                         {`${userToken?.userToken?.name} ${userToken?.userToken?.surname}`}
                                     </TagLabel>
-                                    <TagLabel
-                                        fontSize="0.8rem"
-                                        color="gray.400"
-                                        isTruncated
-                                    >
+                                    <TagLabel fontSize="0.8rem">
                                         {userToken?.userToken?.email}
                                     </TagLabel>
                                 </Center>
@@ -100,48 +102,37 @@ const ProfileMenuDropdown = () => {
                     </Link>
                 </MenuGroup>
                 <MenuDivider />
-                <MenuGroup title="Color Palette">
+                <MenuGroup fontSize="inherit" title="Color Palette">
                     <MenuItem closeOnSelect={false}>
                         <Center w="100%" justifyContent="space-evenly">
-                            <Button
-                                onClick={() =>
-                                    setColorModePreference({
-                                        ...colorModePreference,
-                                        colorPalette:
-                                            COLOR_MODE_PREFERENCE.CUSTOM_GREEN,
-                                    })
-                                }
-                                bg="#32B54E"
-                                rounded="100%"
-                                _hover={{ background: "#32B54E" }}
-                                _active={{ background: "#32B54E" }}
-                            />
-                            <Button
-                                onClick={() =>
-                                    setColorModePreference({
-                                        ...colorModePreference,
-                                        colorPalette:
-                                            COLOR_MODE_PREFERENCE.CUSTOM_ICE_CREAM,
-                                    })
-                                }
-                                bg="#F68D32"
-                                rounded="100%"
-                                _hover={{ background: "#F68D32" }}
-                                _active={{ background: "#F68D32" }}
-                            />
-                            <Button
-                                onClick={() =>
-                                    setColorModePreference({
-                                        ...colorModePreference,
-                                        colorPalette:
-                                            COLOR_MODE_PREFERENCE.CUSTOM_PINK_AND_PURPLE,
-                                    })
-                                }
-                                bg="#A277B3"
-                                rounded="100%"
-                                _hover={{ background: "#A277B3" }}
-                                _active={{ background: "#A277B3" }}
-                            />
+                            {ColorPalettes.map((color) => (
+                                <IconButton
+                                    size="sm"
+                                    aria-label="color-palette"
+                                    onClick={() =>
+                                        setColorModePreference({
+                                            ...colorModePreference,
+                                            colorPalette: color.preference,
+                                        })
+                                    }
+                                    bg={color.hex}
+                                    rounded="100%"
+                                    _hover={{
+                                        background: color.hex,
+                                    }}
+                                    _active={{
+                                        background: color.hex,
+                                    }}
+                                    icon={
+                                        colorModePreference.colorPalette ===
+                                        color.preference ? (
+                                            <BsFillPaletteFill />
+                                        ) : (
+                                            <></>
+                                        )
+                                    }
+                                />
+                            ))}
                         </Center>
                     </MenuItem>
                 </MenuGroup>
