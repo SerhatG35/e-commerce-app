@@ -213,7 +213,7 @@ const Filter = ({
                                 )}
                                 <RangeSlider
                                     aria-label={["min", "max"]}
-                                    onChange={setRange}
+                                    onChangeEnd={setRange}
                                     max={highestPrice}
                                     defaultValue={[0, highestPrice]}
                                     w={["100%", "75%", "50%", "50%", "100%"]}

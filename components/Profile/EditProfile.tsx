@@ -175,8 +175,8 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                 name="city"
                                 render={({ field }) => (
                                     <>
-                                        <Select my="0.5rem" {...field}>
-                                            {cities &&
+                                        <Select {...field} my="0.5rem">
+                                            {cities ? (
                                                 cities.data.states.map(
                                                     (city) => (
                                                         <option
@@ -196,7 +196,10 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
                                                             }
                                                         </option>
                                                     )
-                                                )}
+                                                )
+                                            ) : (
+                                                <option>Loading...</option>
+                                            )}
                                         </Select>
                                         <Text
                                             color="red"

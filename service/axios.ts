@@ -95,6 +95,10 @@ export const Product = {
         );
         return data;
     },
+    GET_PURCHASE_REQUEST: async (userId: string | undefined) => {
+        const { data } = await API.get(`/api/get-purchase-requests/${userId}`);
+        return data;
+    },
 };
 
 export const External = {

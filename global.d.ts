@@ -53,8 +53,12 @@ declare module Global {
 
         export interface PurchaseRequestPayload {
             productId: string;
+            productName: string;
+            productCategory: string;
             buyerName: string;
             buyerId: string | undefined;
+            sellerName: string;
+            sellerId: string | undefined;
             price: number;
             message: string | undefined;
         }

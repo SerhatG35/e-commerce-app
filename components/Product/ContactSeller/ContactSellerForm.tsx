@@ -23,11 +23,8 @@ import { ContactSellerSchema } from "./ContactSellerSchema";
 import { Footer } from "./Footer";
 
 type ContactSellerFormProps = {
-    productId: string;
-    productPrice: number;
     closeModal: (requireRefect?: boolean) => void;
-    productName: string;
-    sellerName: string;
+    productInfo: Global.Products.Product;
 };
 
 type FormTypes = {
@@ -36,15 +33,14 @@ type FormTypes = {
 };
 
 const ContactSellerForm: FC<ContactSellerFormProps> = ({
-    productId,
-    productPrice,
-    productName,
-    sellerName,
+    productInfo,
     closeModal,
 }) => {
     const [proceed, setProceed] = useState(false);
     const userToken = useUserToken();
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const productPrice = Number(productInfo.price);
 
     const {
         control,
@@ -63,7 +59,11 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
     const onSubmit: SubmitHandler<FormTypes> = async (data) => {
         const modifiedData: Global.Products.PurchaseRequestPayload = {
             ...data,
-            productId,
+            productId: productInfo._id,
+            productCategory: productInfo.category,
+            productName: productInfo.title,
+            sellerId: productInfo.user,
+            sellerName: productInfo.userNameAndSurname,
             buyerId: userToken?.userToken?._id,
             buyerName: `${userToken?.userToken?.name} ${userToken?.userToken?.surname}`,
         };
@@ -155,14 +155,15 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                 </>
             ) : (
                 <Center alignItems="flex-start" flexDir="column">
-                    <Text fontWeight="medium">{`You are about to send a purchase request to ${sellerName} for product named ${productName} for ${new Intl.NumberFormat(
-                        "tr-TR",
-                        {
-                            style: "currency",
-                            currency: "TRY",
-                            maximumSignificantDigits: 4,
-                        }
-                    ).format(getValues("price"))}.`}</Text>
+                    <Text fontWeight="medium">{`You are about to send a purchase request to ${
+                        productInfo.userNameAndSurname
+                    } for product named ${
+                        productInfo.title
+                    } for ${new Intl.NumberFormat("tr-TR", {
+                        style: "currency",
+                        currency: "TRY",
+                        maximumSignificantDigits: 4,
+                    }).format(getValues("price"))}.`}</Text>
                     {getValues("message") && (
                         <Center
                             alignItems="flex-start"

@@ -188,12 +188,7 @@ const ProductDetails: FC = () => {
                             content={
                                 <ContactSellerForm
                                     closeModal={toggleContactSellerFormModal}
-                                    productId={productDetails._id}
-                                    productPrice={Number(productDetails.price)}
-                                    productName={productDetails.title}
-                                    sellerName={
-                                        productDetails.userNameAndSurname
-                                    }
+                                    productInfo={productDetails}
                                 />
                             }
                             header="Contact the Seller"

@@ -21,20 +21,31 @@ import { CgLogOut } from "react-icons/cg";
 import { IoIosMenu } from "react-icons/io";
 import { Auth } from "service/axios";
 import { COLOR_MODE_PREFERENCE } from "theme";
-import { useLocalStorage } from "usehooks-ts";
+import { useLocalStorage, useReadLocalStorage } from "usehooks-ts";
 import { ColorPalettes } from "../../constants";
 import { Toaster } from "../../utils/Toster";
+
+type ColorModePreferenceType = {
+    colorPalette: COLOR_MODE_PREFERENCE;
+    useSystemColorMode: boolean;
+};
 
 const ProfileMenuDropdown = () => {
     const userToken = useUserToken();
 
-    const [colorModePreference, setColorModePreference] = useLocalStorage(
-        "ColorModePreference",
-        {
-            colorPalette: COLOR_MODE_PREFERENCE.CUSTOM_GREEN,
-            useSystemColorMode: false,
-        }
-    );
+    const currentStatusOfLocalStorage =
+        useReadLocalStorage<ColorModePreferenceType>("ColorModePreference");
+
+    const [colorModePreference, setColorModePreference] =
+        useLocalStorage<ColorModePreferenceType>(
+            "ColorModePreference",
+            currentStatusOfLocalStorage
+                ? { ...currentStatusOfLocalStorage }
+                : {
+                      colorPalette: COLOR_MODE_PREFERENCE.CUSTOM_GREEN,
+                      useSystemColorMode: false,
+                  }
+        );
 
     const logout = async () => {
         try {
@@ -103,38 +114,38 @@ const ProfileMenuDropdown = () => {
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup fontSize="inherit" title="Color Palette">
-                    <MenuItem closeOnSelect={false}>
-                        <Center w="100%" justifyContent="space-evenly">
-                            {ColorPalettes.map((color) => (
-                                <IconButton
-                                    size="sm"
-                                    aria-label="color-palette"
-                                    onClick={() =>
-                                        setColorModePreference({
-                                            ...colorModePreference,
-                                            colorPalette: color.preference,
-                                        })
-                                    }
-                                    bg={color.hex}
-                                    rounded="100%"
-                                    _hover={{
-                                        background: color.hex,
-                                    }}
-                                    _active={{
-                                        background: color.hex,
-                                    }}
-                                    icon={
-                                        colorModePreference.colorPalette ===
-                                        color.preference ? (
-                                            <BsFillPaletteFill />
-                                        ) : (
-                                            <></>
-                                        )
-                                    }
-                                />
-                            ))}
-                        </Center>
-                    </MenuItem>
+                    <Center w="100%" justifyContent="space-evenly">
+                        {ColorPalettes.map((color) => (
+                            <IconButton
+                                key={color.preference}
+                                size="sm"
+                                w="32px"
+                                aria-label="color-palette"
+                                onClick={() =>
+                                    setColorModePreference({
+                                        ...colorModePreference,
+                                        colorPalette: color.preference,
+                                    })
+                                }
+                                bg={color.hex}
+                                rounded="100%"
+                                _hover={{
+                                    background: color.hex,
+                                }}
+                                _active={{
+                                    background: color.hex,
+                                }}
+                                icon={
+                                    colorModePreference.colorPalette ===
+                                    color.preference ? (
+                                        <BsFillPaletteFill />
+                                    ) : (
+                                        <></>
+                                    )
+                                }
+                            />
+                        ))}
+                    </Center>
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup title="System Color Mode">

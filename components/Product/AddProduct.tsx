@@ -17,6 +17,7 @@ import {
     Select,
     Text,
     Textarea,
+    useColorModeValue,
     useDisclosure,
     useMediaQuery,
 } from "@chakra-ui/react";
@@ -60,6 +61,10 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
     const userToken = useUserToken();
 
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+    const categoryPlaceholderColor = useColorModeValue(
+        "blackAlpha.400",
+        "whiteAlpha.400"
+    );
 
     const onSubmit: SubmitHandler<Global.Products.AddProduct> = async (
         data
@@ -148,7 +153,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             color={
                                                 getValues("category")
                                                     ? "inherit"
-                                                    : "whiteAlpha.400"
+                                                    : categoryPlaceholderColor
                                             }
                                         >
                                             {productCategories.map(
