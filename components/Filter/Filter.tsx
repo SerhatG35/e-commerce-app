@@ -27,8 +27,9 @@ import FilterSkeleton from "./FilterSkeleton";
 interface FilterProps {
     highestPrice: number | undefined;
     filterProducts: (
-        category: string,
-        priceRange?: number[] | undefined
+        category?: string,
+        priceRange?: number[],
+        shouldCategoryIncluded?: boolean
     ) => void;
     redirectedCategory: string | undefined;
 }
@@ -43,6 +44,12 @@ const Filter = ({
 
     const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
     const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
+    const buttonBreakpoint = useBreakpointValue({
+        base: "xs",
+        sm: "sm",
+        md: "md",
+    });
+    const iconBreakpoint = useBreakpointValue({ base: "0.75rem", md: "1rem" });
 
     useEffect(() => {
         redirectedCategory && setCategory(redirectedCategory);
@@ -52,17 +59,9 @@ const Filter = ({
         highestPrice && setRange([0, highestPrice]);
     }, [highestPrice]);
 
-    useEffect(() => {
-        if (category !== "" && range !== undefined)
-            filterProducts(category, range);
-    }, [range, redirectedCategory]);
-
-    const buttonBreakpoint = useBreakpointValue({
-        base: "xs",
-        sm: "sm",
-        md: "md",
-    });
-    const iconBreakpoint = useBreakpointValue({ base: "0.75rem", md: "1rem" });
+    const handleFilterProducts = () => {
+        filterProducts(category, range, category === "" ? false : true);
+    };
 
     return (
         <>
@@ -213,7 +212,7 @@ const Filter = ({
                                 )}
                                 <RangeSlider
                                     aria-label={["min", "max"]}
-                                    onChangeEnd={setRange}
+                                    onChange={setRange}
                                     max={highestPrice}
                                     defaultValue={[0, highestPrice]}
                                     w={["100%", "75%", "50%", "50%", "100%"]}
@@ -235,7 +234,7 @@ const Filter = ({
                             <Button
                                 mt={["1rem", "1rem", "unset", "unset", "1rem"]}
                                 boxShadow="md"
-                                onClick={() => filterProducts(category, range)}
+                                onClick={handleFilterProducts}
                                 size={buttonBreakpoint}
                                 _focus={{ outline: "none" }}
                             >

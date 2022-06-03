@@ -7,53 +7,28 @@ import {
 } from "@chakra-ui/react";
 import Filter from "components/Filter/Filter";
 import ProductCard from "components/Product/ProductCard";
-import { useEffect, useState } from "react";
-import { Product } from "service/axios";
+import { FC } from "react";
 import { skeletons } from "../../constants";
 
-interface ProductsTypes {
+interface ProductsProps {
     allProducts: Global.Products.Product[] | undefined;
     allProductHighestPrice: number | undefined;
     redirectedCategory: string | undefined;
+    isFetchingProducts: boolean;
+    reFetchProducts: (
+        category?: string,
+        priceRange?: number[],
+        shouldCategoryIncluded?: boolean
+    ) => void;
 }
 
-type StateTypes = {
-    productsList: Global.Products.Product[] | undefined;
-    isLoading: boolean;
-};
-
-const Products = ({
+const Products: FC<ProductsProps> = ({
     allProducts,
     allProductHighestPrice,
     redirectedCategory,
-}: ProductsTypes) => {
-    const [{ productsList, isLoading }, setState] = useState<StateTypes>({
-        productsList: undefined,
-        isLoading: false,
-    });
-
-    useEffect(() => {
-        allProducts &&
-            !redirectedCategory &&
-            setState((state) => ({
-                ...state,
-                productsList: allProducts,
-            }));
-    }, [allProducts]);
-
-    const FilterProducts = async (category?: string, priceRange?: number[]) => {
-        const params = {
-            category,
-            priceRange,
-        };
-        category === "" && delete params.category;
-        priceRange?.length === 0 && delete params.priceRange;
-
-        setState((state) => ({ ...state, isLoading: true }));
-        const result = await Product.GET_ALL_FILTERED(params);
-        setState((state) => ({ ...state, ...result, isLoading: false }));
-    };
-
+    isFetchingProducts,
+    reFetchProducts,
+}) => {
     const gridTemplateColumnBreakpoint = useBreakpointValue({
         base: "repeat(1, 1fr)",
         md: "repeat(3, 1fr)",
@@ -64,7 +39,7 @@ const Products = ({
         <>
             <Filter
                 redirectedCategory={redirectedCategory}
-                filterProducts={FilterProducts}
+                filterProducts={reFetchProducts}
                 highestPrice={allProductHighestPrice}
             />
             <Divider
@@ -79,8 +54,8 @@ const Products = ({
                 templateColumns={gridTemplateColumnBreakpoint}
                 gap={6}
             >
-                {productsList ? (
-                    isLoading ? (
+                {allProducts ? (
+                    isFetchingProducts ? (
                         <Spinner
                             size="xl"
                             top={["150%", "150%", "150%", "150%", "40%"]}
@@ -88,7 +63,7 @@ const Products = ({
                             position="absolute"
                         />
                     ) : (
-                        productsList?.map((product) => (
+                        allProducts?.map((product) => (
                             <ProductCard key={product._id} product={product} />
                         ))
                     )

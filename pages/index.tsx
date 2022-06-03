@@ -13,25 +13,59 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Product as ProductService } from "service/axios";
 import { products as ProductJotai } from "store/jotaiStore";
+import { Toaster } from "utils/Toster";
 
 type InferedHome = InferGetServerSidePropsType<typeof getServerSideProps>;
 
+type StateTypes = {
+    highestPriceAvailable?: number;
+    isFetchingData: boolean;
+};
+
 const Home = ({ token }: InferedHome) => {
+    const [{ isFetchingData, highestPriceAvailable }, setState] =
+        useState<StateTypes>({
+            highestPriceAvailable: undefined,
+            isFetchingData: false,
+        });
+
     const userToken = useUserToken();
     const [products, setProducts] = useAtom(ProductJotai);
-    const [highestPrice, setHighestPrice] = useState<number | undefined>(
-        undefined
-    );
     const router = useRouter();
+
     const data = router.query;
 
     const redirectedCategory =
         Object.keys(data).length > 0 ? (data.category as string) : undefined;
 
-    const fetchProducts = async () => {
-        const { highestPrice, productsList } = await ProductService.GET_ALL();
-        setProducts(productsList);
-        setHighestPrice(highestPrice);
+    const fetchProducts = async (
+        category?: string,
+        priceRange?: number[],
+        shouldCategoryIncluded: boolean = true
+    ) => {
+        setState((state) => ({ ...state, isFetchingData: true }));
+        try {
+            const { highestPrice, productsList } = await ProductService.GET_ALL(
+                {
+                    ...(shouldCategoryIncluded && {
+                        category: category ?? redirectedCategory,
+                    }),
+                    priceRange,
+                }
+            );
+            setProducts(productsList);
+            setState((state) => ({
+                ...state,
+                highestPriceAvailable: highestPrice,
+                isFetchingData: false,
+            }));
+        } catch (error: any) {
+            Toaster("Error", `${error.response.data}`, "error");
+            setState((state) => ({
+                ...state,
+                isFetchingData: false,
+            }));
+        }
     };
 
     useEffect(() => {
@@ -42,6 +76,25 @@ const Home = ({ token }: InferedHome) => {
         token.accessToken &&
             userToken?.setUserToken(jwtDecode(token.accessToken));
     }, []);
+
+    const reFetchProducts = (
+        category?: string,
+        priceRange?: number[],
+        shouldCategoryIncluded?: boolean
+    ) => {
+        const modifiedData = {
+            category,
+            priceRange,
+        };
+        category === "" && delete modifiedData.category;
+        priceRange?.length === 0 && delete modifiedData.priceRange;
+
+        fetchProducts(
+            modifiedData.category,
+            modifiedData.priceRange,
+            shouldCategoryIncluded
+        );
+    };
 
     return (
         <Box w="100%" pt="11vh">
@@ -72,8 +125,10 @@ const Home = ({ token }: InferedHome) => {
                 >
                     <Products
                         allProducts={products}
-                        allProductHighestPrice={highestPrice}
+                        allProductHighestPrice={highestPriceAvailable}
                         redirectedCategory={redirectedCategory}
+                        isFetchingProducts={isFetchingData}
+                        reFetchProducts={reFetchProducts}
                     />
                 </Center>
             </Center>
