@@ -1,6 +1,7 @@
 import {
     Center,
     IconButton,
+    Skeleton,
     Table,
     TableCaption,
     TableContainer,
@@ -26,17 +27,18 @@ type InferedProductDetail = InferGetServerSidePropsType<
     typeof getServerSideProps
 >;
 
-interface PurchaseRequestsType extends Global.Products.PurchaseRequestPayload {
-    createdAt: Date | string;
-    updatedAt: Date | string;
-    _id: string;
-}
+type StateTypes = {
+    purchaseRequests: Global.Products.PurchaseRequestsResponse[] | undefined;
+    isFetchingData: boolean;
+};
 
 const PurchaseRequest = ({ token }: InferedProductDetail) => {
     const userToken = useUserToken();
-    const [purchaseRequests, setPurchaseRequests] = useState<
-        PurchaseRequestsType[] | undefined
-    >(undefined);
+    const [{ purchaseRequests, isFetchingData }, setState] =
+        useState<StateTypes>({
+            purchaseRequests: undefined,
+            isFetchingData: false,
+        });
 
     useEffect(() => {
         token?.accessToken &&
@@ -44,11 +46,33 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
     }, []);
 
     const getPurchaseRequests = async () => {
+        setState((state) => ({ ...state, isFetchingData: true }));
         try {
-            const result = await Product.GET_PURCHASE_REQUEST(
+            const response = await Product.GET_PURCHASE_REQUEST(
                 userToken?.userToken?._id
             );
-            setPurchaseRequests(result);
+            setState((state) => ({
+                ...state,
+                purchaseRequests: response,
+                isFetchingData: false,
+            }));
+        } catch (error: any) {
+            setState((state) => ({
+                ...state,
+                isFetchingData: false,
+            }));
+            Toaster(
+                "",
+                `${error.response?.data ?? "An error occurred"}`,
+                "error"
+            );
+        }
+    };
+
+    const rejectPurchaseRequest = async (purchaseId: string) => {
+        try {
+            await Product.REJECT_PURCHASE_REQUEST(purchaseId);
+            getPurchaseRequests();
         } catch (error: any) {
             Toaster(
                 "",
@@ -79,89 +103,108 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 maxW="1200px"
                 w="100%"
             >
-                <TableContainer boxShadow="xl" p="3" rounded="6px">
-                    <Table colorScheme="blue" size="lg">
-                        <TableCaption
-                            fontStyle="italic"
-                            textAlign="left"
-                            placement="top"
-                            textDecoration="underline"
-                        >
-                            Received purchase requests
-                        </TableCaption>
-                        <Thead>
-                            <Tr>
-                                <Th>FROM</Th>
-                                <Th>PRODUCT NAME</Th>
-                                <Th>CATEGORY</Th>
-                                <Th>MESSAGE</Th>
-                                <Th isNumeric>PRICE</Th>
-                                <Th>ACTION</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {purchaseRequests &&
-                                purchaseRequests.map((request) => (
-                                    <Tr key={request._id}>
-                                        <Td>
-                                            <Link
-                                                href={`/profile/${request.buyerId}`}
-                                            >
-                                                {request.buyerName}
-                                            </Link>
-                                        </Td>
-                                        <Td>
-                                            <Link
-                                                href={`/product/${request.productId}`}
-                                            >
-                                                {request.productName}
-                                            </Link>
-                                        </Td>
-                                        <Td>{request.productCategory}</Td>
-                                        <Td maxW="200px" isTruncated>
-                                            {(
-                                                <Tooltip
-                                                    label={request.message}
-                                                    hasArrow
-                                                    placement="left"
-                                                >
-                                                    {request.message}
-                                                </Tooltip>
-                                            ) ?? "-"}
-                                        </Td>
-                                        <Td isNumeric>
-                                            {new Intl.NumberFormat("tr-TR", {
-                                                style: "currency",
-                                                currency: "TRY",
-                                                maximumSignificantDigits: 4,
-                                            }).format(Number(request.price))}
-                                        </Td>
-                                        <Td>
-                                            <IconButton
-                                                aria-label="reject"
-                                                colorScheme="red"
-                                                icon={
-                                                    <AiOutlineCloseCircle
-                                                        size={25}
-                                                    />
-                                                }
-                                            />
-                                            <IconButton
-                                                ml="0.5rem"
-                                                aria-label="approve"
-                                                colorScheme="green"
-                                                icon={
-                                                    <AiOutlineCheckCircle
-                                                        size={25}
-                                                    />
-                                                }
-                                            />
-                                        </Td>
+                {!isFetchingData ? (
+                    <TableContainer w="100%" boxShadow="xl" p="3" rounded="6px">
+                        <Table colorScheme="blue" size="lg">
+                            <TableCaption
+                                fontStyle="italic"
+                                textAlign="left"
+                                placement="top"
+                                textDecoration="underline"
+                            >
+                                Received purchase requests
+                            </TableCaption>
+                            {purchaseRequests && (
+                                <Thead>
+                                    <Tr>
+                                        <Th>FROM</Th>
+                                        <Th>PRODUCT NAME</Th>
+                                        <Th>CATEGORY</Th>
+                                        <Th>MESSAGE</Th>
+                                        <Th isNumeric>PRICE</Th>
+                                        <Th>ACTION</Th>
                                     </Tr>
-                                ))}
-                        </Tbody>
-                    </Table>
-                </TableContainer>
+                                </Thead>
+                            )}
+                            <Tbody>
+                                {purchaseRequests ? (
+                                    purchaseRequests.map((request) => (
+                                        <Tr key={request._id}>
+                                            <Td>
+                                                <Link
+                                                    href={`/profile/${request.buyerId}`}
+                                                >
+                                                    {request.buyerName}
+                                                </Link>
+                                            </Td>
+                                            <Td>
+                                                <Link
+                                                    href={`/product/${request.productId}`}
+                                                >
+                                                    {request.productName}
+                                                </Link>
+                                            </Td>
+                                            <Td>{request.productCategory}</Td>
+                                            <Td maxW="200px" isTruncated>
+                                                {(
+                                                    <Tooltip
+                                                        label={request.message}
+                                                        hasArrow
+                                                        placement="left"
+                                                    >
+                                                        {request.message}
+                                                    </Tooltip>
+                                                ) ?? "-"}
+                                            </Td>
+                                            <Td isNumeric>
+                                                {new Intl.NumberFormat(
+                                                    "tr-TR",
+                                                    {
+                                                        style: "currency",
+                                                        currency: "TRY",
+                                                        maximumSignificantDigits: 4,
+                                                    }
+                                                ).format(Number(request.price))}
+                                            </Td>
+                                            <Td>
+                                                <IconButton
+                                                    aria-label="reject"
+                                                    onClick={() =>
+                                                        rejectPurchaseRequest(
+                                                            request._id
+                                                        )
+                                                    }
+                                                    colorScheme="red"
+                                                    icon={
+                                                        <AiOutlineCloseCircle
+                                                            size={25}
+                                                        />
+                                                    }
+                                                />
+                                                <IconButton
+                                                    ml="0.5rem"
+                                                    aria-label="approve"
+                                                    colorScheme="green"
+                                                    icon={
+                                                        <AiOutlineCheckCircle
+                                                            size={25}
+                                                        />
+                                                    }
+                                                />
+                                            </Td>
+                                        </Tr>
+                                    ))
+                                ) : (
+                                    <Tr w="100%">
+                                        <Td>No purchase request was found</Td>
+                                    </Tr>
+                                )}
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                ) : (
+                    <Skeleton height="350px" w="100%" />
+                )}
             </Center>
         </Center>
     );

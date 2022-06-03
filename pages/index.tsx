@@ -60,7 +60,7 @@ const Home = ({ token }: InferedHome) => {
                 isFetchingData: false,
             }));
         } catch (error: any) {
-            Toaster("Error", `${error.response.data}`, "error");
+            Toaster("Error", `${error?.response?.data}`, "error");
             setState((state) => ({
                 ...state,
                 isFetchingData: false,

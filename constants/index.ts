@@ -17,14 +17,14 @@ export const oneDayInMilliseconds = 86400000;
 export const ColorPalettes = [
     {
         preference: COLOR_MODE_PREFERENCE.CUSTOM_GREEN,
-        hex: customConfig.colors.customGreen[500],
+        hex: customConfig.colors.customGreen[100],
     },
     {
         preference: COLOR_MODE_PREFERENCE.CUSTOM_ICE_CREAM,
-        hex: customConfig.colors.customIcecream[500],
+        hex: customConfig.colors.customIcecream[100],
     },
     {
         preference: COLOR_MODE_PREFERENCE.CUSTOM_PINK_AND_PURPLE,
-        hex: customConfig.colors.customPinkAndPurple[500],
+        hex: customConfig.colors.customPinkAndPurple[100],
     },
 ];

@@ -70,6 +70,11 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
         try {
             await Product.PURCHASE_REQUEST(modifiedData);
             closeModal(true);
+            Toaster(
+                "Success",
+                "You have successfully sended request for this product.",
+                "success"
+            );
         } catch (error: any) {
             Toaster("Error", `${error?.response?.data}`, "error");
         }

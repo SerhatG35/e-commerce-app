@@ -1,14 +1,6 @@
 import {
     Badge,
     Box,
-    Button,
-    IconButton,
-    Popover,
-    PopoverArrow,
-    PopoverContent,
-    PopoverFooter,
-    PopoverHeader,
-    PopoverTrigger,
     Stat,
     StatHelpText,
     StatLabel,
@@ -18,10 +10,9 @@ import { MotionBadge } from "components/MotionComponents";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useState } from "react";
-import { BsTrash } from "react-icons/bs";
-import { Product as ProductService } from "service/axios";
+import { FC } from "react";
 import { oneDayInMilliseconds } from "../../constants";
+import DeleteProductPopover from "./DeleteProductPopever";
 
 type ProductCardProps = {
     product: Global.Products.Product;
@@ -34,19 +25,10 @@ const ProductCard: FC<ProductCardProps> = ({
     usersOwnProfile,
     reFetch,
 }) => {
-    const [isDeleting, setIsDeleting] = useState(false);
-
     const isNewProduct =
         dayjs().diff(dayjs(product.createdAt)) > oneDayInMilliseconds
             ? false
             : true;
-
-    const deleteProduct = async () => {
-        setIsDeleting(true);
-        await ProductService.DELETE(product._id);
-        setIsDeleting(false);
-        reFetch && reFetch();
-    };
 
     return (
         <MotionBadge
@@ -66,82 +48,17 @@ const ProductCard: FC<ProductCardProps> = ({
             {isNewProduct && (
                 <Badge
                     position="absolute"
-                    top="2px"
-                    right="2px"
+                    top="3px"
+                    right="3px"
                     zIndex={500}
                     variant="solid"
                     rounded="12px"
-                    fontSize="xx-small"
                 >
                     New
                 </Badge>
             )}
-            {usersOwnProfile && (
-                <Popover isLazy placement="bottom">
-                    {({ onClose }) => (
-                        <>
-                            <PopoverTrigger>
-                                <IconButton
-                                    variant="ghost"
-                                    pos="absolute"
-                                    bottom="0px"
-                                    right="0px"
-                                    rounded="12px"
-                                    zIndex={1}
-                                    aria-label="delete-product"
-                                    icon={<BsTrash />}
-                                    colorScheme="red"
-                                    _focus={{ outline: "none" }}
-                                />
-                            </PopoverTrigger>
-                            <PopoverContent
-                                fontSize={[
-                                    "0.75rem",
-                                    "0.75rem",
-                                    "0.85rem",
-                                    "0.85rem",
-                                    "1rem",
-                                ]}
-                                _focus={{ outline: "none" }}
-                            >
-                                <PopoverHeader
-                                    pt={4}
-                                    fontWeight="semibold"
-                                    textAlign="start"
-                                    border="0"
-                                    whiteSpace="normal"
-                                >
-                                    Are you sure you want to delete this
-                                    product?
-                                </PopoverHeader>
-                                <PopoverArrow />
-                                <PopoverFooter
-                                    border="0"
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    pb={4}
-                                >
-                                    <Button
-                                        colorScheme="blue"
-                                        onClick={onClose}
-                                        fontSize="inherit"
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        colorScheme="red"
-                                        onClick={deleteProduct}
-                                        isLoading={isDeleting}
-                                        fontSize="inherit"
-                                    >
-                                        Delete
-                                    </Button>
-                                </PopoverFooter>
-                            </PopoverContent>
-                        </>
-                    )}
-                </Popover>
+            {usersOwnProfile && reFetch && (
+                <DeleteProductPopover product={product} reFetch={reFetch} />
             )}
             <Link href={`/product/${product._id}`}>
                 <Box

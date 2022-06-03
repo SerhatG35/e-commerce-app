@@ -84,7 +84,7 @@ const EditProfile: FC<EditProfileProps> = ({ user, reFetch }) => {
         } catch (error: any) {
             Router.push("/");
             userToken?.setUserToken(undefined);
-            Toaster("", `${error.response.data}`, "error");
+            Toaster("", `${error?.response?.data}`, "error");
         }
         setLoading(false);
     };

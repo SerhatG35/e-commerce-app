@@ -46,7 +46,7 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
             Toaster("Account created", "", "success");
             closeModal();
         } catch (error: any) {
-            Toaster("", `${error.response.data}`, "error");
+            Toaster("", `${error?.response?.data}`, "error");
         }
     };
 

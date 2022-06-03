@@ -83,7 +83,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
         } catch (error: any) {
             Router.push("/");
             userToken?.setUserToken(undefined);
-            Toaster("", `${error.response.data}`, "error");
+            Toaster("", `${error?.response?.data}`, "error");
         }
         setIsLoading(false);
         onClose();
@@ -195,7 +195,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                             />
                                             <NumberInput
                                                 {...field}
-                                                max={1000000}
+                                                min={0}
                                                 w="100%"
                                             >
                                                 <NumberInputField

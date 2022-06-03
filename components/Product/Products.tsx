@@ -1,10 +1,5 @@
 import { Grid } from "@chakra-ui/layout";
-import {
-    Divider,
-    Skeleton,
-    Spinner,
-    useBreakpointValue,
-} from "@chakra-ui/react";
+import { Divider, Skeleton, useBreakpointValue } from "@chakra-ui/react";
 import Filter from "components/Filter/Filter";
 import ProductCard from "components/Product/ProductCard";
 import { FC } from "react";
@@ -54,32 +49,21 @@ const Products: FC<ProductsProps> = ({
                 templateColumns={gridTemplateColumnBreakpoint}
                 gap={6}
             >
-                {allProducts ? (
-                    isFetchingProducts ? (
-                        <Spinner
-                            size="xl"
-                            top={["150%", "150%", "150%", "150%", "40%"]}
-                            left={["45%", "45%", "50%", "50%", "60%"]}
-                            position="absolute"
-                        />
-                    ) : (
-                        allProducts?.map((product) => (
-                            <ProductCard key={product._id} product={product} />
-                        ))
-                    )
-                ) : (
-                    skeletons.map((key) => (
-                        <Skeleton
-                            key={key}
-                            rounded="12px"
-                            width="250px"
-                            height="250px"
-                            m="auto"
-                            startColor="#ebf4f5"
-                            endColor="#b5c6e0"
-                        />
-                    ))
-                )}
+                {!isFetchingProducts
+                    ? allProducts?.map((product) => (
+                          <ProductCard key={product._id} product={product} />
+                      ))
+                    : skeletons.map((key) => (
+                          <Skeleton
+                              key={key}
+                              rounded="12px"
+                              width="250px"
+                              height="250px"
+                              m="auto"
+                              startColor="#ebf4f5"
+                              endColor="#b5c6e0"
+                          />
+                      ))}
             </Grid>
         </>
     );

@@ -1,4 +1,11 @@
-import { Center, Divider, Grid, Skeleton, Text } from "@chakra-ui/react";
+import {
+    Center,
+    Divider,
+    Grid,
+    Skeleton,
+    Text,
+    useBreakpointValue,
+} from "@chakra-ui/react";
 import ProductCard from "components/Product/ProductCard";
 import ProfileBar from "components/Profile/ProfileBar";
 import { useUserToken } from "context/userContext";
@@ -26,17 +33,16 @@ const Profile = () => {
             noUser: undefined,
             isFetchingData: false,
         });
+
     const userToken = useUserToken();
     const router = useRouter();
-    const { _id } = router.query;
-
     const [allProducts] = useAtom(ProductJotai);
+
+    const { _id } = router.query;
 
     const getUserInfoAndProducts = async () => {
         setState((state) => ({ ...state, isFetchingData: true }));
-
         const userId = _id as string;
-
         await Promise.all([User.INFO(userId), User.PRODUCTS(userId)])
             .then((result) => {
                 setState((state) => ({
@@ -53,7 +59,7 @@ const Profile = () => {
                     noUser: true,
                     isFetchingData: false,
                 }));
-                Toaster("Oops", `${error.response.data}`, "error");
+                Toaster("Oops", `${error?.response?.data}`, "error");
             });
     };
 
@@ -62,6 +68,12 @@ const Profile = () => {
     }, [allProducts, _id]);
 
     const usersOwnProfile = userToken?.userToken?._id === _id;
+
+    const gridTemplateColumnBreakpoint = useBreakpointValue({
+        base: "repeat(1, 1fr)",
+        md: "repeat(3, 1fr)",
+        sm: "repeat(2,1fr)",
+    });
 
     return (
         <>
@@ -87,7 +99,10 @@ const Profile = () => {
                                 <AddProduct reFetch={getUserInfoAndProducts} />
                             )}
                         </Center>
-                        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                        <Grid
+                            templateColumns={gridTemplateColumnBreakpoint}
+                            gap={6}
+                        >
                             {isFetchingData
                                 ? skeletons.map((key) => (
                                       <Skeleton

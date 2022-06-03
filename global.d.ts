@@ -62,6 +62,13 @@ declare module Global {
             price: number;
             message: string | undefined;
         }
+
+        interface PurchaseRequestsResponse
+            extends Global.Products.PurchaseRequestPayload {
+            createdAt: Date | string;
+            updatedAt: Date | string;
+            _id: string;
+        }
     }
     declare module User {
         export interface UserInfo {
