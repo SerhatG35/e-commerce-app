@@ -63,12 +63,17 @@ declare module Global {
             message: string | undefined;
         }
 
-        interface PurchaseRequestsResponse
+        export interface PurchaseRequestsTypes
             extends Global.Products.PurchaseRequestPayload {
             createdAt: Date | string;
             updatedAt: Date | string;
             _id: string;
         }
+
+        export type PurchaseRequestsResponse = {
+            receivedPurchaseRequests: PurchaseRequestsTypes[];
+            sendedPurchaseRequests: PurchaseRequestsTypes[];
+        };
     }
     declare module User {
         export interface UserInfo {

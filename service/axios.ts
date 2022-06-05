@@ -87,9 +87,10 @@ export const Product = {
         return data;
     },
     GET_PURCHASE_REQUEST: async (userId: string | undefined) => {
-        const { data } = await API.get<
-            Global.Products.PurchaseRequestsResponse[]
-        >(`/api/get-purchase-requests/${userId}`);
+        const { data } =
+            await API.get<Global.Products.PurchaseRequestsResponse>(
+                `/api/get-purchase-requests/${userId}`
+            );
         return data;
     },
     REJECT_PURCHASE_REQUEST: async (purchaseRequestId: string) => {
