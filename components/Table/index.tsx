@@ -1,5 +1,6 @@
 import {
-    IconButton,
+    Badge,
+    Center,
     Skeleton,
     Table as ChakraTable,
     TableCaption,
@@ -13,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { FC } from "react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import ApprovePurchaseRequest from "./ApprovePurchaseRequest";
 import RejectPurchaseRequest from "./RejectPurchaseRequest";
 
 type TableProps = {
@@ -22,6 +23,11 @@ type TableProps = {
     rejectPurchaseRequest: (purchaseId: string) => Promise<void>;
     isReceivedPurchaseRequest: boolean;
     isRejectingPurchaseRequest: boolean;
+    approvePurchaseRequest?: (
+        purchaseId: string,
+        approvedUserId: string
+    ) => Promise<void>;
+    isApproving?: boolean;
 };
 
 const Table: FC<TableProps> = ({
@@ -30,6 +36,8 @@ const Table: FC<TableProps> = ({
     rejectPurchaseRequest,
     isReceivedPurchaseRequest,
     isRejectingPurchaseRequest,
+    approvePurchaseRequest,
+    isApproving,
 }) => {
     const havePurchaseRequest = data && data.length !== 0;
 
@@ -49,6 +57,7 @@ const Table: FC<TableProps> = ({
                 {havePurchaseRequest && (
                     <Thead>
                         <Tr>
+                            {!isReceivedPurchaseRequest && <Th>STATUS</Th>}
                             <Th>FROM</Th>
                             {!isReceivedPurchaseRequest && <Th>TO</Th>}
                             <Th>PRODUCT NAME</Th>
@@ -63,26 +72,59 @@ const Table: FC<TableProps> = ({
                     {havePurchaseRequest ? (
                         data.map((request) => (
                             <Tr key={request._id}>
-                                <Td>
-                                    <Link href={`/profile/${request.buyerId}`}>
-                                        {request.buyerName}
-                                    </Link>
-                                </Td>
                                 {!isReceivedPurchaseRequest && (
                                     <Td>
-                                        <Link
-                                            href={`/profile/${request.sellerId}`}
+                                        <Badge
+                                            variant="outline"
+                                            textTransform="none"
                                         >
-                                            {request.sellerName}
-                                        </Link>
+                                            Waiting
+                                        </Badge>
                                     </Td>
                                 )}
                                 <Td>
-                                    <Link
-                                        href={`/product/${request.productId}`}
+                                    <Center
+                                        _hover={{
+                                            background: "#77777764",
+                                            borderRadius: "6px",
+                                        }}
                                     >
-                                        {request.productName}
-                                    </Link>
+                                        <Link
+                                            href={`/profile/${request.buyerId}`}
+                                        >
+                                            {request.buyerName}
+                                        </Link>
+                                    </Center>
+                                </Td>
+                                {!isReceivedPurchaseRequest && (
+                                    <Td>
+                                        <Center
+                                            _hover={{
+                                                background: "#77777764",
+                                                borderRadius: "6px",
+                                            }}
+                                        >
+                                            <Link
+                                                href={`/profile/${request.sellerId}`}
+                                            >
+                                                {request.sellerName}
+                                            </Link>
+                                        </Center>
+                                    </Td>
+                                )}
+                                <Td>
+                                    <Center
+                                        _hover={{
+                                            background: "#77777764",
+                                            borderRadius: "6px",
+                                        }}
+                                    >
+                                        <Link
+                                            href={`/product/${request.productId}`}
+                                        >
+                                            {request.productName}
+                                        </Link>
+                                    </Center>
                                 </Td>
                                 <Td>{request.productCategory}</Td>
                                 <Td maxW="200px" isTruncated>
@@ -111,18 +153,16 @@ const Table: FC<TableProps> = ({
                                             rejectPurchaseRequest
                                         }
                                     />
-                                    {isReceivedPurchaseRequest && (
-                                        <IconButton
-                                            ml="0.5rem"
-                                            aria-label="approve"
-                                            colorScheme="green"
-                                            icon={
-                                                <AiOutlineCheckCircle
-                                                    size={25}
-                                                />
-                                            }
-                                        />
-                                    )}
+                                    {isReceivedPurchaseRequest &&
+                                        approvePurchaseRequest && (
+                                            <ApprovePurchaseRequest
+                                                approvePurchaseRequest={
+                                                    approvePurchaseRequest
+                                                }
+                                                isApproving={isApproving}
+                                                purchaseRequestInfo={request}
+                                            />
+                                        )}
                                 </Td>
                             </Tr>
                         ))

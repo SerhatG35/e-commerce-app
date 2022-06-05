@@ -56,9 +56,9 @@ declare module Global {
             productName: string;
             productCategory: string;
             buyerName: string;
-            buyerId: string | undefined;
+            buyerId: string;
             sellerName: string;
-            sellerId: string | undefined;
+            sellerId: string;
             price: number;
             message: string | undefined;
         }

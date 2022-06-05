@@ -46,8 +46,8 @@ const SignIn: FC<SignInProps> = ({ closeModal }) => {
             Toaster(
                 "",
                 `${
-                    error.response?.data
-                        ? error.response?.data
+                    error?.response?.data
+                        ? error?.response?.data
                         : "An error occurred"
                 }`,
                 "error"

@@ -99,6 +99,16 @@ export const Product = {
         );
         return data;
     },
+    APPROVE_PURCHASE_REQUEST: async (
+        purchaseRequestId: string,
+        approvedUserId: string
+    ) => {
+        const { data } = await API.post(
+            `/api/approve-purchase-request/${purchaseRequestId}`,
+            { approvedUserId }
+        );
+        return data;
+    },
 };
 
 export const External = {

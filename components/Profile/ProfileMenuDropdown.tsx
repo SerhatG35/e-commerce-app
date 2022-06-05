@@ -101,10 +101,10 @@ const ProfileMenuDropdown = () => {
                                     flexDir="column"
                                     alignItems="flex-start"
                                 >
-                                    <TagLabel>
+                                    <TagLabel fontWeight={600}>
                                         {`${userToken?.userToken?.name} ${userToken?.userToken?.surname}`}
                                     </TagLabel>
-                                    <TagLabel fontSize="0.8rem">
+                                    <TagLabel opacity={0.5} fontSize="0.7rem">
                                         {userToken?.userToken?.email}
                                     </TagLabel>
                                 </Center>

@@ -20,6 +20,7 @@ type StateTypes = {
     sendedPurchaseRequests: Global.Products.PurchaseRequestsTypes[] | undefined;
     isFetchingData: boolean;
     isRejectingPurchaseRequest: boolean;
+    isApproving: boolean;
 };
 
 const PurchaseRequest = ({ token }: InferedProductDetail) => {
@@ -30,6 +31,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
             sendedPurchaseRequests,
             isFetchingData,
             isRejectingPurchaseRequest,
+            isApproving,
         },
         setState,
     ] = useState<StateTypes>({
@@ -37,6 +39,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
         sendedPurchaseRequests: undefined,
         isFetchingData: false,
         isRejectingPurchaseRequest: false,
+        isApproving: false,
     });
 
     useEffect(() => {
@@ -63,7 +66,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
             }));
             Toaster(
                 "",
-                `${error.response?.data ?? "An error occurred"}`,
+                `${error?.response?.data ?? "An error occurred"}`,
                 "error"
             );
         }
@@ -85,7 +88,25 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
             }));
             Toaster(
                 "",
-                `${error.response?.data ?? "An error occurred"}`,
+                `${error?.response?.data ?? "An error occurred"}`,
+                "error"
+            );
+        }
+    };
+
+    const approvePurchaseRequest = async (
+        purchaseId: string,
+        approvedUserId: string
+    ) => {
+        setState((state) => ({ ...state, isApproving: true }));
+        try {
+            await Product.APPROVE_PURCHASE_REQUEST(purchaseId, approvedUserId);
+            setState((state) => ({ ...state, isApproving: false }));
+        } catch (error: any) {
+            setState((state) => ({ ...state, isApproving: false }));
+            Toaster(
+                "",
+                `${error?.response?.data ?? "An error occurred"}`,
                 "error"
             );
         }
@@ -119,6 +140,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                         rejectPurchaseRequest={rejectPurchaseRequest}
                         isReceivedPurchaseRequest={true}
                         isRejectingPurchaseRequest={isRejectingPurchaseRequest}
+                        approvePurchaseRequest={approvePurchaseRequest}
+                        isApproving={isApproving}
                     />
                 </Center>
                 <Center mt="1rem" w="100%">
