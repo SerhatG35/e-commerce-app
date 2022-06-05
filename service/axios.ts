@@ -101,7 +101,7 @@ export const Product = {
     },
     APPROVE_PURCHASE_REQUEST: async (
         purchaseRequestId: string,
-        approvedUserId: string
+        approvedUserId?: string
     ) => {
         const { data } = await API.post(
             `/api/approve-purchase-request/${purchaseRequestId}`,

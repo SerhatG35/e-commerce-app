@@ -15,7 +15,7 @@ type ApprovePurchaseRequestProps = {
     isApproving?: boolean;
     approvePurchaseRequest: (
         purchaseId: string,
-        approvedUserId: string
+        approvedUserId?: string
     ) => Promise<void>;
     purchaseRequestInfo: Global.Products.PurchaseRequestsTypes;
 };

@@ -25,7 +25,7 @@ type TableProps = {
     isRejectingPurchaseRequest: boolean;
     approvePurchaseRequest?: (
         purchaseId: string,
-        approvedUserId: string
+        approvedUserId?: string
     ) => Promise<void>;
     isApproving?: boolean;
 };

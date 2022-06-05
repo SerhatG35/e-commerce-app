@@ -96,7 +96,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
 
     const approvePurchaseRequest = async (
         purchaseId: string,
-        approvedUserId: string
+        approvedUserId?: string
     ) => {
         setState((state) => ({ ...state, isApproving: true }));
         try {
