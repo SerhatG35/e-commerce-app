@@ -61,6 +61,7 @@ declare module Global {
             sellerId: string;
             price: number;
             message: string | undefined;
+            status: string;
         }
 
         export interface PurchaseRequestsTypes

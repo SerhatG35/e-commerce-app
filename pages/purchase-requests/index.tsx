@@ -102,6 +102,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
         try {
             await Product.APPROVE_PURCHASE_REQUEST(purchaseId, approvedUserId);
             setState((state) => ({ ...state, isApproving: false }));
+            getPurchaseRequests();
         } catch (error: any) {
             setState((state) => ({ ...state, isApproving: false }));
             Toaster(

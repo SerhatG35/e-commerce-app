@@ -1,5 +1,4 @@
 import {
-    Badge,
     Center,
     Skeleton,
     Table as ChakraTable,
@@ -16,6 +15,7 @@ import Link from "next/link";
 import { FC } from "react";
 import ApprovePurchaseRequest from "./ApprovePurchaseRequest";
 import RejectPurchaseRequest from "./RejectPurchaseRequest";
+import StatusBadge from "./StatusBadge";
 
 type TableProps = {
     isFetchingData: boolean;
@@ -74,12 +74,7 @@ const Table: FC<TableProps> = ({
                             <Tr key={request._id}>
                                 {!isReceivedPurchaseRequest && (
                                     <Td>
-                                        <Badge
-                                            variant="outline"
-                                            textTransform="none"
-                                        >
-                                            Waiting
-                                        </Badge>
+                                        <StatusBadge request={request} />
                                     </Td>
                                 )}
                                 <Td>
@@ -128,7 +123,7 @@ const Table: FC<TableProps> = ({
                                 </Td>
                                 <Td>{request.productCategory}</Td>
                                 <Td maxW="200px" isTruncated>
-                                    {(
+                                    {request.message ? (
                                         <Tooltip
                                             label={request.message}
                                             hasArrow
@@ -136,7 +131,9 @@ const Table: FC<TableProps> = ({
                                         >
                                             {request.message}
                                         </Tooltip>
-                                    ) ?? "-"}
+                                    ) : (
+                                        "-"
+                                    )}
                                 </Td>
                                 <Td isNumeric>
                                     {new Intl.NumberFormat("tr-TR", {
@@ -146,13 +143,17 @@ const Table: FC<TableProps> = ({
                                     }).format(Number(request.price))}
                                 </Td>
                                 <Td>
-                                    <RejectPurchaseRequest
-                                        purchaseId={request._id}
-                                        isRejecting={isRejectingPurchaseRequest}
-                                        rejectPurchaseRequest={
-                                            rejectPurchaseRequest
-                                        }
-                                    />
+                                    {isReceivedPurchaseRequest && (
+                                        <RejectPurchaseRequest
+                                            purchaseId={request._id}
+                                            isRejecting={
+                                                isRejectingPurchaseRequest
+                                            }
+                                            rejectPurchaseRequest={
+                                                rejectPurchaseRequest
+                                            }
+                                        />
+                                    )}
                                     {isReceivedPurchaseRequest &&
                                         approvePurchaseRequest && (
                                             <ApprovePurchaseRequest
