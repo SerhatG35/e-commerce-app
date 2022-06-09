@@ -58,7 +58,8 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
 
     const onSubmit: SubmitHandler<FormTypes> = async (data) => {
         const modifiedData: Global.Products.PurchaseRequestPayload = {
-            ...data,
+            message: data.message,
+            price: data.price,
             productId: productInfo._id,
             productCategory: productInfo.category,
             productName: productInfo.title,
