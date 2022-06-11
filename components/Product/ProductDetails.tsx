@@ -5,6 +5,7 @@ import {
     Center,
     Flex,
     Heading,
+    Skeleton,
     Text,
     Tooltip,
 } from "@chakra-ui/react";
@@ -17,14 +18,24 @@ import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { Product } from "service/axios";
 import { capitalize } from "utils/capitalize";
+import { Toaster } from "utils/Toster";
 import ContactSellerForm from "./ContactSeller/ContactSellerForm";
 
+type StateTypes = {
+    productDetails: Global.Products.Product | undefined;
+    isContactSellerFormOpen: boolean;
+    isFetchingData: boolean;
+};
+
 const ProductDetails: FC = () => {
-    const [productDetails, setProductDetails] = useState<
-        Global.Products.Product | undefined
-    >(undefined);
-    const [isContactSellerFormOpen, setIsContactSellerFormOpen] =
-        useState(false);
+    const [
+        { isContactSellerFormOpen, isFetchingData, productDetails },
+        setState,
+    ] = useState<StateTypes>({
+        productDetails: undefined,
+        isContactSellerFormOpen: false,
+        isFetchingData: false,
+    });
 
     const userToken = useUserToken();
     const userHasToken = !!userToken?.userToken?._id;
@@ -33,7 +44,18 @@ const ProductDetails: FC = () => {
     const { _id } = router.query;
 
     const getProduct = async () => {
-        setProductDetails(await Product.GET(_id as string));
+        setState((state) => ({ ...state, isFetchingData: true }));
+        try {
+            const response = await Product.GET(_id as string);
+            setState((state) => ({
+                ...state,
+                isFetchingData: false,
+                productDetails: response,
+            }));
+        } catch (error: any) {
+            setState((state) => ({ ...state, isFetchingData: false }));
+            Toaster("", `${error?.response?.data}`, "error");
+        }
     };
 
     useEffect(() => {
@@ -41,7 +63,10 @@ const ProductDetails: FC = () => {
     }, []);
 
     const toggleContactSellerFormModal = (requireRefect: boolean = false) => {
-        setIsContactSellerFormOpen(!isContactSellerFormOpen);
+        setState((state) => ({
+            ...state,
+            isContactSellerFormOpen: !isContactSellerFormOpen,
+        }));
         requireRefect && getProduct();
     };
 
@@ -50,7 +75,9 @@ const ProductDetails: FC = () => {
 
     return (
         <>
-            {productDetails && (
+            {isFetchingData ? (
+                <Skeleton maxW="1200px" w="100%" h="83vh" />
+            ) : productDetails ? (
                 <Flex
                     userSelect="none"
                     h="100%"
@@ -208,6 +235,8 @@ const ProductDetails: FC = () => {
                         />
                     )}
                 </Flex>
+            ) : (
+                <Center>No Product Detail</Center>
             )}
         </>
     );

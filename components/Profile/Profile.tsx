@@ -78,7 +78,7 @@ const Profile = () => {
     return (
         <>
             {!noUser ? (
-                <Center w="100%" h="89vh" alignItems="flex-start">
+                <Center w="100%" h="91vh" alignItems="flex-start">
                     <ProfileBar
                         user={user}
                         isFetchingData={isFetchingData}

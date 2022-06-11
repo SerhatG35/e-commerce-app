@@ -216,6 +216,7 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                         fontSize="inherit"
                         colorScheme="blue"
                         isLoading={isSubmitting}
+                        loadingText="Sending"
                         type="submit"
                     >
                         Submit

@@ -57,9 +57,8 @@ const Products: FC<ProductsProps> = ({
                         position="sticky"
                         top="11vh"
                         orientation="vertical"
-                        h={["unset", "unset", "unset", "unset", "89vh"]}
+                        h={["unset", "unset", "unset", "unset", "91vh"]}
                     />
-                    (
                     <Grid
                         w={["100%", "100%", "100%", "100%", "75%"]}
                         px="3rem"
@@ -85,7 +84,6 @@ const Products: FC<ProductsProps> = ({
                                   />
                               ))}
                     </Grid>
-                    )
                 </>
             )}
         </>

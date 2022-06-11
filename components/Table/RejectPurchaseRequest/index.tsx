@@ -74,6 +74,7 @@ const RejectPurchaseRequest: FC<RejectPurchaseRequestProps> = ({
                                     rejectPurchaseRequest(purchaseId)
                                 }
                                 isLoading={isRejecting}
+                                loadingText="Deleting"
                                 fontSize="inherit"
                             >
                                 Delete

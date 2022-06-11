@@ -19,7 +19,7 @@ const ProductDetailPage = ({ token }: InferedProductDetail) => {
     }, []);
 
     return (
-        <Center pt="11vh" w="100%" pb="3rem">
+        <Center pt="11vh" w="100%" h="100%" pb="3rem">
             <ProductDetails />
         </Center>
     );

@@ -58,7 +58,7 @@ const Navbar = () => {
         <Center
             as="nav"
             width="100%"
-            height="10vh"
+            height="8vh"
             backdropFilter="blur(8px)"
             bg="hsla(0,0%,100%,.1)"
             position="fixed"
@@ -96,7 +96,7 @@ const Navbar = () => {
                                     "0.5rem",
                                     "0.75",
                                 ]}
-                                boxShadow="2xl"
+                                boxShadow="md"
                                 onClick={() =>
                                     toggleModal(NAVBAR_MODAL_ACTIONS.SIGN_IN)
                                 }
@@ -116,6 +116,7 @@ const Navbar = () => {
                                     "0.5rem",
                                     "0.75rem",
                                 ]}
+                                boxShadow="md"
                                 onClick={() =>
                                     toggleModal(NAVBAR_MODAL_ACTIONS.SIGN_UP)
                                 }
@@ -155,6 +156,7 @@ const Navbar = () => {
                         overflow="hidden"
                         fontSize="inherit"
                         size={buttonBreakpoint}
+                        boxShadow="md"
                     >
                         {colorMode === "light" && (
                             <AnimatePresence>

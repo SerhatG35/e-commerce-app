@@ -26,7 +26,7 @@ const ProfileBar = ({
     return (
         <Center
             w="20%"
-            h="89vh"
+            h="91vh"
             position="sticky"
             top="10vh"
             flexDir="column"

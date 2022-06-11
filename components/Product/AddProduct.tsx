@@ -270,7 +270,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                         </Button>
                         <Button
                             isLoading={loading}
-                            loadingText="Adding Product"
+                            loadingText="Adding New Product"
                             type="submit"
                             onClick={handleSubmit(onSubmit)}
                             colorScheme="blue"

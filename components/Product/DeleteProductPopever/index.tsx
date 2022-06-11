@@ -96,6 +96,7 @@ const DeleteProductPopover: FC<DeleteProductPopoverProps> = ({
                                 colorScheme="red"
                                 onClick={deleteProduct}
                                 isLoading={isDeleting}
+                                loadingText="Deleting product"
                                 fontSize="inherit"
                             >
                                 Delete

@@ -115,7 +115,7 @@ const SignIn: FC<SignInProps> = ({ closeModal }) => {
             </FormControl>
             <Button
                 isLoading={isSubmitting}
-                loadingText="Signing"
+                loadingText="Signing in"
                 my="2"
                 type="submit"
                 w="100%"

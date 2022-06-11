@@ -81,6 +81,7 @@ const ApprovePurchaseRequest: FC<ApprovePurchaseRequestProps> = ({
                                     )
                                 }
                                 isLoading={isApproving}
+                                loadingText="Approving"
                                 fontSize="inherit"
                             >
                                 Approve

@@ -90,7 +90,7 @@ const Filter = ({
                         "sticky",
                     ]}
                     top={["unset", "unset", "unset", "unset", "11vh"]}
-                    h={["unset", "unset", "unset", "unset", "89vh"]}
+                    h={["unset", "unset", "unset", "unset", "91vh"]}
                     w="100%"
                     px={["3rem", "3rem", "3rem", "3rem", "1rem"]}
                     justifyContent={[

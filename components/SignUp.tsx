@@ -52,7 +52,12 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
 
     const FetchCities = async () => {
         setIsLoading(true);
-        setCities(await External.FetchCities());
+        try {
+            const response = await External.FetchCities();
+            setCities(response);
+        } catch (error: any) {
+            Toaster("", "Error occurred while fetching cities.", "error");
+        }
         setIsLoading(false);
     };
 
@@ -124,6 +129,7 @@ const SignUp: FC<SignUpProps> = ({ closeModal }) => {
                 type="submit"
                 w="100%"
                 isLoading={isSubmitting}
+                loadingText="Signing up"
             >
                 Sign Up
             </Button>

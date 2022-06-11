@@ -113,14 +113,10 @@ export const Product = {
 
 export const External = {
     FetchCities: async () => {
-        try {
-            const { data } = await axios.post<Global.SignUp.SignUpCityTypes>(
-                "https://countriesnow.space/api/v0.1/countries/states",
-                { country: "turkey" }
-            );
-            return data;
-        } catch (error) {
-            return error;
-        }
+        const { data } = await axios.post<Global.SignUp.SignUpCityTypes>(
+            "https://countriesnow.space/api/v0.1/countries/states",
+            { country: "turkey" }
+        );
+        return data;
     },
 };

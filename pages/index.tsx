@@ -97,7 +97,7 @@ const Home = ({ token }: InferedHome) => {
     };
 
     return (
-        <Box w="100%" pt="11vh">
+        <Box w="100%" pt="9vh">
             <Head>
                 <title>E-Shop</title>
                 <meta property="og:title" content="E-Shop" key="title" />
