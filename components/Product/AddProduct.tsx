@@ -113,6 +113,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                 finalFocusRef={btnRef}
                 autoFocus={false}
                 size={isLargerThan768 ? "sm" : "full"}
+                colorScheme="pink"
             >
                 <DrawerOverlay />
                 <DrawerContent>

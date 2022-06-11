@@ -14,7 +14,7 @@ import { Product } from "service/axios";
 import { Toaster } from "utils/Toster";
 
 type DeleteProductPopoverProps = {
-    reFetch: () => Promise<void>;
+    reFetch: (() => Promise<void>) | undefined;
     product: Global.Products.Product;
 };
 
@@ -34,7 +34,7 @@ const DeleteProductPopover: FC<DeleteProductPopoverProps> = ({
                 "You have successfully deleted the product.",
                 "success"
             );
-            reFetch();
+            reFetch?.();
         } catch (error: any) {
             Toaster("Error", `${error?.response?.data}`, "error");
         }

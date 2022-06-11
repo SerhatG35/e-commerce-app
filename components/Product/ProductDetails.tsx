@@ -59,6 +59,7 @@ const ProductDetails: FC = () => {
                     w="100%"
                     fontSize="1.1rem"
                     px={["3rem", "3rem", "3rem", "3rem", "unset"]}
+                    opacity={productDetails.isItSold ? 0.6 : 1}
                 >
                     <Head>
                         <title>{`${productDetails.title} | ${productDetails.category}`}</title>
@@ -149,9 +150,17 @@ const ProductDetails: FC = () => {
                             {!isUsersOwnProduct && (
                                 <Tooltip
                                     visibility={
-                                        !userHasToken ? "visible" : "hidden"
+                                        !userHasToken || productDetails.isItSold
+                                            ? "visible"
+                                            : "hidden"
                                     }
-                                    label="Please login to make a purchase request."
+                                    label={
+                                        !userHasToken
+                                            ? "Please login to make a purchase request."
+                                            : productDetails.isItSold
+                                            ? "This item has already been sold."
+                                            : ""
+                                    }
                                 >
                                     <Center w="100%">
                                         <Button
@@ -168,7 +177,10 @@ const ProductDetails: FC = () => {
                                                     false
                                                 )
                                             }
-                                            disabled={!userHasToken}
+                                            disabled={
+                                                !userHasToken ||
+                                                productDetails.isItSold
+                                            }
                                         >
                                             Contact the seller
                                         </Button>

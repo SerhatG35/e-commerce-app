@@ -16,7 +16,7 @@ const StatusBadge: FC<StatusBadgeProps> = ({ request }) => {
                     ? "red"
                     : "gray"
             }
-            variant="outline"
+            variant="solid"
             textTransform="none"
         >
             {Status}

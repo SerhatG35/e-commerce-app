@@ -44,6 +44,7 @@ const ProductCard: FC<ProductCardProps> = ({
             }}
             position="relative"
             px="0"
+            opacity={product.isItSold ? 0.6 : 1}
         >
             {isNewProduct && (
                 <Badge
@@ -57,7 +58,7 @@ const ProductCard: FC<ProductCardProps> = ({
                     New
                 </Badge>
             )}
-            {usersOwnProfile && reFetch && (
+            {usersOwnProfile && !product.isItSold && (
                 <DeleteProductPopover product={product} reFetch={reFetch} />
             )}
             <Link href={`/product/${product._id}`}>

@@ -44,6 +44,7 @@ declare module Global {
             productId: string;
             createdAt: Date;
             userNameAndSurname: string;
+            isItSold: boolean;
         }
 
         export interface AllProductResponse {

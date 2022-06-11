@@ -1,5 +1,10 @@
 import { Grid } from "@chakra-ui/layout";
-import { Divider, Skeleton, useBreakpointValue } from "@chakra-ui/react";
+import {
+    Center,
+    Divider,
+    Skeleton,
+    useBreakpointValue,
+} from "@chakra-ui/react";
 import Filter from "components/Filter/Filter";
 import ProductCard from "components/Product/ProductCard";
 import { FC } from "react";
@@ -32,39 +37,57 @@ const Products: FC<ProductsProps> = ({
 
     return (
         <>
-            <Filter
-                redirectedCategory={redirectedCategory}
-                filterProducts={reFetchProducts}
-                highestPrice={allProductHighestPrice}
-            />
-            <Divider
-                position="sticky"
-                top="11vh"
-                orientation="vertical"
-                h={["unset", "unset", "unset", "unset", "89vh"]}
-            />
-            <Grid
-                w={["100%", "100%", "100%", "100%", "75%"]}
-                px="3rem"
-                templateColumns={gridTemplateColumnBreakpoint}
-                gap={6}
-            >
-                {!isFetchingProducts
-                    ? allProducts?.map((product) => (
-                          <ProductCard key={product._id} product={product} />
-                      ))
-                    : skeletons.map((key) => (
-                          <Skeleton
-                              key={key}
-                              rounded="12px"
-                              width="250px"
-                              height="250px"
-                              m="auto"
-                              startColor="#ebf4f5"
-                              endColor="#b5c6e0"
-                          />
-                      ))}
-            </Grid>
+            {allProducts?.length === 0 && (
+                <Center
+                    h="100%"
+                    px="3rem"
+                    w={["100%", "100%", "100%", "100%", "75%"]}
+                >
+                    No Product Found
+                </Center>
+            )}
+            {allProducts?.length !== 0 && (
+                <>
+                    <Filter
+                        redirectedCategory={redirectedCategory}
+                        filterProducts={reFetchProducts}
+                        highestPrice={allProductHighestPrice}
+                    />
+                    <Divider
+                        position="sticky"
+                        top="11vh"
+                        orientation="vertical"
+                        h={["unset", "unset", "unset", "unset", "89vh"]}
+                    />
+                    (
+                    <Grid
+                        w={["100%", "100%", "100%", "100%", "75%"]}
+                        px="3rem"
+                        templateColumns={gridTemplateColumnBreakpoint}
+                        gap={6}
+                    >
+                        {isFetchingProducts
+                            ? skeletons.map((key) => (
+                                  <Skeleton
+                                      key={key}
+                                      rounded="12px"
+                                      width="250px"
+                                      height="250px"
+                                      m="auto"
+                                      startColor="#ebf4f5"
+                                      endColor="#b5c6e0"
+                                  />
+                              ))
+                            : allProducts?.map((product) => (
+                                  <ProductCard
+                                      key={product._id}
+                                      product={product}
+                                  />
+                              ))}
+                    </Grid>
+                    )
+                </>
+            )}
         </>
     );
 };
