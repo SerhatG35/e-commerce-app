@@ -53,12 +53,14 @@ const Products: FC<ProductsProps> = ({
                         filterProducts={reFetchProducts}
                         highestPrice={allProductHighestPrice}
                     />
-                    <Divider
-                        position="sticky"
-                        top="11vh"
-                        orientation="vertical"
-                        h={["unset", "unset", "unset", "unset", "91vh"]}
-                    />
+                    {allProductHighestPrice && (
+                        <Divider
+                            position="sticky"
+                            top="11vh"
+                            orientation="vertical"
+                            h={["unset", "unset", "unset", "unset", "91vh"]}
+                        />
+                    )}
                     <Grid
                         w={["100%", "100%", "100%", "100%", "75%"]}
                         px="3rem"
@@ -70,7 +72,13 @@ const Products: FC<ProductsProps> = ({
                                   <Skeleton
                                       key={key}
                                       rounded="12px"
-                                      width="250px"
+                                      width={[
+                                          "250px",
+                                          "100%",
+                                          "100%",
+                                          "250px",
+                                          "250px",
+                                      ]}
                                       height="250px"
                                       m="auto"
                                       startColor="#ebf4f5"

@@ -38,6 +38,7 @@ type AddProductProps = {
 };
 
 const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
+    const [isCategoryVehicle, setIsCategoryVehicle] = useState(false);
     const {
         handleSubmit,
         control,
@@ -46,7 +47,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
         reset,
         getValues,
     } = useForm<Global.Products.AddProduct>({
-        resolver: yupResolver(addProductSchema),
+        resolver: yupResolver(addProductSchema(isCategoryVehicle)),
         defaultValues: {
             title: "",
             category: "",
@@ -73,13 +74,12 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
             ...data,
             description: data.description.trim(),
         };
-
         try {
             setIsLoading(true);
             await Product.ADD(modifiedData);
+            setIsLoading(false);
             reFetch();
             Toaster("", "New product added", "success");
-            reset();
         } catch (error: any) {
             Router.push("/");
             userToken?.setUserToken(undefined);
@@ -156,6 +156,15 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                                                     ? "inherit"
                                                     : categoryPlaceholderColor
                                             }
+                                            onChange={(e: any) => {
+                                                field.onChange(e);
+                                                getValues("category") ===
+                                                "Vehicle"
+                                                    ? setIsCategoryVehicle(true)
+                                                    : setIsCategoryVehicle(
+                                                          false
+                                                      );
+                                            }}
                                         >
                                             {productCategories.map(
                                                 (category, index) => (

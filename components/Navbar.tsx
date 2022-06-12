@@ -161,10 +161,10 @@ const Navbar = () => {
                         {colorMode === "light" && (
                             <AnimatePresence>
                                 <motion.div
-                                    initial={{ y: "25px", opacity: 0 }}
+                                    initial={{ y: "40px", opacity: 0 }}
                                     animate={{ y: "0px", opacity: 1 }}
-                                    transition={{ duration: 0.4 }}
-                                    exit={{ y: "25px", opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    exit={{ y: "40px", opacity: 0 }}
                                 >
                                     <BsSun />
                                 </motion.div>
@@ -173,10 +173,10 @@ const Navbar = () => {
                         {colorMode === "dark" && (
                             <AnimatePresence>
                                 <motion.div
-                                    initial={{ y: "-25px", opacity: 0 }}
+                                    initial={{ y: "-40px", opacity: 0 }}
                                     animate={{ y: "0px", opacity: 1 }}
-                                    transition={{ duration: 0.4 }}
-                                    exit={{ y: "-25px", opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    exit={{ y: "-40px", opacity: 0 }}
                                 >
                                     <BsMoon />
                                 </motion.div>

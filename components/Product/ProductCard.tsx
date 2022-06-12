@@ -45,6 +45,7 @@ const ProductCard: FC<ProductCardProps> = ({
             position="relative"
             px="0"
             opacity={product.isItSold ? 0.6 : 1}
+            boxShadow="lg"
         >
             {isNewProduct && (
                 <Badge
