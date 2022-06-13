@@ -10,16 +10,17 @@ import {
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BsTrash } from 'react-icons/bs';
 
-type RejectPurchaseRequestProps = {
-    isRejecting: boolean;
-    rejectPurchaseRequest: (purchaseId: string) => Promise<void>;
+type DeletePurchaseRequestProps = {
+    isDeleting?: boolean;
+    deletePurchaseRequest: (purchaseId: string) => Promise<void>;
     purchaseId: string;
 };
 
-const RejectPurchaseRequest: FC<RejectPurchaseRequestProps> = ({
-    isRejecting,
-    rejectPurchaseRequest,
+const DeletePurchaseRequest: FC<DeletePurchaseRequestProps> = ({
+    deletePurchaseRequest,
+    isDeleting,
     purchaseId,
 }) => {
     return (
@@ -50,7 +51,7 @@ const RejectPurchaseRequest: FC<RejectPurchaseRequestProps> = ({
                             border="0"
                             whiteSpace="normal"
                         >
-                            Are you sure you want to reject this purchase
+                            Are you sure you want to delete this purchase
                             request?
                         </PopoverHeader>
                         <PopoverArrow />
@@ -71,13 +72,14 @@ const RejectPurchaseRequest: FC<RejectPurchaseRequestProps> = ({
                             <Button
                                 colorScheme="red"
                                 onClick={() =>
-                                    rejectPurchaseRequest(purchaseId)
+                                    deletePurchaseRequest(purchaseId)
                                 }
-                                isLoading={isRejecting}
-                                loadingText="Rejecting"
+                                isLoading={isDeleting}
+                                loadingText="Deleting"
                                 fontSize="inherit"
+                                leftIcon={<BsTrash />}
                             >
-                                Reject
+                                Delete
                             </Button>
                         </PopoverFooter>
                     </PopoverContent>
@@ -87,4 +89,4 @@ const RejectPurchaseRequest: FC<RejectPurchaseRequestProps> = ({
     );
 };
 
-export default RejectPurchaseRequest;
+export default DeletePurchaseRequest;

@@ -6,7 +6,7 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import cookies from "next-cookies";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { Product } from "service/axios";
+import { PurchaseRequest as PRequest } from "service/axios";
 import { Toaster } from "utils/Toster";
 
 type InferedProductDetail = InferGetServerSidePropsType<
@@ -21,6 +21,7 @@ type StateTypes = {
     isFetchingData: boolean;
     isRejectingPurchaseRequest: boolean;
     isApproving: boolean;
+    isDeleting: boolean;
 };
 
 const PurchaseRequest = ({ token }: InferedProductDetail) => {
@@ -32,6 +33,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
             isFetchingData,
             isRejectingPurchaseRequest,
             isApproving,
+            isDeleting,
         },
         setState,
     ] = useState<StateTypes>({
@@ -40,6 +42,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
         isFetchingData: false,
         isRejectingPurchaseRequest: false,
         isApproving: false,
+        isDeleting: false,
     });
 
     useEffect(() => {
@@ -50,7 +53,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
     const getPurchaseRequests = async () => {
         setState((state) => ({ ...state, isFetchingData: true }));
         try {
-            const response = await Product.GET_PURCHASE_REQUEST(
+            const response = await PRequest.GET_PURCHASE_REQUEST(
                 userToken?.userToken?._id
             );
             setState((state) => ({
@@ -75,7 +78,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
     const rejectPurchaseRequest = async (purchaseId: string) => {
         setState((state) => ({ ...state, isRejectingPurchaseRequest: true }));
         try {
-            await Product.REJECT_PURCHASE_REQUEST(purchaseId);
+            await PRequest.REJECT_PURCHASE_REQUEST(purchaseId);
             setState((state) => ({
                 ...state,
                 isRejectingPurchaseRequest: false,
@@ -100,11 +103,27 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
     ) => {
         setState((state) => ({ ...state, isApproving: true }));
         try {
-            await Product.APPROVE_PURCHASE_REQUEST(purchaseId, approvedUserId);
+            await PRequest.APPROVE_PURCHASE_REQUEST(purchaseId, approvedUserId);
             setState((state) => ({ ...state, isApproving: false }));
             getPurchaseRequests();
         } catch (error: any) {
             setState((state) => ({ ...state, isApproving: false }));
+            Toaster(
+                "",
+                `${error?.response?.data ?? "An error occurred"}`,
+                "error"
+            );
+        }
+    };
+
+    const deletePurchaseRequest = async (purchaseId: string) => {
+        setState((state) => ({ ...state, isDeleting: true }));
+        try {
+            await PRequest.DELETE_PURCHASE_REQUEST(purchaseId);
+            setState((state) => ({ ...state, isDeleting: false }));
+            getPurchaseRequests();
+        } catch (error: any) {
+            setState((state) => ({ ...state, isDeleting: false }));
             Toaster(
                 "",
                 `${error?.response?.data ?? "An error occurred"}`,
@@ -152,6 +171,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                         rejectPurchaseRequest={rejectPurchaseRequest}
                         isReceivedPurchaseRequest={false}
                         isRejectingPurchaseRequest={isRejectingPurchaseRequest}
+                        deletePurchaseRequest={deletePurchaseRequest}
+                        isDeleting={isDeleting}
                     />
                 </Center>
             </Center>

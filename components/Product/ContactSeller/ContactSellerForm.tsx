@@ -17,7 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useUserToken } from "context/userContext";
 import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Product } from "service/axios";
+import { PurchaseRequest } from "service/axios";
 import { Toaster } from "utils/Toster";
 import { ContactSellerSchema } from "./ContactSellerSchema";
 import { Footer } from "./Footer";
@@ -69,7 +69,7 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
             buyerName: `${userToken?.userToken?.name} ${userToken?.userToken?.surname}`,
         };
         try {
-            await Product.PURCHASE_REQUEST(modifiedData);
+            await PurchaseRequest.MAKE_PURCHASE_REQUEST(modifiedData);
             closeModal(true);
             Toaster(
                 "Success",
@@ -77,6 +77,7 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                 "success"
             );
         } catch (error: any) {
+            if (error.response.status) closeModal(false);
             Toaster("Error", `${error?.response?.data}`, "error");
         }
     };

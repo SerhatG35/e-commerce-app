@@ -10,6 +10,7 @@ import type { AppProps } from "next/app";
 import { useMemo, useState } from "react";
 import { COLOR_MODE_PREFERENCE, customConfig } from "theme";
 import { useReadLocalStorage } from "usehooks-ts";
+import "../index.css";
 
 type ColorModePreferenceType = {
     colorPalette: COLOR_MODE_PREFERENCE;

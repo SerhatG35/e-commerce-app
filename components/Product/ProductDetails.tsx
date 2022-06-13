@@ -1,10 +1,10 @@
-import { Box, Center, Flex, Heading, Skeleton, Text } from "@chakra-ui/react";
+import { Center, Flex, Heading, Skeleton, Text } from "@chakra-ui/react";
 import Breadcrumb from "components/Breadcrumb";
 import CustomModal from "components/Modal";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Product } from "service/axios";
 import { capitalize } from "utils/capitalize";
 import { Toaster } from "utils/Toster";
@@ -85,7 +85,7 @@ const ProductDetails: FC = () => {
                         childText={productDetails.title}
                     />
 
-                    <Heading alignSelf="center" fontFamily="Nunito">
+                    <Heading mt="1rem" alignSelf="center" fontFamily="Nunito">
                         {capitalize(productDetails.title)}
                     </Heading>
                     <Flex
@@ -99,15 +99,12 @@ const ProductDetails: FC = () => {
                             "row",
                         ]}
                     >
-                        <Box
-                            w={["100%", "100%", "100%", "100%", "70%"]}
-                            h="500px"
-                            rounded="6px"
-                            overflow="hidden"
-                            position="relative"
-                        >
-                            <Image src={productDetails?.image} layout="fill" />
-                        </Box>
+                        <Image
+                            src={productDetails?.image}
+                            width="1000px"
+                            height="500px"
+                            className="product-image"
+                        />
                         <SellerCard
                             toggleContactSellerFormModal={
                                 toggleContactSellerFormModal

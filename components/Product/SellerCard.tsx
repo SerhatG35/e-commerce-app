@@ -28,7 +28,7 @@ const SellerCard: FC<SellerCardProps> = ({
     const isUsersOwnProduct =
         userToken?.userToken?._id === productDetails?.user;
 
-    const SellerCardBg = useColorModeValue("#f9f9f9", "#5f5f5f");
+    const SellerCardBg = useColorModeValue("#f9f9f9", "#3f3f3f");
 
     return (
         <Flex

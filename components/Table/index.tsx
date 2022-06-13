@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { FC } from "react";
 import ApprovePurchaseRequest from "./ApprovePurchaseRequest";
+import DeletePurchaseRequest from "./DeletePurchaseRequest";
 import RejectPurchaseRequest from "./RejectPurchaseRequest";
 import StatusBadge from "./StatusBadge";
 
@@ -28,6 +29,8 @@ type TableProps = {
         approvedUserId?: string
     ) => Promise<void>;
     isApproving?: boolean;
+    isDeleting?: boolean;
+    deletePurchaseRequest?: (purchaseId: string) => Promise<void>;
 };
 
 const Table: FC<TableProps> = ({
@@ -38,12 +41,21 @@ const Table: FC<TableProps> = ({
     isRejectingPurchaseRequest,
     approvePurchaseRequest,
     isApproving,
+    isDeleting,
+    deletePurchaseRequest,
 }) => {
     const havePurchaseRequest = data && data.length !== 0;
 
     return !isFetchingData ? (
-        <TableContainer w="100%" boxShadow="xl" p="3" rounded="6px">
-            <ChakraTable colorScheme="blue" size="lg">
+        <TableContainer
+            border="1px solid #a1a1a162"
+            w="100%"
+            boxShadow="lg"
+            p="3"
+            rounded="6px"
+            mb="2rem"
+        >
+            <ChakraTable variant="striped" colorScheme="blue" size="lg">
                 <TableCaption
                     fontStyle="italic"
                     textAlign="left"
@@ -57,7 +69,7 @@ const Table: FC<TableProps> = ({
                 {havePurchaseRequest && (
                     <Thead>
                         <Tr>
-                            {!isReceivedPurchaseRequest && <Th>STATUS</Th>}
+                            <Th>STATUS</Th>
                             <Th>FROM</Th>
                             {!isReceivedPurchaseRequest && <Th>TO</Th>}
                             <Th>PRODUCT NAME</Th>
@@ -72,17 +84,18 @@ const Table: FC<TableProps> = ({
                     {havePurchaseRequest ? (
                         data.map((request) => (
                             <Tr key={request._id}>
-                                {!isReceivedPurchaseRequest && (
-                                    <Td>
-                                        <StatusBadge request={request} />
-                                    </Td>
-                                )}
+                                <Td>
+                                    <StatusBadge request={request} />
+                                </Td>
                                 <Td>
                                     <Center
                                         _hover={{
                                             background: "#77777764",
                                             borderRadius: "6px",
                                         }}
+                                        px="2"
+                                        py="1"
+                                        justifyContent="flex-start"
                                     >
                                         <Link
                                             href={`/profile/${request.buyerId}`}
@@ -98,6 +111,9 @@ const Table: FC<TableProps> = ({
                                                 background: "#77777764",
                                                 borderRadius: "6px",
                                             }}
+                                            px="2"
+                                            py="1"
+                                            justifyContent="flex-start"
                                         >
                                             <Link
                                                 href={`/profile/${request.sellerId}`}
@@ -113,6 +129,9 @@ const Table: FC<TableProps> = ({
                                             background: "#77777764",
                                             borderRadius: "6px",
                                         }}
+                                        px="2"
+                                        py="1"
+                                        justifyContent="flex-start"
                                     >
                                         <Link
                                             href={`/product/${request.productId}`}
@@ -143,7 +162,8 @@ const Table: FC<TableProps> = ({
                                     }).format(Number(request.price))}
                                 </Td>
                                 <Td>
-                                    {isReceivedPurchaseRequest && (
+                                    {isReceivedPurchaseRequest &&
+                                    request.status === "Pending" ? (
                                         <RejectPurchaseRequest
                                             purchaseId={request._id}
                                             isRejecting={
@@ -153,9 +173,21 @@ const Table: FC<TableProps> = ({
                                                 rejectPurchaseRequest
                                             }
                                         />
+                                    ) : (
+                                        deletePurchaseRequest &&
+                                        request.status === "Pending" && (
+                                            <DeletePurchaseRequest
+                                                isDeleting={isDeleting}
+                                                deletePurchaseRequest={
+                                                    deletePurchaseRequest
+                                                }
+                                                purchaseId={request._id}
+                                            />
+                                        )
                                     )}
                                     {isReceivedPurchaseRequest &&
-                                        approvePurchaseRequest && (
+                                        approvePurchaseRequest &&
+                                        request.status === "Pending" && (
                                             <ApprovePurchaseRequest
                                                 approvePurchaseRequest={
                                                     approvePurchaseRequest

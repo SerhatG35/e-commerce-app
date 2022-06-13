@@ -75,7 +75,10 @@ export const Product = {
         );
         return data;
     },
-    PURCHASE_REQUEST: async (
+};
+
+export const PurchaseRequest = {
+    MAKE_PURCHASE_REQUEST: async (
         payload: Global.Products.PurchaseRequestPayload
     ) => {
         const { data } = await API.post(
@@ -106,6 +109,12 @@ export const Product = {
         const { data } = await API.post(
             `/api/approve-purchase-request/${purchaseRequestId}`,
             { approvedUserId }
+        );
+        return data;
+    },
+    DELETE_PURCHASE_REQUEST: async (purchaseId: string) => {
+        const { data } = await API.delete(
+            `/api/delete-purchase-request/${purchaseId}`
         );
         return data;
     },
