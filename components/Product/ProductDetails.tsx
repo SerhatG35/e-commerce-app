@@ -1,6 +1,7 @@
 import { Center, Flex, Heading, Skeleton, Text } from "@chakra-ui/react";
 import Breadcrumb from "components/Breadcrumb";
 import CustomModal from "components/Modal";
+import { useUserToken } from "context/userContext";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -26,6 +27,8 @@ const ProductDetails: FC = () => {
         isContactSellerFormOpen: false,
         isFetchingData: false,
     });
+
+    const userToken = useUserToken();
 
     const router = useRouter();
     const { _id } = router.query;
