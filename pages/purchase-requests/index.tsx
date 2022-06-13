@@ -1,4 +1,11 @@
-import { Center } from "@chakra-ui/react";
+import {
+    Center,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+} from "@chakra-ui/react";
 import Table from "components/Table";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
@@ -153,28 +160,45 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 maxW="1200px"
                 w="100%"
             >
-                <Center mt="1rem" w="100%">
-                    <Table
-                        data={receivedPurchaseRequests}
-                        isFetchingData={isFetchingData}
-                        rejectPurchaseRequest={rejectPurchaseRequest}
-                        isReceivedPurchaseRequest={true}
-                        isRejectingPurchaseRequest={isRejectingPurchaseRequest}
-                        approvePurchaseRequest={approvePurchaseRequest}
-                        isApproving={isApproving}
-                    />
-                </Center>
-                <Center mt="1rem" w="100%">
-                    <Table
-                        data={sendedPurchaseRequests}
-                        isFetchingData={isFetchingData}
-                        rejectPurchaseRequest={rejectPurchaseRequest}
-                        isReceivedPurchaseRequest={false}
-                        isRejectingPurchaseRequest={isRejectingPurchaseRequest}
-                        deletePurchaseRequest={deletePurchaseRequest}
-                        isDeleting={isDeleting}
-                    />
-                </Center>
+                <Tabs isFitted isLazy w="100%">
+                    <TabList>
+                        <Tab _focus={{ outline: "none" }}>
+                            Received Purchase Requests
+                        </Tab>
+                        <Tab _focus={{ outline: "none" }}>
+                            Sended Purchase Requests
+                        </Tab>
+                    </TabList>
+
+                    <TabPanels>
+                        <TabPanel>
+                            <Table
+                                data={receivedPurchaseRequests}
+                                isFetchingData={isFetchingData}
+                                rejectPurchaseRequest={rejectPurchaseRequest}
+                                isReceivedPurchaseRequest={true}
+                                isRejectingPurchaseRequest={
+                                    isRejectingPurchaseRequest
+                                }
+                                approvePurchaseRequest={approvePurchaseRequest}
+                                isApproving={isApproving}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <Table
+                                data={sendedPurchaseRequests}
+                                isFetchingData={isFetchingData}
+                                rejectPurchaseRequest={rejectPurchaseRequest}
+                                isReceivedPurchaseRequest={false}
+                                isRejectingPurchaseRequest={
+                                    isRejectingPurchaseRequest
+                                }
+                                deletePurchaseRequest={deletePurchaseRequest}
+                                isDeleting={isDeleting}
+                            />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </Center>
         </Center>
     );

@@ -14,6 +14,7 @@ import {
     InputLeftAddon,
     NumberInput,
     NumberInputField,
+    Progress,
     Select,
     Text,
     Textarea,
@@ -121,6 +122,7 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                     <DrawerHeader>Add New Product</DrawerHeader>
                     <Divider />
                     <DrawerBody>
+                        <Progress value={40} size="xs" />
                         <Center flexDir="column" as="form">
                             <Controller
                                 control={control}

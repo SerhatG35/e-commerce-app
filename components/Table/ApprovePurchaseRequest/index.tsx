@@ -66,7 +66,7 @@ const ApprovePurchaseRequest: FC<ApprovePurchaseRequestProps> = ({
                             pb={4}
                         >
                             <Button
-                                colorScheme="red"
+                                colorScheme="blue"
                                 onClick={onClose}
                                 fontSize="inherit"
                             >

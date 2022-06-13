@@ -15,6 +15,7 @@ import Link from "next/link";
 import { FC } from "react";
 import ApprovePurchaseRequest from "./ApprovePurchaseRequest";
 import DeletePurchaseRequest from "./DeletePurchaseRequest";
+import FilterTable from "./FilterTable";
 import RejectPurchaseRequest from "./RejectPurchaseRequest";
 import StatusBadge from "./StatusBadge";
 
@@ -56,16 +57,16 @@ const Table: FC<TableProps> = ({
             mb="2rem"
         >
             <ChakraTable variant="striped" colorScheme="blue" size="lg">
-                <TableCaption
-                    fontStyle="italic"
-                    textAlign="left"
-                    placement="top"
-                    textDecoration="underline"
-                >
-                    {isReceivedPurchaseRequest
-                        ? "Received purchase requests"
-                        : "Sended purchase requests"}
-                </TableCaption>
+                {havePurchaseRequest && (
+                    <TableCaption
+                        fontStyle="italic"
+                        textAlign="left"
+                        placement="top"
+                        borderBottom="1px solid"
+                    >
+                        <FilterTable />
+                    </TableCaption>
+                )}
                 {havePurchaseRequest && (
                     <Thead>
                         <Tr>
