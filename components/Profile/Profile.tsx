@@ -60,6 +60,8 @@ const Profile = () => {
                     isFetchingData: false,
                 }));
                 Toaster("Oops", `${error?.response?.data}`, "error");
+                if (error.response.status === 403)
+                    userToken?.setUserToken(undefined);
             });
     };
 

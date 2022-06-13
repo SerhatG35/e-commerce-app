@@ -14,7 +14,6 @@ import {
     InputLeftAddon,
     NumberInput,
     NumberInputField,
-    Progress,
     Select,
     Text,
     Textarea,
@@ -25,7 +24,6 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import ImageUpload from "components/ImageUpload";
 import { useUserToken } from "context/userContext";
-import Router from "next/router";
 import { FC, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -82,8 +80,8 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
             reFetch();
             Toaster("", "New product added", "success");
         } catch (error: any) {
-            Router.push("/");
-            userToken?.setUserToken(undefined);
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
             Toaster("", `${error?.response?.data}`, "error");
         }
         setIsLoading(false);
@@ -122,7 +120,6 @@ const AddProduct: FC<AddProductProps> = ({ reFetch }) => {
                     <DrawerHeader>Add New Product</DrawerHeader>
                     <Divider />
                     <DrawerBody>
-                        <Progress value={40} size="xs" />
                         <Center flexDir="column" as="form">
                             <Controller
                                 control={control}

@@ -42,6 +42,8 @@ const ProductDetails: FC = () => {
         } catch (error: any) {
             setState((state) => ({ ...state, isFetchingData: false }));
             Toaster("", `${error?.response?.data}`, "error");
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 

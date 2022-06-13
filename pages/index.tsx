@@ -65,6 +65,8 @@ const Home = ({ token }: InferedHome) => {
                 ...state,
                 isFetchingData: false,
             }));
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 

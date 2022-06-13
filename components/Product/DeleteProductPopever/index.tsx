@@ -8,6 +8,7 @@ import {
     PopoverHeader,
     PopoverTrigger,
 } from "@chakra-ui/react";
+import { useUserToken } from "context/userContext";
 import React, { FC, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { Product } from "service/axios";
@@ -22,6 +23,7 @@ const DeleteProductPopover: FC<DeleteProductPopoverProps> = ({
     product,
     reFetch,
 }) => {
+    const userToken = useUserToken();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const deleteProduct = async () => {
@@ -37,6 +39,8 @@ const DeleteProductPopover: FC<DeleteProductPopoverProps> = ({
             reFetch?.();
         } catch (error: any) {
             Toaster("Error", `${error?.response?.data}`, "error");
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 

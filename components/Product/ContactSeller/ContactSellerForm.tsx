@@ -77,8 +77,10 @@ const ContactSellerForm: FC<ContactSellerFormProps> = ({
                 "success"
             );
         } catch (error: any) {
-            if (error.response.status) closeModal(false);
+            closeModal(false);
             Toaster("Error", `${error?.response?.data}`, "error");
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 

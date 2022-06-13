@@ -7,6 +7,7 @@ import {
     Tabs,
 } from "@chakra-ui/react";
 import Table from "components/Table";
+import FilterTable from "components/Table/FilterTable";
 import { useUserToken } from "context/userContext";
 import jwtDecode from "jwt-decode";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
@@ -25,7 +26,8 @@ type StateTypes = {
         | Global.Products.PurchaseRequestsTypes[]
         | undefined;
     sendedPurchaseRequests: Global.Products.PurchaseRequestsTypes[] | undefined;
-    isFetchingData: boolean;
+    isFetchingReceivedData: boolean;
+    isFetchingSendedData: boolean;
     isRejectingPurchaseRequest: boolean;
     isApproving: boolean;
     isDeleting: boolean;
@@ -33,11 +35,13 @@ type StateTypes = {
 
 const PurchaseRequest = ({ token }: InferedProductDetail) => {
     const userToken = useUserToken();
+    const [tabIndex, setTabIndex] = useState(0);
     const [
         {
             receivedPurchaseRequests,
             sendedPurchaseRequests,
-            isFetchingData,
+            isFetchingReceivedData,
+            isFetchingSendedData,
             isRejectingPurchaseRequest,
             isApproving,
             isDeleting,
@@ -46,7 +50,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
     ] = useState<StateTypes>({
         receivedPurchaseRequests: undefined,
         sendedPurchaseRequests: undefined,
-        isFetchingData: false,
+        isFetchingReceivedData: false,
+        isFetchingSendedData: false,
         isRejectingPurchaseRequest: false,
         isApproving: false,
         isDeleting: false,
@@ -57,28 +62,57 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
             userToken?.setUserToken(jwtDecode(token.accessToken));
     }, []);
 
-    const getPurchaseRequests = async () => {
-        setState((state) => ({ ...state, isFetchingData: true }));
+    const getReceivedPurchaseRequests = async (filter?: string[]) => {
+        setState((state) => ({ ...state, isFetchingReceivedData: true }));
         try {
-            const response = await PRequest.GET_PURCHASE_REQUEST(
-                userToken?.userToken?._id
+            const response = await PRequest.GET_RECEIVED_PURCHASE_REQUESTS(
+                userToken?.userToken?._id,
+                filter
             );
             setState((state) => ({
                 ...state,
-                receivedPurchaseRequests: response.receivedPurchaseRequests,
-                sendedPurchaseRequests: response.sendedPurchaseRequests,
-                isFetchingData: false,
+                receivedPurchaseRequests: response,
+                isFetchingReceivedData: false,
             }));
         } catch (error: any) {
             setState((state) => ({
                 ...state,
-                isFetchingData: false,
+                isFetchingReceivedData: false,
             }));
             Toaster(
                 "",
                 `${error?.response?.data ?? "An error occurred"}`,
                 "error"
             );
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
+        }
+    };
+
+    const getSendedPurchaseRequests = async (filter?: string[]) => {
+        setState((state) => ({ ...state, isFetchingSendedData: true }));
+        try {
+            const response = await PRequest.GET_SENDED_PURCHASE_REQUESTS(
+                userToken?.userToken?._id,
+                filter
+            );
+            setState((state) => ({
+                ...state,
+                sendedPurchaseRequests: response,
+                isFetchingSendedData: false,
+            }));
+        } catch (error: any) {
+            setState((state) => ({
+                ...state,
+                isFetchingSendedData: false,
+            }));
+            Toaster(
+                "",
+                `${error?.response?.data ?? "An error occurred"}`,
+                "error"
+            );
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 
@@ -90,7 +124,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 ...state,
                 isRejectingPurchaseRequest: false,
             }));
-            getPurchaseRequests();
+            getReceivedPurchaseRequests();
+            getSendedPurchaseRequests();
         } catch (error: any) {
             setState((state) => ({
                 ...state,
@@ -101,6 +136,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 `${error?.response?.data ?? "An error occurred"}`,
                 "error"
             );
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 
@@ -112,7 +149,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
         try {
             await PRequest.APPROVE_PURCHASE_REQUEST(purchaseId, approvedUserId);
             setState((state) => ({ ...state, isApproving: false }));
-            getPurchaseRequests();
+            getReceivedPurchaseRequests();
+            getSendedPurchaseRequests();
         } catch (error: any) {
             setState((state) => ({ ...state, isApproving: false }));
             Toaster(
@@ -120,6 +158,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 `${error?.response?.data ?? "An error occurred"}`,
                 "error"
             );
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 
@@ -128,7 +168,8 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
         try {
             await PRequest.DELETE_PURCHASE_REQUEST(purchaseId);
             setState((state) => ({ ...state, isDeleting: false }));
-            getPurchaseRequests();
+            getReceivedPurchaseRequests();
+            getSendedPurchaseRequests();
         } catch (error: any) {
             setState((state) => ({ ...state, isDeleting: false }));
             Toaster(
@@ -136,11 +177,14 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 `${error?.response?.data ?? "An error occurred"}`,
                 "error"
             );
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 
     useEffect(() => {
-        userToken?.userToken?._id !== undefined && getPurchaseRequests();
+        userToken?.userToken?._id !== undefined &&
+            getReceivedPurchaseRequests();
     }, [userToken?.userToken?._id]);
 
     return (
@@ -160,21 +204,51 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                 maxW="1200px"
                 w="100%"
             >
-                <Tabs isFitted isLazy w="100%">
-                    <TabList>
-                        <Tab _focus={{ outline: "none" }}>
+                <Tabs index={tabIndex} isFitted isLazy w="100%">
+                    <TabList mx="1rem">
+                        <Tab
+                            onClick={() => {
+                                if (tabIndex !== 0)
+                                    getReceivedPurchaseRequests();
+                                setTabIndex(0);
+                            }}
+                            _focus={{ outline: "none" }}
+                        >
                             Received Purchase Requests
                         </Tab>
-                        <Tab _focus={{ outline: "none" }}>
+                        <Tab
+                            onClick={() => {
+                                if (tabIndex !== 1) getSendedPurchaseRequests();
+                                setTabIndex(1);
+                            }}
+                            _focus={{ outline: "none" }}
+                        >
                             Sended Purchase Requests
                         </Tab>
                     </TabList>
+
+                    <Center
+                        px="1rem"
+                        justifyContent="flex-end"
+                        w="100%"
+                        mt="1.5rem"
+                    >
+                        <FilterTable
+                            tabIndex={tabIndex}
+                            getReceivedPurchaseRequests={
+                                getReceivedPurchaseRequests
+                            }
+                            getSendedPurchaseRequests={
+                                getSendedPurchaseRequests
+                            }
+                        />
+                    </Center>
 
                     <TabPanels>
                         <TabPanel>
                             <Table
                                 data={receivedPurchaseRequests}
-                                isFetchingData={isFetchingData}
+                                isFetchingData={isFetchingReceivedData}
                                 rejectPurchaseRequest={rejectPurchaseRequest}
                                 isReceivedPurchaseRequest={true}
                                 isRejectingPurchaseRequest={
@@ -187,7 +261,7 @@ const PurchaseRequest = ({ token }: InferedProductDetail) => {
                         <TabPanel>
                             <Table
                                 data={sendedPurchaseRequests}
-                                isFetchingData={isFetchingData}
+                                isFetchingData={isFetchingSendedData}
                                 rejectPurchaseRequest={rejectPurchaseRequest}
                                 isReceivedPurchaseRequest={false}
                                 isRejectingPurchaseRequest={

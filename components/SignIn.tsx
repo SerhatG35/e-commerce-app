@@ -52,6 +52,8 @@ const SignIn: FC<SignInProps> = ({ closeModal }) => {
                 }`,
                 "error"
             );
+            if (error.response.status === 403)
+                userToken?.setUserToken(undefined);
         }
     };
 

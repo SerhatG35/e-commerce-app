@@ -89,11 +89,28 @@ export const PurchaseRequest = {
         );
         return data;
     },
-    GET_PURCHASE_REQUEST: async (userId: string | undefined) => {
-        const { data } =
-            await API.get<Global.Products.PurchaseRequestsResponse>(
-                `/api/get-purchase-requests/${userId}`
-            );
+    GET_RECEIVED_PURCHASE_REQUESTS: async (
+        userId: string | undefined,
+        filter?: string[]
+    ) => {
+        const { data } = await API.get<Global.Products.PurchaseRequestsTypes[]>(
+            `/api/get-received-purchase-requests/${userId}`,
+            {
+                params: {
+                    filter,
+                },
+            }
+        );
+        return data;
+    },
+    GET_SENDED_PURCHASE_REQUESTS: async (
+        userId: string | undefined,
+        filter?: string[]
+    ) => {
+        const { data } = await API.get<Global.Products.PurchaseRequestsTypes[]>(
+            `/api/get-sended-purchase-requests/${userId}`,
+            { params: { filter } }
+        );
         return data;
     },
     REJECT_PURCHASE_REQUEST: async (purchaseRequestId: string) => {

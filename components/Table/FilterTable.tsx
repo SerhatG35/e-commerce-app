@@ -8,14 +8,24 @@ import {
     MenuList,
     MenuOptionGroup,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { AiOutlineFilter } from "react-icons/ai";
 
-const FilterTable = () => {
+type FilterTableProps = {
+    getReceivedPurchaseRequests?: (filter?: string[]) => Promise<void>;
+    getSendedPurchaseRequests?: (filter?: string[]) => Promise<void>;
+    tabIndex: number;
+};
+
+const FilterTable: FC<FilterTableProps> = ({
+    getReceivedPurchaseRequests,
+    getSendedPurchaseRequests,
+    tabIndex,
+}) => {
     const [filterValues, setFilterValues] = useState<string[]>([
-        "approved",
-        "pending",
-        "rejected",
+        "Approved",
+        "Pending",
+        "Rejected",
     ]);
 
     const handleFilter = (keys: string[]) => {
@@ -23,7 +33,9 @@ const FilterTable = () => {
     };
 
     const handleApplyFilter = () => {
-        console.log(filterValues);
+        if (tabIndex === 0) getReceivedPurchaseRequests?.(filterValues);
+        else if (tabIndex === 1) getSendedPurchaseRequests?.(filterValues);
+        else return;
     };
 
     return (
@@ -37,7 +49,6 @@ const FilterTable = () => {
             </MenuButton>
             <MenuList>
                 <MenuOptionGroup
-                    defaultValue={filterValues}
                     value={filterValues}
                     title="Status"
                     type="checkbox"
@@ -46,12 +57,16 @@ const FilterTable = () => {
                         handleFilter(e as string[]);
                     }}
                 >
-                    <MenuItemOption value="approved">Approved</MenuItemOption>
-                    <MenuItemOption value="pending">Pending</MenuItemOption>
-                    <MenuItemOption value="rejected">Rejected</MenuItemOption>
+                    <MenuItemOption value="Approved">Approved</MenuItemOption>
+                    <MenuItemOption value="Pending">Pending</MenuItemOption>
+                    <MenuItemOption value="Rejected">Rejected</MenuItemOption>
                 </MenuOptionGroup>
                 <MenuDivider />
-                <MenuItem onClick={handleApplyFilter} textAlign="center">
+                <MenuItem
+                    closeOnSelect
+                    onClick={handleApplyFilter}
+                    textAlign="center"
+                >
                     Apply Filter
                 </MenuItem>
             </MenuList>

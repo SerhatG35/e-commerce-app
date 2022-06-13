@@ -71,11 +71,6 @@ declare module Global {
             updatedAt: Date | string;
             _id: string;
         }
-
-        export type PurchaseRequestsResponse = {
-            receivedPurchaseRequests: PurchaseRequestsTypes[];
-            sendedPurchaseRequests: PurchaseRequestsTypes[];
-        };
     }
     declare module User {
         export interface UserInfo {
